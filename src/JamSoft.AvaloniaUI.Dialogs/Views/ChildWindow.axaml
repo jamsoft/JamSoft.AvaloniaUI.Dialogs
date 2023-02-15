@@ -1,0 +1,55 @@
+﻿<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="JamSoft.AvaloniaUI.Dialogs.Views.ChildWindow"
+        Width="{Binding RequestedWidth, Mode=TwoWay}"
+        Height="{Binding RequestedHeight, Mode=TwoWay}"
+        Classes="Child"
+        Title="ChildWindow">
+    
+    <Window.KeyBindings>
+        <KeyBinding Gesture="Escape" Command="{Binding CancelCommand}" />
+        <KeyBinding Gesture="Enter" Command="{Binding AcceptCommand}" />
+    </Window.KeyBindings>
+    
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Border Name="WindowBorder"
+                Grid.Row="0"
+                Grid.RowSpan="2"
+                Background="White"
+                CornerRadius="{DynamicResource CornerRadius}" />
+        <Border Grid.Row="0"
+                Grid.RowSpan="2"
+                Background="{DynamicResource DialogBackground}"
+                CornerRadius="{DynamicResource CornerRadius}" />
+
+        <Grid Grid.Row="0" Margin="10,10,10,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition MinWidth="75" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition MinWidth="75" />
+            </Grid.ColumnDefinitions>
+                
+            <Button Grid.Column="2"
+                    HorizontalAlignment="Right"
+                    Command="{Binding CancelCommand}"
+                    Classes="ImageButton"
+                    Content="fa-solid fa-xmark" />
+        </Grid>
+
+        <ContentControl x:Name="Host"
+                        Grid.Row="1"
+                        Margin="10"
+                        Padding="0" />
+
+    </Grid>
+    
+</Window>

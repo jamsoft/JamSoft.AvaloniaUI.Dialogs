@@ -1,0 +1,49 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <LangVersion>10</LangVersion>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <Title>JamSoft.AvaloniaUI.Dialogs</Title>
+        <Authors>James Green</Authors>
+        <Description>A standardised service for managing dialogs in Avalonia UI.</Description>
+        <Copyright>JamSoft Solutions Ltd</Copyright>
+        <PackageProjectUrl>https://www.jamsoft.co.uk</PackageProjectUrl>
+        <RepositoryUrl>https://www.jamsoft.co.uk</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <PackageTags>avalonia, avaloniaui, dialogs, mvvm</PackageTags>
+        <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+        <PackageIcon>JamSoftLogo-Splat513x513.png</PackageIcon>
+        <SignAssembly>true</SignAssembly>
+        <AssemblyOriginatorKeyFile>JamSoft.AssemblyKeyFile.snk</AssemblyOriginatorKeyFile>
+        <PublicSign>true</PublicSign>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        <FileVersion>1.0.0.0</FileVersion>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <InformationalVersion>1.0.2.0-rel</InformationalVersion>
+    </PropertyGroup>
+
+    <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">      
+      <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    </PropertyGroup>
+
+    <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+      <DocumentationFile>bin\Release\JamSoft.AvaloniaUI.Dialogs.xml</DocumentationFile>
+      <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Avalonia" Version="0.10.18" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Update="JamSoftLogo-Splat513x513.png">
+        <Pack>True</Pack>
+        <PackagePath></PackagePath>
+      </None>
+        <None Include="..\..\README.md" Pack="true" PackagePath="\" />
+    </ItemGroup>
+
+</Project>

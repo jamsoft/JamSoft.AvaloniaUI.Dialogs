@@ -1,5 +1,8 @@
 ﻿namespace JamSoft.AvaloniaUI.Dialogs.Events;
 
+/// <summary>
+/// Event handler extensions
+/// </summary>
 public static class EventHandlerUtils
 {
     /// <summary>

@@ -3,6 +3,9 @@ using JamSoft.AvaloniaUI.Dialogs.ViewModels;
 
 namespace JamSoft.AvaloniaUI.Dialogs;
 
+/// <summary>
+/// The dialog service interface
+/// </summary>
 public interface IDialogService
 {
     /// <summary>
@@ -43,7 +46,7 @@ public interface IDialogService
     Task<string?> SaveFile(string title, IEnumerable<FileDialogFilter>? filters = null, string? defaultExtension = null);
 
     /// <summary>
-    /// 
+    /// The an individual file path
     /// </summary>
     /// <param name="title">The dialog title</param>
     /// <param name="filters">The file extension filters</param>

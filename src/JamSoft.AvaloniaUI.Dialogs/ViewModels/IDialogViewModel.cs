@@ -2,10 +2,19 @@ using System.ComponentModel;
 
 namespace JamSoft.AvaloniaUI.Dialogs.ViewModels;
 
+/// <summary>
+/// The dialog view model interface
+/// </summary>
 public interface IDialogViewModel : INotifyPropertyChanged, IDialogResultVmHelper
 {
+    /// <summary>
+    /// The dialog accept command text
+    /// </summary>
     string? AcceptCommandText { get; set; }
     
+    /// <summary>
+    /// The dialog cancel command text
+    /// </summary>
     string? CancelCommandText { get; set; }
     
     /// <summary>

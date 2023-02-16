@@ -7,18 +7,22 @@ using JamSoft.AvaloniaUI.Dialogs.ViewModels;
 
 namespace JamSoft.AvaloniaUI.Dialogs.Views;
 
+/// <summary>
+/// The default child window
+/// </summary>
 public partial class ChildWindow : Window
 {
     private bool _isClosed = false;
 
     private ChildWindowViewModel? _vm { get; set; }
     
+    /// <summary>
+    /// The default constructor
+    /// </summary>
     public ChildWindow()
     {
         InitializeComponent();
-// #if DEBUG
-//         this.AttachDevTools();
-// #endif
+
         PointerPressed += OnPointerPressed;
 
         this.FindControl<ContentControl>("Host").DataContextChanged += DialogPresenterDataContextChanged;

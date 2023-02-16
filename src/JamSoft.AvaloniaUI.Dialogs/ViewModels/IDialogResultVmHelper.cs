@@ -3,10 +3,13 @@ using JamSoft.AvaloniaUI.Dialogs.Events;
 
 namespace JamSoft.AvaloniaUI.Dialogs.ViewModels;
 
+/// <summary>
+/// The dialog result helper
+/// </summary>
 public interface IDialogResultVmHelper
 {
     /// <summary>
-    /// Occurs when [request close dialog].
+    /// Occurs when [request close dialog] event is fired.
     /// </summary>
     event EventHandler<RequestCloseDialogEventArgs> RequestCloseDialog;
 

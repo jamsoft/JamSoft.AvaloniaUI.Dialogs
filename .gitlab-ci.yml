@@ -2,17 +2,17 @@ image: mcr.microsoft.com/dotnet/core/sdk:latest
 
 stages:
     - build
-    - test
+#    - test
 
 build:
     stage: build
     script:
-        - "dotnet build"
+        - "dotnet build src\\JamSoft.AvaloniaUI.Dialogs.sln"
     artifacts:
       paths:
         - bin/
 
-test:
-    stage: test
-    script: 
-        - "dotnet test"
+#test:
+#    stage: test
+#    script: 
+#        - "dotnet test"

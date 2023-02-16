@@ -5,17 +5,19 @@ using JamSoft.AvaloniaUI.Dialogs.ViewModels;
 
 namespace JamSoft.AvaloniaUI.Dialogs.Views;
 
+/// <summary>
+/// The default dialog window
+/// </summary>
 public partial class DialogWindow : Window
 {
     private bool _isClosed = false;
     
+    /// <summary>
+    /// The default constructor
+    /// </summary>
     public DialogWindow()
     {
         InitializeComponent();
-// #if DEBUG
-//         this.AttachDevTools();
-// #endif
-        
         this.FindControl<ContentControl>("Host").DataContextChanged += DialogPresenterDataContextChanged;
         Closed += DialogWindowClosed;
     }

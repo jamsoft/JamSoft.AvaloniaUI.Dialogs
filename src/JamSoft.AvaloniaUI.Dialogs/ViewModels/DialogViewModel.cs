@@ -5,10 +5,16 @@ using JamSoft.AvaloniaUI.Dialogs.Events;
 
 namespace JamSoft.AvaloniaUI.Dialogs.ViewModels;
 
+/// <summary>
+/// The default dialog view model
+/// </summary>
 public class DialogViewModel : IDialogViewModel
 {
     private DelegateCommand? _acceptCommand;
 
+    /// <summary>
+    /// The dialog accept command
+    /// </summary>
     public DelegateCommand? AcceptCommand
     {
         get => _acceptCommand;
@@ -17,6 +23,9 @@ public class DialogViewModel : IDialogViewModel
 
     private string? _acceptCommandText;
 
+    /// <summary>
+    /// The dialog cancel command
+    /// </summary>
     public string? AcceptCommandText
     {
         get => _acceptCommandText;
@@ -25,6 +34,12 @@ public class DialogViewModel : IDialogViewModel
 
     private DelegateCommand? _cancelCommand;
 
+    /// <summary>
+    /// Gets or sets the cancel command.
+    /// </summary>
+    /// <value>
+    /// The cancel command.
+    /// </value>
     public DelegateCommand? CancelCommand
     {
         get => _cancelCommand;
@@ -33,14 +48,23 @@ public class DialogViewModel : IDialogViewModel
 
     private string? _cancelCommandText;
 
+    /// <summary>
+    /// The dialog cancel command text
+    /// </summary>
     public string? CancelCommandText
     {
         get => _cancelCommandText;
         set => RaiseAndSetIfChanged(ref _cancelCommandText, value);
     }
 
+    /// <summary>
+    /// Occurs when [request close dialog] event is fired.
+    /// </summary>
     public event EventHandler<RequestCloseDialogEventArgs>? RequestCloseDialog;
 
+    /// <summary>
+    /// The default constructor
+    /// </summary>
     protected DialogViewModel()
     {
         AcceptCommand = new DelegateCommand(() => InvokeRequestCloseDialog(new RequestCloseDialogEventArgs(true)), CanAccept);
@@ -116,5 +140,8 @@ public class DialogViewModel : IDialogViewModel
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public event PropertyChangedEventHandler? PropertyChanged;
 }

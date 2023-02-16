@@ -129,6 +129,9 @@ string path = await _dialogService.SaveFile("Save Word File", new List<FileDialo
 });
 ```
 # Usage - Dialogs
+
+There are two base view model classes already baked in for ease of use of the library. These are provided as defaults and a starting point. Create a suitable view model and inherit from either `DialogViewModel` or `ChildWindowViewModel`.
+
 ## Show Dialog
 ```csharp
 _dialogService.ShowDialog(Locator.Current.GetService<MyDialogViewModel>(), DialogCallback);
@@ -180,6 +183,9 @@ private void ShowChildWindowCommandExecuted()
     });
 }
 ```
+
+The child windows are draggable and also update these properties in real-time. This means that your application can easily restore child window positions between application runs by storing these values.
+
 ## Show Child Window - Alternate View Parameter
 ```csharp
 private void ShowChildWindowCommandExecuted()

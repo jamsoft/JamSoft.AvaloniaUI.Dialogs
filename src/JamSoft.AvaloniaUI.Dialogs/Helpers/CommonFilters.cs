@@ -1,6 +1,6 @@
 ﻿using Avalonia.Controls;
 
-namespace JamSoft.AvaloniaUI.Dialogs;
+namespace JamSoft.AvaloniaUI.Dialogs.Helpers;
 
 /// <summary>
 /// A class of common file filters

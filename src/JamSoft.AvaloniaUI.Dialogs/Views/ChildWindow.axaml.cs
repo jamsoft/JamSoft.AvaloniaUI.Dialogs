@@ -14,7 +14,8 @@ public partial class ChildWindow : Window
 {
     private bool _isClosed = false;
 
-    private ChildWindowViewModel? _vm { get; set; }
+    private IChildWindowViewModel? _vm { get; set; }
+
     
     /// <summary>
     /// The default constructor
@@ -26,7 +27,7 @@ public partial class ChildWindow : Window
         PointerPressed += OnPointerPressed;
 
         this.FindControl<ContentControl>("Host").DataContextChanged += DialogPresenterDataContextChanged;
-        Closed += DialogWindowClosed;
+        Closed += ChildWindowClosed;
         PositionChanged += OnPositionChanged;
     }
 
@@ -59,7 +60,7 @@ public partial class ChildWindow : Window
         }
     }
     
-    void DialogWindowClosed(object? sender, EventArgs e)
+    void ChildWindowClosed(object? sender, EventArgs e)
     {
         PointerPressed -= OnPointerPressed;
         PositionChanged -= OnPositionChanged;
@@ -68,17 +69,17 @@ public partial class ChildWindow : Window
     
     private void DialogPresenterDataContextChanged(object? sender, EventArgs e)
     {
-        _vm = DataContext as ChildWindowViewModel;
-        var dialogResultVmHelper = DataContext as IDialogResultVmHelper;
+        _vm = DataContext as IChildWindowViewModel;
+        var d = DataContext as IDialogResultVmHelper;
         var windowPositionAware = DataContext as IWindowPositionAware;
 
-        if (dialogResultVmHelper == null)
+        if (d == null)
         {
             return;
         }
 
-        dialogResultVmHelper.RequestCloseDialog += new EventHandler<RequestCloseDialogEventArgs>(
-            DialogResultTrueEvent).MakeWeak(eh => dialogResultVmHelper.RequestCloseDialog -= eh);
+        d.RequestCloseDialog += new EventHandler<RequestCloseDialogEventArgs>(DialogResultTrueEvent)
+            .MakeWeak(eh => d.RequestCloseDialog -= eh);
 		
         if (windowPositionAware == null) return;
 		

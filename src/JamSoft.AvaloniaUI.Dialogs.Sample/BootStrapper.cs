@@ -16,6 +16,7 @@ public class BootStrapper
         
         services.Register(() => new MainWindowViewModel(resolver.GetService<IDialogService>()));
         services.Register(() => new MyDialogViewModel());
-        services.Register(() => new MyChildViewModel());
+        services.Register(() => new MyChildWindowViewModel());
+        services.Register(() => new CustomBaseChildWindowViewModel());
     }
 }

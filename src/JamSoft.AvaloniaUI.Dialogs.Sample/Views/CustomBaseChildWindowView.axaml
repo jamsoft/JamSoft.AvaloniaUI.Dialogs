@@ -1,0 +1,13 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="JamSoft.AvaloniaUI.Dialogs.Sample.Views.CustomBaseChildWindowView">
+    <StackPanel Spacing="20">
+        <TextBlock>CUSTOM CHILD VIEW</TextBlock>
+        <TextBlock TextWrapping="Wrap">This is a completely custom dialog. The view model implements IChildWindowViewModel and the accompanying view is auto discovered based on the ViewModel / View naming convention.</TextBlock>
+        <TextBlock TextWrapping="Wrap">A CustomBaseChildWindowViewModel is joined with a CustomBaseChildWindowView instance at runtime.</TextBlock>
+        <TextBlock TextWrapping="Wrap">The same approach can be taken with modal dialogs by implementing the IDialogViewModel interface and calling the ShowDialog method on the IDialogService.</TextBlock>
+    </StackPanel>
+</UserControl>

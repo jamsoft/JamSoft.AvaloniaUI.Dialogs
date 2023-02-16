@@ -2,6 +2,8 @@
 using System.Windows.Input;
 using Avalonia.Controls;
 using JamSoft.AvaloniaUI.Dialogs.Commands;
+using JamSoft.AvaloniaUI.Dialogs.Helpers;
+using JamSoft.AvaloniaUI.Dialogs.Sample.Models;
 using JamSoft.AvaloniaUI.Dialogs.Sample.Views;
 using ReactiveUI;
 using Splat;
@@ -22,6 +24,8 @@ public class MainWindowViewModel : ViewModelBase
     private ICommand? _showChildWindowCommand;
     private ICommand? _showDialogAutoFindViewCommand;
     private ICommand? _showChildWindowAutoFindViewCommand;
+    private ICommand? _showCustomChildWindowCommand;
+    private DelegateCommand _childWindowRememberPositionCommand;
 
     public MainWindowViewModel(IDialogService dialogService)
     {
@@ -48,6 +52,22 @@ public class MainWindowViewModel : ViewModelBase
         ShowChildWindowCommand = new DelegateCommand(ShowChildWindowCommandExecuted, () => true);
         
         ShowChildWindowAutoFindViewCommand = new DelegateCommand(ShowChildWindowAutoFindViewCommandExecuted, () => true);
+
+        ShowCustomChildWindowCommand = new DelegateCommand(ShowCustomChildWindowAutoFindViewCommandExecuted, () => true);
+
+        ChildWindowRememberPositionCommand = new DelegateCommand(ChildWindowRememberPositionCommandExecuted, () => true);
+    }
+
+    public DelegateCommand ChildWindowRememberPositionCommand
+    {
+        get => _childWindowRememberPositionCommand;
+        set => this.RaiseAndSetIfChanged(ref _childWindowRememberPositionCommand, value);
+    }
+
+    public ICommand? ShowCustomChildWindowCommand
+    {
+        get => _showCustomChildWindowCommand;
+        set => this.RaiseAndSetIfChanged(ref _showCustomChildWindowCommand, value);
     }
 
     public ICommand? ShowChildWindowAutoFindViewCommand
@@ -173,7 +193,7 @@ public class MainWindowViewModel : ViewModelBase
     
     private void ShowChildWindowCommandExecuted()
     {
-        var vm = Locator.Current.GetService<MyChildViewModel>();
+        var vm = Locator.Current.GetService<MyChildWindowViewModel>();
 
         // these values can be stored in user settings and loaded at runtime etc.
         vm.RequestedLeft = 50;
@@ -183,7 +203,7 @@ public class MainWindowViewModel : ViewModelBase
         vm.ChildMessage = "Child Message Value";
         vm.ChildWindowTitle = "My Child Window Title";
         
-        _dialogService.ShowChildWindow(new MyChildView(), vm, model =>
+        _dialogService.ShowChildWindow(new MyChildWindowView(), vm, model =>
         {
             Message = $"Child Closed - {model.ChildMessage}";
         });
@@ -191,19 +211,55 @@ public class MainWindowViewModel : ViewModelBase
     
     private void ShowChildWindowAutoFindViewCommandExecuted()
     {
-        var vm = Locator.Current.GetService<MyChildViewModel>();
+        var vm = Locator.Current.GetService<MyChildWindowViewModel>();
 
-        // these values can be stored in user settings and loaded at runtime etc.
         vm.RequestedLeft = 50;
         vm.RequestedTop = 50;
         vm.RequestedHeight = 600;
         vm.RequestedWidth = 800;
         vm.ChildMessage = "Child Message Value";
         vm.ChildWindowTitle = "My Child Window Title Auto Find";
+        vm.Location = WindowStartupLocation.CenterScreen;
         
         _dialogService.ShowChildWindow(vm, model =>
         {
             Message = $"Child Closed - {model.ChildMessage}";
+        });
+    }
+    
+    private void ShowCustomChildWindowAutoFindViewCommandExecuted()
+    {
+        var vm = Locator.Current.GetService<CustomBaseChildWindowViewModel>();
+
+        // these values can be stored in user settings and loaded at runtime etc.
+        vm.RequestedLeft = 50;
+        vm.RequestedTop = 50;
+        vm.RequestedHeight = 600;
+        vm.RequestedWidth = 800;
+        
+        vm.ChildWindowTitle = "My Custom Child Window Title Auto Find";
+        
+        _dialogService.ShowChildWindow(vm, model =>
+        {
+            Message = $"Custom Child View Model Closed - {model.GetType()}";
+        });
+    }
+    
+    private void ChildWindowRememberPositionCommandExecuted()
+    {
+        var vm = Locator.Current.GetService<MyChildWindowViewModel>();
+
+        // these values can be stored in user settings and loaded at runtime etc.
+        vm.RequestedLeft = MyUserSettings.Instance.Left;
+        vm.RequestedTop = MyUserSettings.Instance.Top;
+        vm.RequestedHeight = MyUserSettings.Instance.Height;
+        vm.RequestedWidth = MyUserSettings.Instance.Width;
+        
+        vm.ChildWindowTitle = "My Custom Child Window Title Auto Find";
+        
+        _dialogService.ShowChildWindow(vm, model =>
+        {
+            Message = $"Child Remember Position Closed - {model.GetType()}";
         });
     }
 }

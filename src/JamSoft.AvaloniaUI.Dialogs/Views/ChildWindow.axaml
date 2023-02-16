@@ -14,41 +14,7 @@
         <KeyBinding Gesture="Enter" Command="{Binding AcceptCommand}" />
     </Window.KeyBindings>
     
-    <Grid>
-
-        <!-- <Grid.RowDefinitions> -->
-        <!--     <RowDefinition Height="Auto" /> -->
-        <!--     <RowDefinition Height="*" /> -->
-        <!-- </Grid.RowDefinitions> -->
-
-        <!-- <Border Name="WindowBorder" -->
-        <!--         Grid.Row="0" -->
-        <!--         Grid.RowSpan="2" -->
-        <!--         Background="White" -->
-        <!--         CornerRadius="{DynamicResource CornerRadius}" /> -->
-        <!-- <Border Grid.Row="0" -->
-        <!--         Grid.RowSpan="2" -->
-        <!--         Background="{DynamicResource DialogBackground}" -->
-        <!--         CornerRadius="{DynamicResource CornerRadius}" /> -->
-
-        <!-- <Grid Grid.Row="0" Margin="10,10,10,0"> -->
-        <!--     <Grid.ColumnDefinitions> -->
-        <!--         <ColumnDefinition MinWidth="75" /> -->
-        <!--         <ColumnDefinition Width="*" /> -->
-        <!--         <ColumnDefinition MinWidth="75" /> -->
-        <!--     </Grid.ColumnDefinitions> -->
-        <!--          -->
-        <!--     <Button Grid.Column="2" -->
-        <!--             HorizontalAlignment="Right" -->
-        <!--             Command="{Binding CancelCommand}" -->
-        <!--             Classes="ImageButton" -->
-        <!--             Content="fa-solid fa-xmark" /> -->
-        <!-- </Grid> -->
-
-        <ContentControl x:Name="Host"
-                        Margin="10"
-                        Padding="0" />
-
-    </Grid>
-    
+    <ContentControl x:Name="Host"
+                    Margin="10"
+                    Padding="0" />
 </Window>

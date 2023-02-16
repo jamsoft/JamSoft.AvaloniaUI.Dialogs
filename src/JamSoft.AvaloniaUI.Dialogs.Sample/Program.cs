@@ -1,7 +1,9 @@
 ﻿using Avalonia;
 using Avalonia.ReactiveUI;
 using System;
+using System.Reflection;
 using Avalonia.Dialogs;
+using JamSoft.AvaloniaUI.Dialogs.Sample.Models;
 using Splat;
 
 namespace JamSoft.AvaloniaUI.Dialogs.Sample;
@@ -15,6 +17,8 @@ class Program
     public static void Main(string[] args)
     {
         RegisterDependencies();
+        
+        MyUserSettings.Load(AppDomain.CurrentDomain.BaseDirectory);
         
         BuildAvaloniaApp()
             .StartWithClassicDesktopLifetime(args);

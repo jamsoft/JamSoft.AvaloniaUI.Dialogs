@@ -7,7 +7,7 @@
         Height="700"
         x:Class="JamSoft.AvaloniaUI.Dialogs.Sample.Views.MainWindow"
         Icon="/Assets/avalonia-logo.ico"
-        Title="JamSoft.AvaloniaUI.Dialogs.Sample" Padding="20">
+        Title="JamSoft.AvaloniaUI.Dialogs.Sample" Padding="20" Closed="TopLevel_OnClosed">
 
     <StackPanel Spacing="20">
         
@@ -32,6 +32,10 @@
         <Button Command="{Binding ShowChildWindowCommand}">Show Child Window</Button>
         
         <Button Command="{Binding ShowChildWindowAutoFindViewCommand}">Show Child Window Auto Find</Button>
+        
+        <Button Command="{Binding ShowCustomChildWindowCommand}">Show Custom Child Window Auto Find</Button>
+        
+        <Button Command="{Binding ChildWindowRememberPositionCommand}">Show Remember Position</Button>
         
     </StackPanel>
 

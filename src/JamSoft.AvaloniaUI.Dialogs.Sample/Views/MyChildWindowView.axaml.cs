@@ -4,9 +4,9 @@ using Avalonia.Markup.Xaml;
 
 namespace JamSoft.AvaloniaUI.Dialogs.Sample.Views;
 
-public partial class MyChildView : UserControl
+public partial class MyChildWindowView : UserControl
 {
-    public MyChildView()
+    public MyChildWindowView()
     {
         InitializeComponent();
     }

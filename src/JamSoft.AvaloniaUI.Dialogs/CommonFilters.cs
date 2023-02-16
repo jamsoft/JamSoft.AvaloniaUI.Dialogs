@@ -10,17 +10,17 @@ public static class CommonFilters
     /// <summary>
     /// Word files
     /// </summary>
-    public static FileDialogFilter WordFilter = BuildFilter("Word File",  new[] { "docx", "doc" });
+    public static FileDialogFilter WordFilter = BuildFilter("Word Files",  new[] { "docx", "doc" });
 
     /// <summary>
     /// Excel files
     /// </summary>
-    public static FileDialogFilter ExcelFilter = BuildFilter("Excel File", new[] { "xlsx", "xls", "csv" });
+    public static FileDialogFilter ExcelFilter = BuildFilter("Excel Files", new[] { "xlsx", "xls", "csv" });
 
     /// <summary>
     /// HTML files
     /// </summary>
-    public static FileDialogFilter HtmlFilter = BuildFilter("HTML File", new[] { "html", "htm" });
+    public static FileDialogFilter HtmlFilter = BuildFilter("HTML Files", new[] { "html", "htm" });
 
     /// <summary>
     /// Txt Files
@@ -85,12 +85,12 @@ public static class CommonFilters
     /// <summary>
     /// Email Files
     /// </summary>
-    public static FileDialogFilter EmailFilter = BuildFilter("Email File", new[] { "eml", "email", "msg", "oft", "ost", "pst" });
+    public static FileDialogFilter EmailFilter = BuildFilter("Email Files", new[] { "eml", "email", "msg", "oft", "ost", "pst" });
     
     /// <summary>
     /// EXE Files
     /// </summary>
-    public static FileDialogFilter ExeFilter = BuildFilter("Windows Executable File", new[] { "exe" });
+    public static FileDialogFilter ExeFilter = BuildFilter("Windows Executable", new[] { "exe" });
     
     /// <summary>
     /// Batch Files
@@ -100,102 +100,102 @@ public static class CommonFilters
     /// <summary>
     /// TTF Font Files
     /// </summary>
-    public static FileDialogFilter TtfFontFilter = BuildFilter("TrueType font file", new[] { "ttf" });
+    public static FileDialogFilter TtfFontFilter = BuildFilter("TrueType Font File", new[] { "ttf" });
     
     /// <summary>
     /// Illustrator Files
     /// </summary>
-    public static FileDialogFilter IllustratorFilter = BuildFilter("Adobe Illustrator file", new[] { "ai" });
+    public static FileDialogFilter IllustratorFilter = BuildFilter("Adobe Illustrator File", new[] { "ai" });
     
     /// <summary>
     /// Bitmap Files
     /// </summary>
-    public static FileDialogFilter BitmapFilter = BuildFilter("Bitmap image", new[] { "bmp" });
+    public static FileDialogFilter BitmapFilter = BuildFilter("Bitmap Image", new[] { "bmp" });
     
     /// <summary>
     /// GIF files
     /// </summary>
-    public static FileDialogFilter GifFilter = BuildFilter("GIF image", new[] { "gif" });
+    public static FileDialogFilter GifFilter = BuildFilter("GIF Image", new[] { "gif" });
     
     /// <summary>
     /// ICO Files
     /// </summary>
-    public static FileDialogFilter IcoFilter = BuildFilter("Icon file", new[] { "ico" });
+    public static FileDialogFilter IcoFilter = BuildFilter("Icon File", new[] { "ico" });
     
     /// <summary>
     /// JPEG Files
     /// </summary>
-    public static FileDialogFilter JpegFilter = BuildFilter("JPEG image", new[] { "jpg", "jpeg" } );
+    public static FileDialogFilter JpegFilter = BuildFilter("JPEG Image", new[] { "jpg", "jpeg" } );
 
     /// <summary>
     /// PNG Files
     /// </summary>
-    public static FileDialogFilter PngFilter = BuildFilter("PNG image", new[] { "png" });
+    public static FileDialogFilter PngFilter = BuildFilter("PNG Image", new[] { "png" });
     
     /// <summary>
     /// PostScript Files
     /// </summary>
-    public static FileDialogFilter PostScriptFilter = BuildFilter("PostScript file", new[] { "ps" });
+    public static FileDialogFilter PostScriptFilter = BuildFilter("PostScript File", new[] { "ps" });
     
     /// <summary>
     /// PSD Files
     /// </summary>
-    public static FileDialogFilter PsdFilter = BuildFilter("Photoshop image", new[] { "psd" });
+    public static FileDialogFilter PsdFilter = BuildFilter("Photoshop Image", new[] { "psd" });
     
     /// <summary>
     /// SVG Files
     /// </summary>
-    public static FileDialogFilter SvgFilter = BuildFilter("Scalable Vector Graphics file", new[] { "svg" });
+    public static FileDialogFilter SvgFilter = BuildFilter("Scalable Vector Graphics File", new[] { "svg" });
     
     /// <summary>
     /// TIFF Files
     /// </summary>
-    public static FileDialogFilter TiffFilter = BuildFilter("TIFF image", new[] { "tif", "tiff" });
+    public static FileDialogFilter TiffFilter = BuildFilter("TIFF Image", new[] { "tif", "tiff" });
     
     /// <summary>
     /// WebP Files
     /// </summary>
-    public static FileDialogFilter WebpFilter = BuildFilter("WebP image", new[] { "webp" });
+    public static FileDialogFilter WebpFilter = BuildFilter("WebP Image", new[] { "webp" });
     
     /// <summary>
     /// Apple Keynote Files
     /// </summary>
-    public static FileDialogFilter KeynoteFilter = BuildFilter("Keynote presentation", new[] { "key" } );
+    public static FileDialogFilter KeynoteFilter = BuildFilter("Keynote Presentation", new[] { "key" } );
     
     /// <summary>
     /// OpenOffice Impress Files
     /// </summary>
-    public static FileDialogFilter OpenOfficeImpressFilter = BuildFilter("OpenOffice Impress presentation file", new[] { "odp" });
+    public static FileDialogFilter OpenOfficeImpressFilter = BuildFilter("OpenOffice Impress Presentation File", new[] { "odp" });
     
     /// <summary>
     /// Powerpoint Slide Show Files
     /// </summary>
-    public static FileDialogFilter PowerPointFilter = BuildFilter("PowerPoint slide show", new[]{ "pps" });
+    public static FileDialogFilter PowerPointFilter = BuildFilter("PowerPoint Slide Show", new[]{ "pps" });
     
     /// <summary>
     /// Powerpoint Presentation Files
     /// </summary>
-    public static FileDialogFilter PowerpointFilter = BuildFilter("PowerPoint presentation", new[] { "pptx", "ppt" });
+    public static FileDialogFilter PowerpointFilter = BuildFilter("PowerPoint Presentation", new[] { "pptx", "ppt" });
     
     /// <summary>
     /// AVI Files
     /// </summary>
-    public static FileDialogFilter AviFilter = BuildFilter("AVI file", new[] { "avi" });
+    public static FileDialogFilter AviFilter = BuildFilter("AVI Video File", new[] { "avi" });
     
     /// <summary>
     /// MP4 Files
     /// </summary>
-    public static FileDialogFilter Mp4Filter = BuildFilter("MPEG4 video file", new[] { "mp4" });
+    public static FileDialogFilter Mp4Filter = BuildFilter("MPEG4 Video File", new[] { "mp4" });
     
     /// <summary>
     /// MPEG Files
     /// </summary>
-    public static FileDialogFilter MpegFilter = BuildFilter("MPEG video file", new[] { "mpg", "mpeg" } );
+    public static FileDialogFilter MpegFilter = BuildFilter("MPEG Video File", new[] { "mpg", "mpeg" } );
     
     /// <summary>
     /// PDF Files
     /// </summary>
-    public static FileDialogFilter PdfFilter = BuildFilter("PDF file", new[] { "pdf" });
+    public static FileDialogFilter PdfFilter = BuildFilter("PDF File", new[] { "pdf" });
     
     /// <summary>
     /// Rich Text Files
@@ -205,7 +205,7 @@ public static class CommonFilters
     /// <summary>
     /// ODT Files
     /// </summary>
-    public static FileDialogFilter OdtFilter = BuildFilter("OpenOffice Writer document file", new[] { "odt" });
+    public static FileDialogFilter OdtFilter = BuildFilter("OpenOffice Writer Document File", new[] { "odt" });
     
     /// <summary>
     /// Builds a filter instance

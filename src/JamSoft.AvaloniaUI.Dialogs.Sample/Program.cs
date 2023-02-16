@@ -1,6 +1,7 @@
 ﻿using Avalonia;
 using Avalonia.ReactiveUI;
 using System;
+using Avalonia.Dialogs;
 using Splat;
 
 namespace JamSoft.AvaloniaUI.Dialogs.Sample;

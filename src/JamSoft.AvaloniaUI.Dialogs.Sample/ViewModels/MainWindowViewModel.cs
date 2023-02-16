@@ -27,7 +27,7 @@ public class MainWindowViewModel : ViewModelBase
     private ICommand? _showChildWindowAutoFindViewCommand;
     private ICommand? _showCustomChildWindowCommand;
     private ICommand? _childWindowRememberPositionCommand;
-    private DelegateCommand _missingViewCommand;
+    private ICommand? _missingViewCommand;
 
     public MainWindowViewModel(IDialogService dialogService)
     {
@@ -62,7 +62,7 @@ public class MainWindowViewModel : ViewModelBase
         MissingViewCommand = new DelegateCommand(MissingViewCommandExecuted, () => true);
     }
 
-    public DelegateCommand MissingViewCommand
+    public ICommand? MissingViewCommand
     {
         get => _missingViewCommand;
         set => this.RaiseAndSetIfChanged(ref _missingViewCommand, value);

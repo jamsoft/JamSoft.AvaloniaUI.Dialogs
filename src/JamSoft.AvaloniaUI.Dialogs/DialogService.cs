@@ -10,7 +10,7 @@ public class DialogService : IDialogService
 {
     private readonly DialogServiceConfiguration _config;
     private string? _lastDirectorySelected;
-    private readonly HashSet<ChildWindowViewModel?> _openChildren = new();
+    private readonly HashSet<IChildWindowViewModel?> _openChildren = new();
     
     public DialogService(DialogServiceConfiguration config)
     {
@@ -18,7 +18,7 @@ public class DialogService : IDialogService
     }
     
     public async void ShowDialog<TViewModel, TView>(TView view, TViewModel viewModel, Action<TViewModel> callback)
-        where TView : Control where TViewModel : DialogViewModel
+        where TView : Control where TViewModel : IDialogViewModel
     {
         var win = new DialogWindow
         {
@@ -36,8 +36,8 @@ public class DialogService : IDialogService
         }
     }
     
-    public void ShowChildWindow<TViewModel, TView>(TView view, TViewModel viewModel)
-        where TView : Control where TViewModel : ChildWindowViewModel
+    public void ShowChildWindow<TViewModel, TView>(TView view, TViewModel viewModel, Action<TViewModel>? callback)
+        where TView : Control where TViewModel : IChildWindowViewModel
     {
         // prevent multiple instances of the same child window
         if (_openChildren.FirstOrDefault(x => x?.GetType() == typeof(TViewModel)) != null)
@@ -50,25 +50,25 @@ public class DialogService : IDialogService
         win.DataContext = viewModel;
 
         _openChildren.Add(viewModel);
-        win.Closing += Window_Closing;
+        win.Closing += (sender, args) =>
+        {
+            if (sender is ChildWindow window)
+            {
+                _openChildren.Remove(viewModel);
+            }
+            
+            if (callback != null)
+                callback(viewModel);
+        };
         win.Show();
     }
-    
-    private void Window_Closing(object? sender, System.ComponentModel.CancelEventArgs e)
-    {
-        if (sender is ChildWindow window)
-        {
-            _openChildren.Remove(window.DataContext as ChildWindowViewModel);
-            window.Closing -= Window_Closing;
-        }
-    }
-    
-    public async Task<string?> OpenFolder(string dialogDescription, bool showNewFolderButton, string? startDirectory = null)
+
+    public async Task<string?> OpenFolder(string? title, string? startDirectory = null)
     {
         var fd = new OpenFolderDialog
         {
             Directory = startDirectory ?? _lastDirectorySelected,
-            Title = $@"{_config.ApplicationName} - {dialogDescription}"
+            Title = title
         };
 
         var path = await fd.ShowAsync(GetActiveWindowOrMainWindow());
@@ -78,11 +78,11 @@ public class DialogService : IDialogService
         return path;
     }
     
-    public async Task<string?> SaveFile(bool overWritePrompt = true, IEnumerable<FileDialogFilter>? filters = null, string? defaultExtension = null)
+    public async Task<string?> SaveFile(string title, IEnumerable<FileDialogFilter>? filters = null, string? defaultExtension = null)
     {
         var fd = new SaveFileDialog
         {
-            Title = $@"{_config.ApplicationName} - Save",
+            Title = title,
             Filters = filters?.ToList(),
             Directory = _lastDirectorySelected,
             DefaultExtension = defaultExtension
@@ -91,19 +91,10 @@ public class DialogService : IDialogService
         return await fd.ShowAsync(GetActiveWindowOrMainWindow());
     }
 
-    public async Task<string?> OpenFile(IEnumerable<FileDialogFilter>? filters = null)
+    public async Task<string?> OpenFile(string title, IEnumerable<FileDialogFilter>? filters = null)
     {
-        var fd = new OpenFileDialog
-        {
-            Title = $@"{_config.ApplicationName} - Open File",
-            AllowMultiple = false,
-            Filters = filters?.ToList(),
-            Directory = _lastDirectorySelected
-        };
-
-        var paths = await fd.ShowAsync(GetActiveWindowOrMainWindow());
-        if (paths != null &&
-            paths.Any())
+        var paths = await OpenFile(title, false, filters);
+        if (paths != null && paths.Any())
         {
             return paths[0];
         }
@@ -111,14 +102,43 @@ public class DialogService : IDialogService
         return null;
     }
     
-    private static Window GetActiveWindowOrMainWindow()
+    public async Task<string[]?> OpenFiles(string title, IEnumerable<FileDialogFilter>? filters = null)
+    {
+        var paths = await OpenFile(title, true, filters);
+        if (paths != null && paths.Any())
+        {
+            return paths;
+        }
+
+        return null;
+    }
+    
+    private async Task<string[]?> OpenFile(string title, bool allowMulti, IEnumerable<FileDialogFilter>? filters = null)
+    {
+        var fd = new OpenFileDialog
+        {
+            Title = title,
+            AllowMultiple = allowMulti,
+            Filters = filters?.ToList(),
+            Directory = _lastDirectorySelected
+        };
+
+        var paths = await fd.ShowAsync(GetActiveWindowOrMainWindow());
+        if (paths != null && paths.Any())
+        {
+            return paths;
+        }
+
+        return null;
+    }
+    
+    private Window GetActiveWindowOrMainWindow()
     {
         if (Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
             return desktop.Windows.SingleOrDefault(x => x.IsActive) ?? desktop.MainWindow;
         }
 
-        throw new InvalidOperationException(
-            "Cannot find a Window when ApplicationLifetime is not ClassicDesktopStyleApplicationLifetime");
+        throw new InvalidOperationException("Cannot find a Window when ApplicationLifetime is not ClassicDesktopStyleApplicationLifetime");
     }
 }

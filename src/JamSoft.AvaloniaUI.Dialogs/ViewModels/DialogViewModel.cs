@@ -5,14 +5,14 @@ using JamSoft.AvaloniaUI.Dialogs.Events;
 
 namespace JamSoft.AvaloniaUI.Dialogs.ViewModels;
 
-public class DialogViewModel : INotifyPropertyChanged, IDialogResultVmHelper
+public class DialogViewModel : IDialogViewModel
 {
     private DelegateCommand? _acceptCommand;
 
     public DelegateCommand? AcceptCommand
     {
         get => _acceptCommand;
-        set => SetProperty(ref _acceptCommand, value);
+        set => RaiseAndSetIfChanged(ref _acceptCommand, value);
     }
 
     private string? _acceptCommandText;
@@ -20,7 +20,7 @@ public class DialogViewModel : INotifyPropertyChanged, IDialogResultVmHelper
     public string? AcceptCommandText
     {
         get => _acceptCommandText;
-        set => SetProperty(ref _acceptCommandText, value);
+        set => RaiseAndSetIfChanged(ref _acceptCommandText, value);
     }
 
     private DelegateCommand? _cancelCommand;
@@ -28,7 +28,7 @@ public class DialogViewModel : INotifyPropertyChanged, IDialogResultVmHelper
     public DelegateCommand? CancelCommand
     {
         get => _cancelCommand;
-        set => SetProperty(ref _cancelCommand, value);
+        set => RaiseAndSetIfChanged(ref _cancelCommand, value);
     }
 
     private string? _cancelCommandText;
@@ -36,16 +36,16 @@ public class DialogViewModel : INotifyPropertyChanged, IDialogResultVmHelper
     public string? CancelCommandText
     {
         get => _cancelCommandText;
-        set => SetProperty(ref _cancelCommandText, value);
+        set => RaiseAndSetIfChanged(ref _cancelCommandText, value);
     }
 
     public event EventHandler<RequestCloseDialogEventArgs>? RequestCloseDialog;
 
-    public DialogViewModel()
+    protected DialogViewModel()
     {
         AcceptCommand = new DelegateCommand(() => InvokeRequestCloseDialog(new RequestCloseDialogEventArgs(true)), CanAccept);
         AcceptCommandText = "OK";
-        CancelCommand = new DelegateCommand(() => InvokeRequestCloseDialog(new RequestCloseDialogEventArgs(false)));
+        CancelCommand = new DelegateCommand(() => InvokeRequestCloseDialog(new RequestCloseDialogEventArgs(false)), CanCancel);
         CancelCommandText = "Cancel";
     }
 
@@ -54,7 +54,20 @@ public class DialogViewModel : INotifyPropertyChanged, IDialogResultVmHelper
         RequestCloseDialog?.Invoke(this, e);
     }
 
-    protected virtual bool CanAccept()
+    /// <summary>
+    /// Implements the logic that controls the accept command execution validation
+    /// </summary>
+    /// <returns></returns>
+    public virtual bool CanAccept()
+    {
+        return true;
+    }
+
+    /// <summary>
+    /// Implements the logic that controls the cancel command execution validation
+    /// </summary>
+    /// <returns></returns>
+    public virtual bool CanCancel()
     {
         return true;
     }
@@ -68,7 +81,7 @@ public class DialogViewModel : INotifyPropertyChanged, IDialogResultVmHelper
     /// <param name="value">The value.</param>
     /// <param name="propertyName">Name of the property.</param>
     /// <returns></returns>
-    protected virtual bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string propertyName = "")
+    protected virtual bool RaiseAndSetIfChanged<T>(ref T storage, T value, [CallerMemberName] string propertyName = "")
     {
         if (EqualityComparer<T>.Default.Equals(storage, value))
         {
@@ -77,6 +90,10 @@ public class DialogViewModel : INotifyPropertyChanged, IDialogResultVmHelper
 
         storage = value;
         OnPropertyChanged(propertyName);
+        
+        AcceptCommand?.RaiseCanExecuteChanged();
+        CancelCommand?.RaiseCanExecuteChanged();
+        
         return true;
     }
     

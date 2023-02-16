@@ -6,6 +6,7 @@
         x:Class="JamSoft.AvaloniaUI.Dialogs.Views.DialogWindow"
         Title="DialogWindow"
         Classes="Modal">
+    
     <Window.KeyBindings>
         <KeyBinding Gesture="Escape" Command="{Binding CancelCommand}" />
         <KeyBinding Gesture="Enter" Command="{Binding AcceptCommand}" />
@@ -23,8 +24,7 @@
 
             <ContentControl x:Name="Host" Grid.Row="0" Margin="10, 10, 10, 0" Padding="0" />
 		
-            <Grid Grid.Row="1" 
-                  Margin="10,0,10,0">
+            <Grid Grid.Row="1" Margin="10,0,10,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition MinWidth="75" />
                     <ColumnDefinition Width="*" />

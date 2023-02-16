@@ -125,13 +125,13 @@ string[] paths = await _dialogService.OpenFiles("Open Multiple Files");
 ```csharp
 string path = await _dialogService.SaveFile("Save Any File");
 ```
-### Save To A Custom File Type
+### Save To Your Custom File Type
 ```csharp
-string path = await _dialogService.SaveFile("Save My App File", new List<FileDialogFilter>
+string path = await _dialogService.SaveFile("Save New MyApp Project", new List<FileDialogFilter>
 {
     new()
     {
-        Name = "My Custom File Type", 
+        Name = "MyApp Project", 
         Extensions = new List<string> { "myappext" }
     }
 });

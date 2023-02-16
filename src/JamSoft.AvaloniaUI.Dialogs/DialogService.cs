@@ -33,8 +33,6 @@ internal class DialogService : IDialogService
     public void ShowDialog<TViewModel>(TViewModel viewModel, Action<TViewModel> callback)
         where TViewModel : IDialogViewModel
     {
-        Control view;
-
         if (string.IsNullOrWhiteSpace(_config.ViewsAssemblyName))
             throw new ArgumentNullException(nameof(_config.ViewsAssemblyName),
                 "You must set the assembly name containing your views in the DialogServiceConfiguration instance");
@@ -44,19 +42,23 @@ internal class DialogService : IDialogService
             : "";
         
         var type = Type.GetType(name);
-
         if (type != null)
         {
-            view = (Control)Activator.CreateInstance(type)!;
+            Control? view;
+            try
+            {
+                view = (Control)Activator.CreateInstance(type)!;
+            }
+            catch (Exception ex)
+            {
+                throw new TypeInitializationException(name, ex);
+            }
 
-            if (view != null)
-            {
-                ShowDialog(view, viewModel, callback);
-            }
-            else
-            {
-                throw new ArgumentNullException($"Could not find a view with name {name}");
-            }
+            ShowDialog(view, viewModel, callback);
+        }
+        else
+        {
+            throw new ArgumentNullException($"Could not find type {name}");
         }
     }
     
@@ -96,8 +98,6 @@ internal class DialogService : IDialogService
     public void ShowChildWindow<TViewModel>(TViewModel viewModel, Action<TViewModel>? callback)
         where TViewModel : IChildWindowViewModel
     {
-        Control view;
-
         if (string.IsNullOrWhiteSpace(_config.ViewsAssemblyName))
             throw new ArgumentNullException(nameof(_config.ViewsAssemblyName),
                 "You must set the assembly name containing your views in the DialogServiceConfiguration instance");
@@ -107,20 +107,24 @@ internal class DialogService : IDialogService
             : "";
         
         var type = Type.GetType(name);
-
         if (type != null)
         {
-            view = (Control)Activator.CreateInstance(type)!;
+            Control? view;
+            try
+            {
+                view = (Control)Activator.CreateInstance(type)!;
+            }
+            catch (Exception ex)
+            {
+                throw new TypeInitializationException(name, ex);
+            }
 
-            if (view != null)
-            {
-                ShowChildWindow(view, viewModel, callback);
-            }
-            else
-            {
-                throw new ArgumentNullException($"Could not find a view with name {name}");
-            }
-        }        
+            ShowChildWindow(view, viewModel, callback);
+        }
+        else
+        {
+            throw new TypeLoadException($"Could not find type {name}");
+        }
     }
     
     /// <summary>

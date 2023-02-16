@@ -18,5 +18,6 @@ public class BootStrapper
         services.Register(() => new MyDialogViewModel());
         services.Register(() => new MyChildWindowViewModel());
         services.Register(() => new CustomBaseChildWindowViewModel());
+        services.Register(() => new SirNotAppearingInThisAppViewModel());
     }
 }

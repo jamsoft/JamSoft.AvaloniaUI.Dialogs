@@ -27,6 +27,7 @@ public class MainWindowViewModel : ViewModelBase
     private ICommand? _showChildWindowAutoFindViewCommand;
     private ICommand? _showCustomChildWindowCommand;
     private ICommand? _childWindowRememberPositionCommand;
+    private DelegateCommand _missingViewCommand;
 
     public MainWindowViewModel(IDialogService dialogService)
     {
@@ -57,6 +58,14 @@ public class MainWindowViewModel : ViewModelBase
         ShowCustomChildWindowCommand = new DelegateCommand(ShowCustomChildWindowAutoFindViewCommandExecuted, () => true);
 
         ChildWindowRememberPositionCommand = new DelegateCommand(ChildWindowRememberPositionCommandExecuted, () => true);
+
+        MissingViewCommand = new DelegateCommand(MissingViewCommandExecuted, () => true);
+    }
+
+    public DelegateCommand MissingViewCommand
+    {
+        get => _missingViewCommand;
+        set => this.RaiseAndSetIfChanged(ref _missingViewCommand, value);
     }
 
     public ICommand? ChildWindowRememberPositionCommand
@@ -262,5 +271,19 @@ public class MainWindowViewModel : ViewModelBase
         {
             Message = $"Child Remember Position Closed - {model.GetType()}";
         });
+    }
+    
+    private void MissingViewCommandExecuted()
+    {
+        var vm = Locator.Current.GetService<SirNotAppearingInThisAppViewModel>();
+
+        try
+        {
+            _dialogService.ShowChildWindow(vm, model => { });
+        }
+        catch (Exception ex)
+        {
+            Message = ex.Message;
+        }
     }
 }

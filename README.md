@@ -1,8 +1,14 @@
 # Introduction
 
-Provides the ability to perform various dialog and child window tasks in a DI injectable application dialog service ready to plug into MVVM AvaloniaUI applications.
+Provides the ability to show various dialogs and child windows in a DI injectable application dialog service ready to plug into MVVM AvaloniaUI applications.
 
-This idea is to make it as simple as possible to handle all the basics of using dialogs with as few assumptions as possible whilst also providing a feature rich experience.
+The general idea is to make it as simple as possible to handle all the basics of using dialogs with as few assumptions as possible whilst also providing a feature rich experience.
+
+More or less everything is replaceable, extendable, customisable.
+
+## GitHub Pages Site
+
+https://jamsoft.github.io/JamSoft.AvaloniaUI.Dialogs/
 
 ## Installation
 ```shell
@@ -75,7 +81,9 @@ public class BootStrapper
     }
 }        
 ```
-# Usage - File Paths
+# Usage
+
+## File Paths
 
 Now that we have this setup and registered, we can make use of the service from view models like this. First add it as a constructor parameter.
 ```csharp
@@ -102,7 +110,7 @@ string path = await _dialogService.OpenFile("Open Word File", new List<FileDialo
     }
 });
 ```
-You can also make use of the built in `CommonFilters` for this task.
+You can also make use of the built in `CommonFilters` helper class.
 ```csharp
 string path = await _dialogService.OpenFile("Open Word File", new List<FileDialogFilter>
 {
@@ -117,20 +125,20 @@ string[] paths = await _dialogService.OpenFiles("Open Multiple Files");
 ```csharp
 string path = await _dialogService.SaveFile("Save Any File");
 ```
-### Save A Specific File Type
+### Save To A Custom File Type
 ```csharp
-string path = await _dialogService.SaveFile("Save Word File", new List<FileDialogFilter>
+string path = await _dialogService.SaveFile("Save My App File", new List<FileDialogFilter>
 {
     new()
     {
-        Name = "Docx Word File", 
-        Extensions = new List<string> { "docx" }
+        Name = "My Custom File Type", 
+        Extensions = new List<string> { "myappext" }
     }
 });
 ```
 # Usage - Dialogs
 
-There are two base view model classes already baked in for ease of use of the library. These are provided as defaults and a starting point. Create a suitable view model and inherit from either `DialogViewModel` or `ChildWindowViewModel`.
+There are two base view model classes already baked in for ease of use of the library. These are provided as defaults and a starting point. Create a suitable view model and inherit from either `DialogViewModel` or `ChildWindowViewModel` as base class.
 
 ## Show Dialog
 ```csharp
@@ -200,3 +208,62 @@ private void ShowChildWindowCommandExecuted()
     });
 }
 ```
+## Saving & Restoring Window Positions
+First you need a mechanism to store positions as set by the user moving things around.
+```csharp
+public class MyUserSettings : SettingsBase<MyUserSettings>
+{
+    public double Left { get; set; } = 50;
+    public double Top { get; set; } = 50;
+    public double Height { get; set; } = 600;
+    public double Width { get; set; } = 800;
+}
+```
+`SettingsBase<T>` can be found in the JamSoft.Helpers package https://github.com/jamsoft/JamSoft.Helpers
+
+```xml
+Install-Package JamSoft.Helpers
+```
+Then in your view model you can listen for the `RequestCloseDialog` event and respond accordingly by storing the settings in the `OnRequestCloseDialog` method.
+```csharp
+public class MyChildWindowViewModel : ChildWindowViewModel
+{
+    private string? _childMessage;
+    
+    public MyChildWindowViewModel()
+    {
+        RequestCloseDialog += OnRequestCloseDialog;
+    }
+    
+    public string? ChildMessage
+    {
+        get => _childMessage;
+        set => RaiseAndSetIfChanged(ref _childMessage, value);
+    }
+    
+    private void OnRequestCloseDialog(object? sender, RequestCloseDialogEventArgs e)
+    {
+        MyUserSettings.Instance.Top = RequestedTop;
+        MyUserSettings.Instance.Left = RequestedLeft;
+        MyUserSettings.Instance.Width = RequestedWidth;
+        MyUserSettings.Instance.Height = RequestedHeight;
+        
+        RequestCloseDialog -= OnRequestCloseDialog;
+    }
+}
+```
+The next time this view model is requested by the user you can then restore these values.
+```csharp
+vm.RequestedLeft = MyUserSettings.Instance.Left;
+vm.RequestedTop = MyUserSettings.Instance.Top;
+vm.RequestedHeight = MyUserSettings.Instance.Height;
+vm.RequestedWidth = MyUserSettings.Instance.Width;
+
+vm.ChildWindowTitle = "My Custom Child Window Title Auto Find";
+
+_dialogService.ShowChildWindow(vm, model =>
+{
+    Message = $"Child Remember Position Closed - {model.GetType()}";
+});
+```
+See the Sample Application for a complete implementation example and guidance.

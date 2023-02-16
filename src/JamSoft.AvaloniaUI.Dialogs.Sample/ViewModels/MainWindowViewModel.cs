@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Windows.Input;
 using Avalonia.Controls;
 using JamSoft.AvaloniaUI.Dialogs.Commands;
@@ -25,7 +26,7 @@ public class MainWindowViewModel : ViewModelBase
     private ICommand? _showDialogAutoFindViewCommand;
     private ICommand? _showChildWindowAutoFindViewCommand;
     private ICommand? _showCustomChildWindowCommand;
-    private DelegateCommand _childWindowRememberPositionCommand;
+    private ICommand? _childWindowRememberPositionCommand;
 
     public MainWindowViewModel(IDialogService dialogService)
     {
@@ -58,7 +59,7 @@ public class MainWindowViewModel : ViewModelBase
         ChildWindowRememberPositionCommand = new DelegateCommand(ChildWindowRememberPositionCommandExecuted, () => true);
     }
 
-    public DelegateCommand ChildWindowRememberPositionCommand
+    public ICommand? ChildWindowRememberPositionCommand
     {
         get => _childWindowRememberPositionCommand;
         set => this.RaiseAndSetIfChanged(ref _childWindowRememberPositionCommand, value);
@@ -151,7 +152,7 @@ public class MainWindowViewModel : ViewModelBase
     
     private async void OpenFilesCommandExecuted()
     {
-        Message = string.Concat(await _dialogService.OpenFiles("Open Multiple Files") ?? new string[0]);
+        Message = string.Join(Environment.NewLine, await _dialogService.OpenFiles("Open Multiple Files") ?? new string[0]);
     }
     
     private async void SaveFileCommandExecuted()

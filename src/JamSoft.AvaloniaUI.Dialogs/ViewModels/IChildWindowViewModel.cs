@@ -5,7 +5,7 @@ namespace JamSoft.AvaloniaUI.Dialogs.ViewModels;
 /// <summary>
 /// The child window view model interface
 /// </summary>
-public interface IChildWindowViewModel : IWindowPositionAware
+public interface IChildWindowViewModel : IDialogViewModel, IWindowPositionAware
 {
     /// <summary>
     /// The child window title
@@ -21,9 +21,4 @@ public interface IChildWindowViewModel : IWindowPositionAware
     /// The child window height
     /// </summary>
     double RequestedHeight { get; set; }
-    
-    /// <summary>
-    /// The dialog cancel command
-    /// </summary>
-    event EventHandler<RequestCloseDialogEventArgs>? RequestCloseDialog;
 }

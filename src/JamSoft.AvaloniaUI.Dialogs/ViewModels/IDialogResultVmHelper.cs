@@ -1,3 +1,4 @@
+using System.Windows.Input;
 using JamSoft.AvaloniaUI.Dialogs.Commands;
 using JamSoft.AvaloniaUI.Dialogs.Events;
 
@@ -19,7 +20,7 @@ public interface IDialogResultVmHelper
     /// <value>
     /// The accept command.
     /// </value>
-    DelegateCommand? AcceptCommand { get; set; }
+    ICommand AcceptCommand { get; set; }
 
     /// <summary>
     /// Gets or sets the cancel command.
@@ -27,5 +28,5 @@ public interface IDialogResultVmHelper
     /// <value>
     /// The cancel command.
     /// </value>
-    DelegateCommand? CancelCommand { get; set; }
+    ICommand CancelCommand { get; set; }
 }

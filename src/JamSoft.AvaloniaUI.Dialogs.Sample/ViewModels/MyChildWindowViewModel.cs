@@ -19,7 +19,7 @@ public class MyChildWindowViewModel : ChildWindowViewModel
         set => RaiseAndSetIfChanged(ref _childMessage, value);
     }
 
-    private void OnRequestCloseDialog(object sender, RequestCloseDialogEventArgs e)
+    private void OnRequestCloseDialog(object? sender, RequestCloseDialogEventArgs e)
     {
         MyUserSettings.Instance.Top = RequestedTop;
         MyUserSettings.Instance.Left = RequestedLeft;

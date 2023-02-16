@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Windows.Input;
 using JamSoft.AvaloniaUI.Dialogs.Commands;
 using JamSoft.AvaloniaUI.Dialogs.Events;
 
@@ -10,12 +11,12 @@ namespace JamSoft.AvaloniaUI.Dialogs.ViewModels;
 /// </summary>
 public class DialogViewModel : IDialogViewModel
 {
-    private DelegateCommand? _acceptCommand;
+    private ICommand _acceptCommand;
 
     /// <summary>
     /// The dialog accept command
     /// </summary>
-    public DelegateCommand? AcceptCommand
+    public ICommand AcceptCommand
     {
         get => _acceptCommand;
         set => RaiseAndSetIfChanged(ref _acceptCommand, value);
@@ -32,7 +33,7 @@ public class DialogViewModel : IDialogViewModel
         set => RaiseAndSetIfChanged(ref _acceptCommandText, value);
     }
 
-    private DelegateCommand? _cancelCommand;
+    private ICommand _cancelCommand;
 
     /// <summary>
     /// Gets or sets the cancel command.
@@ -40,7 +41,7 @@ public class DialogViewModel : IDialogViewModel
     /// <value>
     /// The cancel command.
     /// </value>
-    public DelegateCommand? CancelCommand
+    public ICommand CancelCommand
     {
         get => _cancelCommand;
         set => RaiseAndSetIfChanged(ref _cancelCommand, value);
@@ -67,9 +68,9 @@ public class DialogViewModel : IDialogViewModel
     /// </summary>
     protected DialogViewModel()
     {
-        AcceptCommand = new DelegateCommand(() => InvokeRequestCloseDialog(new RequestCloseDialogEventArgs(true)), CanAccept);
+        _acceptCommand = new DelegateCommand(() => InvokeRequestCloseDialog(new RequestCloseDialogEventArgs(true)), CanAccept);
         AcceptCommandText = "OK";
-        CancelCommand = new DelegateCommand(() => InvokeRequestCloseDialog(new RequestCloseDialogEventArgs(false)), CanCancel);
+        _cancelCommand = new DelegateCommand(() => InvokeRequestCloseDialog(new RequestCloseDialogEventArgs(false)), CanCancel);
         CancelCommandText = "Cancel";
     }
 
@@ -115,8 +116,8 @@ public class DialogViewModel : IDialogViewModel
         storage = value;
         OnPropertyChanged(propertyName);
         
-        AcceptCommand?.RaiseCanExecuteChanged();
-        CancelCommand?.RaiseCanExecuteChanged();
+        (AcceptCommand as DelegateCommand)?.RaiseCanExecuteChanged();
+        (CancelCommand as DelegateCommand)?.RaiseCanExecuteChanged();
         
         return true;
     }

@@ -16,7 +16,6 @@ public partial class ChildWindow : Window
 
     private IChildWindowViewModel? _vm { get; set; }
 
-    
     /// <summary>
     /// The default constructor
     /// </summary>
@@ -64,6 +63,7 @@ public partial class ChildWindow : Window
     {
         PointerPressed -= OnPointerPressed;
         PositionChanged -= OnPositionChanged;
+        _vm?.AcceptCommand.Execute(new object());
         _isClosed = true;
     }
     

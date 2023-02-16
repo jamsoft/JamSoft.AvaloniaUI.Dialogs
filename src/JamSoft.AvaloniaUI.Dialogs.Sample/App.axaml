@@ -10,11 +10,13 @@
     <Application.Styles>
         <FluentTheme Mode="Dark"/>
         <StyleInclude Source="avares://JamSoft.AvaloniaUI.Dialogs/Themes/Default.axaml"/>
-        <!-- <StyleInclude Source="avares://JamSoft.AvaloniaUI.Dialogs/Themes/ChildStyle.axaml"/> -->
-        <!-- <StyleInclude Source="avares://JamSoft.AvaloniaUI.Dialogs/Themes/ModalStyle.axaml"/> -->
         
         <Style Selector="Window">
             <Setter Property="Background" Value="#333333"/>
+        </Style>
+        
+        <Style Selector="Button.horizontalCenter">
+            <Setter Property="HorizontalAlignment" Value="Center"/>
         </Style>
         
     </Application.Styles>

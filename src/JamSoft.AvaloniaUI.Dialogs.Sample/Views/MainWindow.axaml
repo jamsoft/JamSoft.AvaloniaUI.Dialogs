@@ -3,40 +3,46 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-        Width="500"
-        Height="700"
+        Width="1000"
+        Height="500"
         x:Class="JamSoft.AvaloniaUI.Dialogs.Sample.Views.MainWindow"
         Icon="/Assets/avalonia-logo.ico"
         Title="JamSoft.AvaloniaUI.Dialogs.Sample" Padding="20" Closed="TopLevel_OnClosed">
-
-    <StackPanel Spacing="20">
+    
+    <Grid RowDefinitions="*, *">
+        <StackPanel>
+            <TextBlock Text="Result" FontSize="20" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <TextBlock Text="{Binding Message}" HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="Wrap"/>
+        </StackPanel>
         
-        <TextBlock Text="{Binding Message}" HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="Wrap"/>
+        <UniformGrid Grid.Row="1" Columns="3">
         
-        <Button Command="{Binding OpenFileCommand}">Open File</Button>
+            <Button Command="{Binding OpenFileCommand}" Classes="horizontalCenter">Open File</Button>
         
-        <Button Command="{Binding OpenWordFileCommand}">Open Word File</Button>
+            <Button Command="{Binding OpenWordFileCommand}" Classes="horizontalCenter">Open Word File</Button>
         
-        <Button Command="{Binding OpenFilesCommand}">Open Files</Button>
+            <Button Command="{Binding OpenFilesCommand}" Classes="horizontalCenter">Open Files</Button>
         
-        <Button Command="{Binding SaveFileCommand}">Save File</Button>
+            <Button Command="{Binding SaveFileCommand}" Classes="horizontalCenter">Save File</Button>
         
-        <Button Command="{Binding SaveWordFileCommand}">Save Word File</Button>
+            <Button Command="{Binding SaveWordFileCommand}" Classes="horizontalCenter">Save Word File</Button>
         
-        <Button Command="{Binding ShowDialogCommand}">Show Default Dialog</Button>
+            <Button Command="{Binding ShowDialogCommand}" Classes="horizontalCenter">Default Dialog</Button>
         
-        <Button Command="{Binding ShowDialogAutoFindViewCommand}">Show Default Dialog Auto Find View</Button>
+            <Button Command="{Binding ShowDialogAutoFindViewCommand}" Classes="horizontalCenter">Dialog Auto Find View</Button>
         
-        <Button Command="{Binding ShowCustomizedDialogCommand}">Show Customised Dialog</Button>
+            <Button Command="{Binding ShowCustomizedDialogCommand}" Classes="horizontalCenter">Customised Dialog</Button>
         
-        <Button Command="{Binding ShowChildWindowCommand}">Show Child Window</Button>
+            <Button Command="{Binding ShowChildWindowCommand}" Classes="horizontalCenter">Child Window</Button>
         
-        <Button Command="{Binding ShowChildWindowAutoFindViewCommand}">Show Child Window Auto Find</Button>
+            <Button Command="{Binding ShowChildWindowAutoFindViewCommand}" Classes="horizontalCenter">Child View Locator</Button>
         
-        <Button Command="{Binding ShowCustomChildWindowCommand}">Show Custom Child Window Auto Find</Button>
+            <Button Command="{Binding ShowCustomChildWindowCommand}" Classes="horizontalCenter">Custom Child View Locator</Button>
         
-        <Button Command="{Binding ChildWindowRememberPositionCommand}">Show Remember Position</Button>
+            <Button Command="{Binding ChildWindowRememberPositionCommand}" Classes="horizontalCenter">Child Remember Position</Button>
         
-    </StackPanel>
-
+        </UniformGrid>
+        
+    </Grid>
+    
 </Window>

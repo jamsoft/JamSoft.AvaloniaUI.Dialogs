@@ -20,7 +20,9 @@ public class MainWindowViewModel : ViewModelBase
     private ICommand? _showDialogCommand;
     private ICommand? _showCustomizedDialogCommand;
     private ICommand? _showChildWindowCommand;
-    
+    private ICommand? _showDialogAutoFindViewCommand;
+    private ICommand? _showChildWindowAutoFindViewCommand;
+
     public MainWindowViewModel(IDialogService dialogService)
     {
         _dialogService = dialogService;
@@ -39,11 +41,27 @@ public class MainWindowViewModel : ViewModelBase
 
         ShowDialogCommand = new DelegateCommand(ShowDialogCommandExecuted, () => true);
         
+        ShowDialogAutoFindViewCommand = new DelegateCommand(ShowDialogAutoFindViewCommandExecuted, () => true);
+        
         ShowCustomizedDialogCommand = new DelegateCommand(ShowCustomizedDialogCommandExecuted, () => true);
 
         ShowChildWindowCommand = new DelegateCommand(ShowChildWindowCommandExecuted, () => true);
+        
+        ShowChildWindowAutoFindViewCommand = new DelegateCommand(ShowChildWindowAutoFindViewCommandExecuted, () => true);
     }
-   
+
+    public ICommand? ShowChildWindowAutoFindViewCommand
+    {
+        get => _showChildWindowAutoFindViewCommand;
+        set => this.RaiseAndSetIfChanged(ref _showChildWindowAutoFindViewCommand, value);
+    }
+
+    public ICommand? ShowDialogAutoFindViewCommand
+    {
+        get => _showDialogAutoFindViewCommand;
+        set => this.RaiseAndSetIfChanged(ref _showDialogAutoFindViewCommand, value);
+    }
+
     public ICommand? ShowChildWindowCommand
     {
         get => _showChildWindowCommand;
@@ -107,11 +125,7 @@ public class MainWindowViewModel : ViewModelBase
     {
         Message = await _dialogService.OpenFile("Open Word File", new List<FileDialogFilter>
         {
-            new()
-            {
-                Name = "Docx Word File", 
-                Extensions = new List<string> { "docx" }
-            }
+            CommonFilters.WordFilter
         });
     }
     
@@ -129,22 +143,23 @@ public class MainWindowViewModel : ViewModelBase
     {
         Message = await _dialogService.SaveFile("Save Word File", new List<FileDialogFilter>
         {
-            new()
-            {
-                Name = "Docx Word File", 
-                Extensions = new List<string> { "docx" }
-            }
+            CommonFilters.WordFilter
         });
     }
     
     private void ShowDialogCommandExecuted()
     {
-        _dialogService.ShowDialog(new MyDialogView(), Locator.Current.GetRequiredService<MyDialogViewModel>(), DialogCallback);
+        _dialogService.ShowDialog(new MyDialogView(), Locator.Current.GetService<MyDialogViewModel>(), DialogCallback);
+    }
+    
+    private void ShowDialogAutoFindViewCommandExecuted()
+    {
+        _dialogService.ShowDialog(Locator.Current.GetService<MyDialogViewModel>(), DialogCallback);
     }
     
     private void ShowCustomizedDialogCommandExecuted()
     {
-        var vm = Locator.Current.GetRequiredService<MyDialogViewModel>();
+        var vm = Locator.Current.GetService<MyDialogViewModel>();
         vm.AcceptCommandText = "Accept";
         vm.CancelCommandText = "Oh No!";
         
@@ -158,7 +173,7 @@ public class MainWindowViewModel : ViewModelBase
     
     private void ShowChildWindowCommandExecuted()
     {
-        var vm = Locator.Current.GetRequiredService<MyChildViewModel>();
+        var vm = Locator.Current.GetService<MyChildViewModel>();
 
         // these values can be stored in user settings and loaded at runtime etc.
         vm.RequestedLeft = 50;
@@ -169,6 +184,24 @@ public class MainWindowViewModel : ViewModelBase
         vm.ChildWindowTitle = "My Child Window Title";
         
         _dialogService.ShowChildWindow(new MyChildView(), vm, model =>
+        {
+            Message = $"Child Closed - {model.ChildMessage}";
+        });
+    }
+    
+    private void ShowChildWindowAutoFindViewCommandExecuted()
+    {
+        var vm = Locator.Current.GetService<MyChildViewModel>();
+
+        // these values can be stored in user settings and loaded at runtime etc.
+        vm.RequestedLeft = 50;
+        vm.RequestedTop = 50;
+        vm.RequestedHeight = 600;
+        vm.RequestedWidth = 800;
+        vm.ChildMessage = "Child Message Value";
+        vm.ChildWindowTitle = "My Child Window Title Auto Find";
+        
+        _dialogService.ShowChildWindow(vm, model =>
         {
             Message = $"Child Closed - {model.ChildMessage}";
         });

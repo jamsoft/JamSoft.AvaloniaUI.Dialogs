@@ -4,7 +4,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         Width="500"
-        Height="500"
+        Height="700"
         x:Class="JamSoft.AvaloniaUI.Dialogs.Sample.Views.MainWindow"
         Icon="/Assets/avalonia-logo.ico"
         Title="JamSoft.AvaloniaUI.Dialogs.Sample" Padding="20">
@@ -25,9 +25,13 @@
         
         <Button Command="{Binding ShowDialogCommand}">Show Default Dialog</Button>
         
+        <Button Command="{Binding ShowDialogAutoFindViewCommand}">Show Default Dialog Auto Find View</Button>
+        
         <Button Command="{Binding ShowCustomizedDialogCommand}">Show Customised Dialog</Button>
         
         <Button Command="{Binding ShowChildWindowCommand}">Show Child Window</Button>
+        
+        <Button Command="{Binding ShowChildWindowAutoFindViewCommand}">Show Child Window Auto Find</Button>
         
     </StackPanel>
 

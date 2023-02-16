@@ -28,6 +28,42 @@ internal class DialogService : IDialogService
     /// Shows a dialog with a callback to return the view model based on the result of the dialog.
     /// </summary>
     /// <typeparam name="TViewModel">The type of the view model.</typeparam>
+    /// <param name="viewModel">The view model.</param>
+    /// <param name="callback">The callback.</param>
+    public void ShowDialog<TViewModel>(TViewModel viewModel, Action<TViewModel> callback)
+        where TViewModel : IDialogViewModel
+    {
+        Control view;
+
+        if (string.IsNullOrWhiteSpace(_config.ViewsAssemblyName))
+            throw new ArgumentNullException(nameof(_config.ViewsAssemblyName),
+                "You must set the assembly name containing your views in the DialogServiceConfiguration instance");
+        
+        var name = !string.IsNullOrWhiteSpace(_config.ViewsAssemblyName) 
+            ? $"{viewModel.GetType().FullName!.Replace("ViewModel", "View")},{_config.ViewsAssemblyName}" 
+            : "";
+        
+        var type = Type.GetType(name);
+
+        if (type != null)
+        {
+            view = (Control)Activator.CreateInstance(type)!;
+
+            if (view != null)
+            {
+                ShowDialog(view, viewModel, callback);
+            }
+            else
+            {
+                throw new ArgumentNullException($"Could not find a view with name {name}");
+            }
+        }
+    }
+    
+    /// <summary>
+    /// Shows a dialog with a callback to return the view model based on the result of the dialog.
+    /// </summary>
+    /// <typeparam name="TViewModel">The type of the view model.</typeparam>
     /// <typeparam name="TView">The type of the view.</typeparam>
     /// <param name="view">The view.</param>
     /// <param name="viewModel">The view model.</param>
@@ -39,7 +75,7 @@ internal class DialogService : IDialogService
         {
             WindowStartupLocation = WindowStartupLocation.CenterOwner
         };
-
+        
         var contentControl = win.FindControl<ContentControl>("Host");
         contentControl.Content = view;
         win.DataContext = viewModel;
@@ -49,6 +85,42 @@ internal class DialogService : IDialogService
         {
             callback(viewModel);
         }
+    }
+
+    /// <summary>
+    /// Shows a child window.
+    /// </summary>
+    /// <typeparam name="TViewModel">The type of the view model.</typeparam>
+    /// <param name="viewModel">The view model.</param>
+    /// <param name="callback">the callback to received the view model instance on close</param>
+    public void ShowChildWindow<TViewModel>(TViewModel viewModel, Action<TViewModel>? callback)
+        where TViewModel : IChildWindowViewModel
+    {
+        Control view;
+
+        if (string.IsNullOrWhiteSpace(_config.ViewsAssemblyName))
+            throw new ArgumentNullException(nameof(_config.ViewsAssemblyName),
+                "You must set the assembly name containing your views in the DialogServiceConfiguration instance");
+        
+        var name = !string.IsNullOrWhiteSpace(_config.ViewsAssemblyName) 
+            ? $"{viewModel.GetType().FullName!.Replace("ViewModel", "View")},{_config.ViewsAssemblyName}" 
+            : "";
+        
+        var type = Type.GetType(name);
+
+        if (type != null)
+        {
+            view = (Control)Activator.CreateInstance(type)!;
+
+            if (view != null)
+            {
+                ShowChildWindow(view, viewModel, callback);
+            }
+            else
+            {
+                throw new ArgumentNullException($"Could not find a view with name {name}");
+            }
+        }        
     }
     
     /// <summary>
@@ -67,6 +139,8 @@ internal class DialogService : IDialogService
             return;
 
         var win = new ChildWindow();
+
+        viewModel.ChildWindowTitle = CreateTitle(viewModel.ChildWindowTitle);
         
         var contentControl = win.FindControl<ContentControl>("Host");
         contentControl.Content = view;
@@ -97,7 +171,7 @@ internal class DialogService : IDialogService
         var fd = new OpenFolderDialog
         {
             Directory = startDirectory ?? _lastDirectorySelected,
-            Title = title
+            Title = CreateTitle(title)
         };
 
         var path = await fd.ShowAsync(GetActiveWindowOrMainWindow());
@@ -118,7 +192,7 @@ internal class DialogService : IDialogService
     {
         var fd = new SaveFileDialog
         {
-            Title = title,
+            Title = CreateTitle(title),
             Filters = filters?.ToList(),
             Directory = _lastDirectorySelected,
             DefaultExtension = defaultExtension
@@ -165,7 +239,7 @@ internal class DialogService : IDialogService
     {
         var fd = new OpenFileDialog
         {
-            Title = title,
+            Title = CreateTitle(title),
             AllowMultiple = allowMulti,
             Filters = filters?.ToList(),
             Directory = _lastDirectorySelected
@@ -188,5 +262,13 @@ internal class DialogService : IDialogService
         }
 
         throw new InvalidOperationException("Cannot find a Window when ApplicationLifetime is not ClassicDesktopStyleApplicationLifetime");
+    }
+
+    private string? CreateTitle(string? title)
+    {
+        if (_config.UseApplicationNameInTitle)
+            return $"{_config.ApplicationName}-{title}";
+
+        return title;
     }
 }

@@ -12,12 +12,28 @@ public interface IDialogService
     /// Shows a dialog with a callback to return the view model based on the result of the dialog.
     /// </summary>
     /// <typeparam name="TViewModel">The type of the view model.</typeparam>
+    /// <param name="viewModel">The view model.</param>
+    /// <param name="callback">The callback.</param>
+    void ShowDialog<TViewModel>(TViewModel viewModel, Action<TViewModel> callback) where TViewModel : IDialogViewModel;
+    
+    /// <summary>
+    /// Shows a dialog with a callback to return the view model based on the result of the dialog.
+    /// </summary>
+    /// <typeparam name="TViewModel">The type of the view model.</typeparam>
     /// <typeparam name="TView">The type of the view.</typeparam>
     /// <param name="view">The view.</param>
     /// <param name="viewModel">The view model.</param>
     /// <param name="callback">The callback.</param>
     void ShowDialog<TViewModel, TView>(TView view, TViewModel viewModel, Action<TViewModel> callback) where TView : Control where TViewModel : IDialogViewModel;
 
+    /// <summary>
+    /// Shows a child window.
+    /// </summary>
+    /// <typeparam name="TViewModel">The type of the view model.</typeparam>
+    /// <param name="viewModel">The view model.</param>
+    /// <param name="callback">the callback to received the view model instance on close</param>
+    void ShowChildWindow<TViewModel>(TViewModel viewModel, Action<TViewModel>? callback) where TViewModel : IChildWindowViewModel;
+    
     /// <summary>
     /// Shows a child window.
     /// </summary>

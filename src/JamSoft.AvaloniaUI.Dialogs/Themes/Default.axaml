@@ -1,24 +1,7 @@
 ﻿<Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     
-    <Style Selector="Window.Modal">
-        <Setter Property="Padding" Value="2" />
-        <Setter Property="ShowInTaskbar" Value="False" />
-        <Setter Property="SizeToContent" Value="WidthAndHeight" />
-        <Setter Property="ExtendClientAreaToDecorationsHint" Value="True" />
-        <Setter Property="ExtendClientAreaChromeHints" Value="NoChrome" />
-        <Setter Property="ExtendClientAreaTitleBarHeightHint" Value="0" />
-        <Setter Property="CanResize" Value="False" />
-    </Style>
-    
-    <Style Selector="Window.Child">
-        <Setter Property="Padding" Value="0" />
-        <Setter Property="ShowInTaskbar" Value="False" />
-        <Setter Property="SizeToContent" Value="Manual" />
-        <!-- <Setter Property="ExtendClientAreaToDecorationsHint" Value="True" /> -->
-        <!-- <Setter Property="ExtendClientAreaChromeHints" Value="NoChrome" /> -->
-        <!-- <Setter Property="ExtendClientAreaTitleBarHeightHint" Value="0" /> -->
-        <Setter Property="CanResize" Value="True" />
-    </Style>
+    <StyleInclude Source="avares://JamSoft.AvaloniaUI.Dialogs/Themes/ChildStyle.axaml"/>
+    <StyleInclude Source="avares://JamSoft.AvaloniaUI.Dialogs/Themes/ModalStyle.axaml"/>
     
 </Styles>

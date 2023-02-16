@@ -9,7 +9,9 @@ public class BootStrapper
     {
         services.RegisterLazySingleton(() => DialogServiceFactory.Create(new DialogServiceConfiguration
         {
-            ApplicationName = "Dialog Sample App"
+            ApplicationName = "Dialog Sample App", 
+            UseApplicationNameInTitle = true,
+            ViewsAssemblyName = "JamSoft.AvaloniaUI.Dialogs.Sample"
         }));
         
         services.Register(() => new MainWindowViewModel(resolver.GetService<IDialogService>()));

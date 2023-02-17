@@ -22,5 +22,8 @@ public interface IChildWindowViewModel : IDialogViewModel, IWindowPositionAware
     /// </summary>
     double RequestedHeight { get; set; }
     
+    /// <summary>
+    /// The close icon
+    /// </summary>
     IImage CloseIcon { get; set; }
 }

@@ -18,6 +18,9 @@ public class ChildWindowViewModel : DialogViewModel, IChildWindowViewModel
     private string? _childWindowTitle;
     private IImage _closeIcon;
 
+    /// <summary>
+    /// Default ctor
+    /// </summary>
     public ChildWindowViewModel()
     {
         var assets = AvaloniaLocator.Current.GetService<IAssetLoader>();
@@ -74,6 +77,9 @@ public class ChildWindowViewModel : DialogViewModel, IChildWindowViewModel
     /// </summary>
     public WindowStartupLocation Location { get; set; }
 
+    /// <summary>
+    /// The close icon
+    /// </summary>
     public IImage CloseIcon
     {
         get => _closeIcon;

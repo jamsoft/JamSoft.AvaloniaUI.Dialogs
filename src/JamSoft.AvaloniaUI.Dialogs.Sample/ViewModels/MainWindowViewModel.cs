@@ -205,11 +205,11 @@ public class MainWindowViewModel : ViewModelBase
     {
         var vm = Locator.Current.GetService<MyChildWindowViewModel>();
 
-        // these values can be stored in user settings and loaded at runtime etc.
         vm.RequestedLeft = 50;
         vm.RequestedTop = 50;
-        vm.RequestedHeight = 600;
-        vm.RequestedWidth = 800;
+        vm.RequestedHeight = 500;
+        vm.RequestedWidth = 600;
+        // these values can be stored in user settings and loaded at runtime etc.
         vm.ChildMessage = "Child Message Value";
         vm.ChildWindowTitle = "My Child Window Title";
         
@@ -225,8 +225,8 @@ public class MainWindowViewModel : ViewModelBase
 
         vm.RequestedLeft = 50;
         vm.RequestedTop = 50;
-        vm.RequestedHeight = 600;
-        vm.RequestedWidth = 800;
+        vm.RequestedHeight = 500;
+        vm.RequestedWidth = 600;
         vm.ChildMessage = "Child Message Value";
         vm.ChildWindowTitle = "My Child Window Title Auto Find";
         vm.Location = WindowStartupLocation.CenterScreen;
@@ -240,12 +240,10 @@ public class MainWindowViewModel : ViewModelBase
     private void ShowCustomChildWindowAutoFindViewCommandExecuted()
     {
         var vm = Locator.Current.GetService<CustomBaseChildWindowViewModel>();
-
-        // these values can be stored in user settings and loaded at runtime etc.
         vm.RequestedLeft = 50;
         vm.RequestedTop = 50;
-        vm.RequestedHeight = 600;
-        vm.RequestedWidth = 800;
+        vm.RequestedHeight = 500;
+        vm.RequestedWidth = 600;
         
         vm.ChildWindowTitle = "My Custom Child Window Title Auto Find";
         

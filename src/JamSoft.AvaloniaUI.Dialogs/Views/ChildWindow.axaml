@@ -6,15 +6,31 @@
         x:Class="JamSoft.AvaloniaUI.Dialogs.Views.ChildWindow"
         Width="{Binding RequestedWidth, Mode=TwoWay}"
         Height="{Binding RequestedHeight, Mode=TwoWay}"
-        Classes="Child"
-        Title="{Binding ChildWindowTitle}">
+        Classes="Child">
     
     <Window.KeyBindings>
         <KeyBinding Gesture="Escape" Command="{Binding CancelCommand}" />
         <KeyBinding Gesture="Enter" Command="{Binding AcceptCommand}" />
     </Window.KeyBindings>
-    
-    <ContentControl x:Name="Host"
-                    Margin="10"
-                    Padding="0" />
+
+    <Grid RowDefinitions="Auto,*">
+        <DockPanel x:Name="ChromeDockPanel">
+            
+            <TextBlock x:Name="ChromeDockPanelTitle" Text="{Binding ChildWindowTitle}" DockPanel.Dock="Left" />
+            
+            <Button x:Name="ChromeDockPanelCloseButton"
+                    DockPanel.Dock="Right"
+                    HorizontalAlignment="Right"
+                    Command="{Binding CancelCommand}"
+                    Classes="CloseChildButton">
+                <Image Source="{Binding CloseIcon}" />
+            </Button>
+            
+        </DockPanel>
+        
+        <ContentControl x:Name="Host"
+                        Grid.Row="1"
+                        Margin="10"
+                        Padding="0" />
+    </Grid>
 </Window>

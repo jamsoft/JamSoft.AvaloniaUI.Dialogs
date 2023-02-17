@@ -63,7 +63,7 @@ public partial class ChildWindow : Window
     {
         PointerPressed -= OnPointerPressed;
         PositionChanged -= OnPositionChanged;
-        _vm?.AcceptCommand.Execute(new object());
+        Closed -= ChildWindowClosed;
         _isClosed = true;
     }
     
@@ -87,13 +87,13 @@ public partial class ChildWindow : Window
             Convert.ToInt32(windowPositionAware.RequestedLeft), 
             Convert.ToInt32(windowPositionAware.RequestedTop));
     }
-    
+
     private void InitializeComponent()
     {
         AvaloniaXamlLoader.Load(this);
     }
     
-    private void DialogResultTrueEvent(object? sender, RequestCloseDialogEventArgs eventargs)
+    private void DialogResultTrueEvent(object? sender, RequestCloseDialogEventArgs e)
     {
         // Important: Do not set DialogResult for a closed window
         // GC clears windows anyway and with MakeWeak it

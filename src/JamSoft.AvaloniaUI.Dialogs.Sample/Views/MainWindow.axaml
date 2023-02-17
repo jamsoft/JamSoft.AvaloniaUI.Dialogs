@@ -42,7 +42,7 @@
         
             <Button Command="{Binding ShowCustomChildWindowCommand}" Classes="horizontalCenter">Custom Child View Locator</Button>
         
-            <Button Command="{Binding ChildWindowRememberPositionCommand}" Classes="horizontalCenter">Child Remember Position</Button>
+            <Button Command="{Binding ChildWindowRememberPositionCommand}" Classes="horizontalCenter">Child Remember Size and Position</Button>
             
             <Button Command="{Binding MissingViewCommand}" Classes="horizontalCenter">Child Missing View</Button>
         

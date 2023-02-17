@@ -1,4 +1,4 @@
-using JamSoft.AvaloniaUI.Dialogs.Events;
+using Avalonia.Media;
 
 namespace JamSoft.AvaloniaUI.Dialogs.ViewModels;
 
@@ -21,4 +21,6 @@ public interface IChildWindowViewModel : IDialogViewModel, IWindowPositionAware
     /// The child window height
     /// </summary>
     double RequestedHeight { get; set; }
+    
+    IImage CloseIcon { get; set; }
 }

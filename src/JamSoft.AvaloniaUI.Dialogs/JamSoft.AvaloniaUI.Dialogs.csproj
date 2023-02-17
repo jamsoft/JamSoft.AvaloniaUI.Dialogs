@@ -41,6 +41,7 @@
 
     <ItemGroup>
       <PackageReference Include="Avalonia" Version="0.10.18" />
+        <AvaloniaResource Include="Assets\**" />
     </ItemGroup>
 
     <ItemGroup>
@@ -49,6 +50,12 @@
         <PackagePath></PackagePath>
       </None>
         <None Include="..\..\README.md" Pack="true" PackagePath="\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <UpToDateCheckInput Remove="Assets\iOS\icons8-close-30(@1x).png" />
+      <UpToDateCheckInput Remove="Assets\iOS\icons8-close-60(@2x).png" />
+      <UpToDateCheckInput Remove="Assets\iOS\icons8-close-90(@3x).png" />
     </ItemGroup>
 
 </Project>

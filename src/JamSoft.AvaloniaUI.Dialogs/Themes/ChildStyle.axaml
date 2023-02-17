@@ -5,10 +5,55 @@
                 <Setter Property="Padding" Value="0" />
                 <Setter Property="ShowInTaskbar" Value="False" />
                 <Setter Property="SizeToContent" Value="Manual" />
-                <!-- <Setter Property="ExtendClientAreaToDecorationsHint" Value="True" /> -->
-                <!-- <Setter Property="ExtendClientAreaChromeHints" Value="NoChrome" /> -->
-                <!-- <Setter Property="ExtendClientAreaTitleBarHeightHint" Value="0" /> -->
+                <Setter Property="ExtendClientAreaToDecorationsHint" Value="True" />
+                <Setter Property="ExtendClientAreaChromeHints" Value="NoChrome" />
+                <Setter Property="ExtendClientAreaTitleBarHeightHint" Value="-1" />
                 <Setter Property="CanResize" Value="True" />
+        </Style>
+        
+        <Style Selector="Button.CloseChildButton">
+                <Setter Property="Width" Value="50" />
+                <Setter Property="Height" Value="30" />
+                <Setter Property="BorderThickness" Value="1" />
+                <Setter Property="Padding" Value="0" />
+                <Setter Property="HorizontalAlignment" Value="Center" />
+                <Setter Property="VerticalAlignment" Value="Center" /> 
+                <Setter Property="HorizontalContentAlignment" Value="Center" />
+                <Setter Property="VerticalContentAlignment" Value="Center" />
+                <Setter Property="Background" Value="Transparent" />
+                <Setter Property="Margin" Value="0" />
+                <Setter Property="Template">
+                        <ControlTemplate>
+                                <Border Width="{TemplateBinding Width}"
+                                        Height="{TemplateBinding Height}"
+                                        BorderThickness="{TemplateBinding BorderThickness}" 
+                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                        CornerRadius="0"
+                                        Background="{TemplateBinding Background}"
+                                        Padding="{TemplateBinding Padding}"                
+                                        HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                        VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
+                                        <ContentPresenter Width="15" Height="15" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                               Content="{TemplateBinding Content}" />
+                                </Border>
+                        </ControlTemplate>
+                </Setter>
+        </Style>
+        
+        <Style Selector="Button.CloseChildButton:pointerover /template/ Border">
+                <Setter Property="Background" Value="#c42b1c" />
+        </Style>
+        
+        <Style Selector="DockPanel#ChromeDockPanel">
+                <Setter Property="Height" Value="32"/>
+                <Setter Property="Background" Value="#000000"/>
+        </Style>
+        
+        <Style Selector="TextBlock#ChromeDockPanelTitle">
+                <Setter Property="FontSize" Value="12"/>
+                <Setter Property="VerticalAlignment" Value="Center" />
+                <Setter Property="Margin" Value="10,0"/>
         </Style>
         
 </Styles>

@@ -267,3 +267,22 @@ _dialogService.ShowChildWindow(vm, model =>
 });
 ```
 See the Sample Application for a complete implementation example and guidance.
+
+## Styles
+You can easily target elements of the dialogs via their names and types, such as:
+```xml
+<Style Selector="Button.CloseChildButton:pointerover /template/ Border">
+        <Setter Property="Background" Value="#c42b1c" />
+</Style>
+
+<Style Selector="DockPanel#ChromeDockPanel">
+        <Setter Property="Height" Value="32"/>
+        <Setter Property="Background" Value="#000000"/>
+</Style>
+
+<Style Selector="TextBlock#ChromeDockPanelTitle">
+        <Setter Property="FontSize" Value="12"/>
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Margin" Value="10,0"/>
+</Style>
+```

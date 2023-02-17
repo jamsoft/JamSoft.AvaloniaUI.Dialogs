@@ -1,4 +1,5 @@
-﻿using JamSoft.AvaloniaUI.Dialogs.Sample.ViewModels;
+﻿using System.Reflection;
+using JamSoft.AvaloniaUI.Dialogs.Sample.ViewModels;
 using Splat;
 
 namespace JamSoft.AvaloniaUI.Dialogs.Sample;
@@ -11,13 +12,13 @@ public class BootStrapper
         {
             ApplicationName = "Dialog Sample App", 
             UseApplicationNameInTitle = true,
-            ViewsAssemblyName = "JamSoft.AvaloniaUI.Dialogs.Sample"
+            ViewsAssemblyName = Assembly.GetExecutingAssembly().GetName().Name
         }));
         
         services.Register(() => new MainWindowViewModel(resolver.GetService<IDialogService>()));
         services.Register(() => new MyDialogViewModel());
         services.Register(() => new MyChildWindowViewModel());
         services.Register(() => new CustomBaseChildWindowViewModel());
-        services.Register(() => new SirNotAppearingInThisAppViewModel());
+        services.Register(() => new SirNotAppearingInThisAppViewModel()); // this has no matching view on purpose
     }
 }

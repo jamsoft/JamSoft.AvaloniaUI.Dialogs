@@ -1,4 +1,8 @@
-﻿using Avalonia.Controls;
+﻿using Avalonia;
+using Avalonia.Controls;
+using Avalonia.Media;
+using Avalonia.Media.Imaging;
+using Avalonia.Platform;
 
 namespace JamSoft.AvaloniaUI.Dialogs.ViewModels;
 
@@ -12,6 +16,13 @@ public class ChildWindowViewModel : DialogViewModel, IChildWindowViewModel
     private double _requestedWidth;
     private double _requestedHeight;
     private string? _childWindowTitle;
+    private IImage _closeIcon;
+
+    public ChildWindowViewModel()
+    {
+        var assets = AvaloniaLocator.Current.GetService<IAssetLoader>();
+        _closeIcon = new Bitmap(assets?.Open(new Uri("avares://JamSoft.AvaloniaUI.Dialogs/Assets/CloseIcon/icons8-close-30.png")));
+    }
 
     /// <summary>
     /// The child window title
@@ -62,4 +73,10 @@ public class ChildWindowViewModel : DialogViewModel, IChildWindowViewModel
     /// The child window startup location
     /// </summary>
     public WindowStartupLocation Location { get; set; }
+
+    public IImage CloseIcon
+    {
+        get => _closeIcon;
+        set => RaiseAndSetIfChanged(ref _closeIcon, value);
+    }
 }

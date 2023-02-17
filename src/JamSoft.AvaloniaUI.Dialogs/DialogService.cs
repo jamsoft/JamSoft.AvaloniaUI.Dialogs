@@ -142,10 +142,7 @@ internal class DialogService : IDialogService
         if (_openChildren.FirstOrDefault(x => x?.GetType() == typeof(TViewModel)) != null)
             return;
 
-        var win = new ChildWindow
-        {
-            WindowStartupLocation = viewModel.Location
-        };
+        var win = new ChildWindow();
 
         viewModel.ChildWindowTitle = CreateTitle(viewModel.ChildWindowTitle);
         

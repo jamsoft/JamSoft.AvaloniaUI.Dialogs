@@ -8,6 +8,9 @@ More or less everything is replaceable, extendable, customisable.
 
 ## GitHub Pages Site
 
+![Nuget](https://img.shields.io/nuget/v/JamSoft.AvaloniaUI.Dialogs)
+![GitHub](https://img.shields.io/github/license/jamsoft/JamSoft.AvaloniaUI.Dialogs)
+
 https://jamsoft.github.io/JamSoft.AvaloniaUI.Dialogs/
 
 ## Installation

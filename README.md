@@ -46,6 +46,14 @@ Since we are using plain old `Window` objects, basic styling properties like `Ba
     <Setter Property="Background" Value="#333333" />
 </Style>
 ```
+## Creating Instances
+```csharp
+IDialogService dialogService = DialogServiceFactory.Create(new DialogServiceConfiguration({
+    ApplicationName = "Dialog Sample App", 
+    UseApplicationNameInTitle = true,
+    ViewsAssemblyName = Assembly.GetExecutingAssembly().GetName().Name
+});
+```
 
 ## Registration Example Using Splat DI
 
@@ -171,6 +179,14 @@ private void ShowCustomizedDialogCommandExecuted()
     _dialogService.ShowDialog(new MyAlternateDialogView(), vm, DialogCallback);
 }
 ```
+### Default Key Mapping
+The dialog buttons are also associated with their keyboard inputs.
+```xml
+<Window.KeyBindings>
+    <KeyBinding Gesture="Escape" Command="{Binding CancelCommand}" />
+    <KeyBinding Gesture="Enter" Command="{Binding AcceptCommand}" />
+</Window.KeyBindings>
+```
 ## Show Child Window
 ```csharp
 private void ShowChildWindowCommandExecuted()
@@ -221,7 +237,7 @@ public class MyUserSettings : SettingsBase<MyUserSettings>
 ```
 `SettingsBase<T>` can be found in the JamSoft.Helpers package https://github.com/jamsoft/JamSoft.Helpers
 
-```xml
+```shell
 Install-Package JamSoft.Helpers
 ```
 Then in your view model you can listen for the `RequestCloseDialog` event and respond accordingly by storing the settings in the `OnRequestCloseDialog` method.
@@ -268,21 +284,25 @@ _dialogService.ShowChildWindow(vm, model =>
 ```
 See the Sample Application for a complete implementation example and guidance.
 
-## Styles
+## Application Styles
 You can easily target elements of the dialogs via their names and types, such as:
 ```xml
-<Style Selector="Button.CloseChildButton:pointerover /template/ Border">
-        <Setter Property="Background" Value="#c42b1c" />
-</Style>
-
-<Style Selector="DockPanel#ChromeDockPanel">
-        <Setter Property="Height" Value="32"/>
-        <Setter Property="Background" Value="#000000"/>
-</Style>
-
-<Style Selector="TextBlock#ChromeDockPanelTitle">
-        <Setter Property="FontSize" Value="12"/>
-        <Setter Property="VerticalAlignment" Value="Center" />
-        <Setter Property="Margin" Value="10,0"/>
-</Style>
+<Application>
+    <Application.Styles>        
+        <Style Selector="Button.CloseChildButton:pointerover /template/ Border">
+                <Setter Property="Background" Value="#c42b1c" />
+        </Style>
+        
+        <Style Selector="DockPanel#ChromeDockPanel">
+                <Setter Property="Height" Value="32"/>
+                <Setter Property="Background" Value="#000000"/>
+        </Style>
+        
+        <Style Selector="TextBlock#ChromeDockPanelTitle">
+                <Setter Property="FontSize" Value="12"/>
+                <Setter Property="VerticalAlignment" Value="Center" />
+                <Setter Property="Margin" Value="10,0"/>
+        </Style>        
+    </Application.Styles>
+</Application>
 ```

@@ -21,13 +21,13 @@
         <SignAssembly>true</SignAssembly>
         <AssemblyOriginatorKeyFile>JamSoft.AssemblyKeyFile.snk</AssemblyOriginatorKeyFile>
         <PublicSign>true</PublicSign>
-        <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        <FileVersion>1.0.0.0</FileVersion>
+        <AssemblyVersion>1.0.1.0</AssemblyVersion>
+        <FileVersion>1.0.1.0</FileVersion>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
-        <InformationalVersion>1.0.2.0-rel</InformationalVersion>
+        <InformationalVersion>1.0.1.0-rel</InformationalVersion>
         <EnablePackageValidation>true</EnablePackageValidation>
         <PackageReadmeFile>README.md</PackageReadmeFile>
-        <Version>1.0.0</Version>
+        <Version>1.0.1</Version>
     </PropertyGroup>
 
     <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">      

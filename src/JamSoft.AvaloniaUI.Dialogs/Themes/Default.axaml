@@ -3,5 +3,7 @@
     
     <StyleInclude Source="avares://JamSoft.AvaloniaUI.Dialogs/Themes/ChildStyle.axaml"/>
     <StyleInclude Source="avares://JamSoft.AvaloniaUI.Dialogs/Themes/ModalStyle.axaml"/>
+    <StyleInclude Source="avares://JamSoft.AvaloniaUI.Dialogs/Themes/WizardStyle.axaml"/>
+    <StyleInclude Source="avares://JamSoft.AvaloniaUI.Dialogs/Themes/WizardStepStyle.axaml"/>
     
 </Styles>

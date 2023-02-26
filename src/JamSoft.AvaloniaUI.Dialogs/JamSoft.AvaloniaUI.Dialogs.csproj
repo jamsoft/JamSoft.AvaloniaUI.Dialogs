@@ -42,6 +42,7 @@
     <ItemGroup>
       <PackageReference Include="Avalonia" Version="0.10.18" />
         <AvaloniaResource Include="Assets\**" />
+        <PackageReference Include="Avalonia.Diagnostics" Version="0.10.18" />
     </ItemGroup>
 
     <ItemGroup>

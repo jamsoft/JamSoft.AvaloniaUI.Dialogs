@@ -1,0 +1,29 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:controls="clr-namespace:JamSoft.AvaloniaUI.Dialogs.Controls;assembly=JamSoft.AvaloniaUI.Dialogs"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="JamSoft.AvaloniaUI.Dialogs.Sample.Views.MyWizardView">
+    <controls:Wizard TabStripPlacement="Bottom">
+        
+        <controls:WizardStep Header="Page 1">
+            <controls:WizardStep.Content>
+                <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White" Text="{Binding ValueOne}"></TextBlock>
+            </controls:WizardStep.Content>
+        </controls:WizardStep>
+        
+        <controls:WizardStep Header="Page 2">
+            <controls:WizardStep.Content>
+                <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center">Page 2</TextBlock>
+            </controls:WizardStep.Content>
+        </controls:WizardStep>
+        
+        <controls:WizardStep Header="Page 3">
+            <controls:WizardStep.Content>
+                <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center">Page 3</TextBlock>
+            </controls:WizardStep.Content>
+        </controls:WizardStep>
+        
+    </controls:Wizard>
+</UserControl>

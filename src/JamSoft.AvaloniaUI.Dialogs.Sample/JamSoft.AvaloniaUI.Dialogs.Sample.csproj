@@ -31,4 +31,11 @@
     <ItemGroup>
       <ProjectReference Include="..\JamSoft.AvaloniaUI.Dialogs\JamSoft.AvaloniaUI.Dialogs.csproj" />
     </ItemGroup>
+
+    <ItemGroup>
+      <Compile Update="Views\MyWizardView.axaml.cs">
+        <DependentUpon>MyWizardView.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+    </ItemGroup>
 </Project>

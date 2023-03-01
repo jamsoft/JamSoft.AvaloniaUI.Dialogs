@@ -9,7 +9,7 @@ namespace JamSoft.AvaloniaUI.Dialogs.ViewModels;
 /// <summary>
 /// The default child window view model
 /// </summary>
-public class ChildWindowViewModel : DialogViewModel, IChildWindowViewModel
+public abstract class ChildWindowViewModel : DialogViewModel, IChildWindowViewModel
 {
     private double _requestedTop;
     private double _requestedLeft;
@@ -21,7 +21,7 @@ public class ChildWindowViewModel : DialogViewModel, IChildWindowViewModel
     /// <summary>
     /// Default ctor
     /// </summary>
-    public ChildWindowViewModel()
+    protected ChildWindowViewModel()
     {
         var assets = AvaloniaLocator.Current.GetService<IAssetLoader>();
         _closeIcon = new Bitmap(assets?.Open(new Uri("avares://JamSoft.AvaloniaUI.Dialogs/Assets/CloseIcon/icons8-close-30.png")));

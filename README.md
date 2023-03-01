@@ -49,7 +49,7 @@ Since we are using plain old `Window` objects, basic styling properties like `Ba
     <Setter Property="Background" Value="#333333" />
 </Style>
 ```
-## Creating Instances
+## Creating Service Instances
 ```csharp
 IDialogService dialogService = DialogServiceFactory.Create(new DialogServiceConfiguration({
     ApplicationName = "Dialog Sample App", 
@@ -93,6 +93,9 @@ public class BootStrapper
 }        
 ```
 # Usage
+
+## Sample Application
+![sample-app](https://github.com/jamsoft/JamSoft.AvaloniaUI.Dialogs/blob/master/src/img/sample-app.png?raw=true)
 
 ## File Paths
 
@@ -152,6 +155,8 @@ string path = await _dialogService.SaveFile("Save New MyApp Project", new List<F
 There are two base view model classes already baked in for ease of use of the library. These are provided as defaults and a starting point. Create a suitable view model and inherit from either `DialogViewModel` or `ChildWindowViewModel` as base class.
 
 ## Show Dialog
+![basic-dialog](https://github.com/jamsoft/JamSoft.AvaloniaUI.Dialogs/blob/master/src/img/basic-dialog.png?raw=true)
+
 ```csharp
 _dialogService.ShowDialog(Locator.Current.GetService<MyDialogViewModel>(), DialogCallback);
 
@@ -191,6 +196,7 @@ The dialog buttons are also associated with their keyboard inputs.
 </Window.KeyBindings>
 ```
 ## Show Child Window
+![jamsoft-logo](https://github.com/jamsoft/JamSoft.AvaloniaUI.Dialogs/blob/master/src/img/child-window.png?raw=true)
 ```csharp
 private void ShowChildWindowCommandExecuted()
 {
@@ -227,7 +233,75 @@ private void ShowChildWindowCommandExecuted()
     });
 }
 ```
-## Saving & Restoring Window Positions
+## Wizard Control
+The library also has a wizard control allowing multiple page dialogs. You can define a wizard like this:
+
+![wizard-control](https://github.com/jamsoft/JamSoft.AvaloniaUI.Dialogs/blob/master/src/img/wizard.png?raw=true)
+
+```csharp
+private void WizardViewCommandExecuted()
+{
+    var vm = Locator.Current.GetService<MyWizardViewModel>();
+    
+    vm.RequestedLeft = MyUserSettings.Instance.Left;
+    vm.RequestedTop = MyUserSettings.Instance.Top;
+    vm.RequestedHeight = MyUserSettings.Instance.Height;
+    vm.RequestedWidth = MyUserSettings.Instance.Width;
+    
+    vm.ChildWindowTitle = "My Wizard";
+    
+    _dialogService.StartWizard(vm, model =>
+    {
+        Message = $"Wizard Closed - {model.GetType()}";
+    });
+}
+```
+
+```xml
+<controls:Wizard ButtonPlacement="Bottom" ProgressPlacement="Bottom">
+    
+    <controls:WizardStep Header="Page 1" StepComplete="{Binding WizardStepOneComplete}">
+        <controls:WizardStep.Content>
+            <StackPanel Orientation="Vertical" Spacing="20">
+                <TextBlock>Page 1</TextBlock>
+                <TextBox Foreground="White" Text="{Binding ValueOne}"/>
+            </StackPanel>
+        </controls:WizardStep.Content>
+    </controls:WizardStep>
+    
+    <controls:WizardStep Header="Page 2" StepComplete="{Binding WizardStepTwoComplete}">
+        <controls:WizardStep.Content>
+            <StackPanel Orientation="Vertical" Spacing="20">
+                <TextBlock>Page 2</TextBlock>
+                <TextBox Foreground="White" Text="{Binding ValueTwo}"/>
+            </StackPanel>
+        </controls:WizardStep.Content>
+    </controls:WizardStep>
+    
+    <controls:WizardStep Header="Page 3" StepComplete="{Binding WizardStepThreeComplete}">
+        <controls:WizardStep.Content>
+            <StackPanel Orientation="Vertical" Spacing="20">
+                <TextBlock>Page 3</TextBlock>
+                <TextBox Foreground="White" Text="{Binding ValueThree}"/>
+            </StackPanel>
+        </controls:WizardStep.Content>
+    </controls:WizardStep>
+    
+    <controls:WizardStep Header="Page 4" StepComplete="{Binding WizardStepFourComplete}">
+        <controls:WizardStep.Content>
+            <StackPanel Orientation="Vertical" Spacing="20">
+                <TextBlock>Final Step</TextBlock>
+                <TextBox Foreground="White" Text="{Binding ValueFour}"/>
+            </StackPanel>
+        </controls:WizardStep.Content>
+    </controls:WizardStep>
+    
+</controls:Wizard>
+```
+The `WizardStep` defines a bindable property called `StepComplete` which you can bind in your view model to control step validation and navigation. It also makes use of the `ChildWindow` so inherits the position awareness should you want that functionality.
+
+
+# Saving & Restoring Window Positions
 First you need a mechanism to store positions as set by the user moving things around.
 ```csharp
 public class MyUserSettings : SettingsBase<MyUserSettings>

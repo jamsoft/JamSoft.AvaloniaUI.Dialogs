@@ -1,4 +1,5 @@
-﻿using Avalonia.Controls;
+﻿using Avalonia;
+using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using JamSoft.AvaloniaUI.Dialogs.Events;
 using JamSoft.AvaloniaUI.Dialogs.ViewModels;
@@ -18,6 +19,9 @@ public partial class DialogWindow : Window
     public DialogWindow()
     {
         InitializeComponent();
+#if DEBUG
+        this.AttachDevTools();
+#endif
         this.FindControl<ContentControl>("Host").DataContextChanged += DialogPresenterDataContextChanged;
         Closed += DialogWindowClosed;
     }

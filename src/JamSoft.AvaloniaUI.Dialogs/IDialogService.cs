@@ -44,6 +44,8 @@ public interface IDialogService
     /// <param name="callback">the callback to received the view model instance on close</param>
     void ShowChildWindow<TViewModel, TView>(TView view, TViewModel viewModel, Action<TViewModel>? callback = null) where TView : Control where TViewModel : IChildWindowViewModel;
 
+    void StartWizard<TViewModel>(TViewModel viewModel, Action<TViewModel> callback) where TViewModel : IWizardViewModel;
+    
     /// <summary>
     /// Launches a system folder dialog so the user can pick a system folder on disk.
     /// </summary>

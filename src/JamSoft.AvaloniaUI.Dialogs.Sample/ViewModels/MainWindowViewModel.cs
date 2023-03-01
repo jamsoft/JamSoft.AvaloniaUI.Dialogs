@@ -28,6 +28,7 @@ public class MainWindowViewModel : ViewModelBase
     private ICommand? _showCustomChildWindowCommand;
     private ICommand? _childWindowRememberPositionCommand;
     private ICommand? _missingViewCommand;
+    private ICommand? _wizardViewCommand;
 
     public MainWindowViewModel(IDialogService dialogService)
     {
@@ -60,6 +61,14 @@ public class MainWindowViewModel : ViewModelBase
         ChildWindowRememberPositionCommand = new DelegateCommand(ChildWindowRememberPositionCommandExecuted, () => true);
 
         MissingViewCommand = new DelegateCommand(MissingViewCommandExecuted, () => true);
+        
+        WizardViewCommand = new DelegateCommand(WizardViewCommandExecuted, () => true);
+    }
+
+    public ICommand? WizardViewCommand
+    {
+        get => _wizardViewCommand;
+        set => this.RaiseAndSetIfChanged(ref _wizardViewCommand, value);
     }
 
     public ICommand? MissingViewCommand
@@ -283,5 +292,22 @@ public class MainWindowViewModel : ViewModelBase
         {
             Message = ex.Message;
         }
+    }
+    
+    private void WizardViewCommandExecuted()
+    {
+        var vm = Locator.Current.GetService<MyWizardViewModel>();
+        
+        vm.RequestedLeft = MyUserSettings.Instance.Left;
+        vm.RequestedTop = MyUserSettings.Instance.Top;
+        vm.RequestedHeight = MyUserSettings.Instance.Height;
+        vm.RequestedWidth = MyUserSettings.Instance.Width;
+        
+        vm.ChildWindowTitle = "My Wizard";
+        
+        _dialogService.StartWizard(vm, model =>
+        {
+            Message = $"Wizard Closed - {model.GetType()}";
+        });
     }
 }

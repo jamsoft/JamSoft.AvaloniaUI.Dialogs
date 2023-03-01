@@ -15,19 +15,19 @@
         <PackageProjectUrl>https://github.com/jamsoft/JamSoft.AvaloniaUI.Dialogs</PackageProjectUrl>
         <RepositoryUrl>https://github.com/jamsoft/JamSoft.AvaloniaUI.Dialogs</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
-        <PackageTags>avalonia, avaloniaui, dialogs, mvvm</PackageTags>
+        <PackageTags>avalonia, avaloniaui, dialogs, mvvm, wizard</PackageTags>
         <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
         <PackageIcon>JamSoftLogo-Splat513x513.png</PackageIcon>
         <SignAssembly>true</SignAssembly>
         <AssemblyOriginatorKeyFile>JamSoft.AssemblyKeyFile.snk</AssemblyOriginatorKeyFile>
         <PublicSign>true</PublicSign>
-        <AssemblyVersion>1.0.1.0</AssemblyVersion>
-        <FileVersion>1.0.1.0</FileVersion>
+        <AssemblyVersion>1.1.0.0</AssemblyVersion>
+        <FileVersion>1.1.0.0</FileVersion>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
-        <InformationalVersion>1.0.1.0-rel</InformationalVersion>
+        <InformationalVersion>1.1.0.0-rel</InformationalVersion>
         <EnablePackageValidation>true</EnablePackageValidation>
         <PackageReadmeFile>README.md</PackageReadmeFile>
-        <Version>1.0.1</Version>
+        <Version>1.1.0</Version>
     </PropertyGroup>
 
     <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">      
@@ -42,6 +42,7 @@
     <ItemGroup>
       <PackageReference Include="Avalonia" Version="0.10.18" />
         <AvaloniaResource Include="Assets\**" />
+        <PackageReference Include="Avalonia.Diagnostics" Version="0.10.18" />
     </ItemGroup>
 
     <ItemGroup>

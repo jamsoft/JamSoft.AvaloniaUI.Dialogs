@@ -22,7 +22,9 @@ public partial class ChildWindow : Window
     public ChildWindow()
     {
         InitializeComponent();
-
+#if DEBUG
+        this.AttachDevTools();
+#endif
         PointerPressed += OnPointerPressed;
 
         this.FindControl<ContentControl>("Host").DataContextChanged += DialogPresenterDataContextChanged;

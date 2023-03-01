@@ -44,6 +44,12 @@ public interface IDialogService
     /// <param name="callback">the callback to received the view model instance on close</param>
     void ShowChildWindow<TViewModel, TView>(TView view, TViewModel viewModel, Action<TViewModel>? callback = null) where TView : Control where TViewModel : IChildWindowViewModel;
 
+    /// <summary>
+    /// Shows a wizard view
+    /// </summary>
+    /// <param name="viewModel">The view model.</param>
+    /// <param name="callback">the callback to received the view model instance on close</param>
+    /// <typeparam name="TViewModel">The type of the view model.</typeparam>
     void StartWizard<TViewModel>(TViewModel viewModel, Action<TViewModel> callback) where TViewModel : IWizardViewModel;
     
     /// <summary>

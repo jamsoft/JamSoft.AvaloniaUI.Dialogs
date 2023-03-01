@@ -25,9 +25,15 @@ public class WizardStep : HeaderedContentControl, ISelectable
 	public static readonly StyledProperty<bool> IsSelectedProperty =
 		ListBoxItem.IsSelectedProperty.AddOwner<WizardStep>();
 	
+	/// <summary>
+	/// Defines the <see cref="StepComplete" /> property
+	/// </summary>
 	public static readonly StyledProperty<bool> StepCompleteProperty = AvaloniaProperty.Register<WizardStep, bool>(
 		nameof(StepComplete), defaultBindingMode: BindingMode.OneWay);
 	
+	/// <summary>
+	/// The step complete property
+	/// </summary>
 	public bool StepComplete
 	{
 		get { return GetValue(StepCompleteProperty); }

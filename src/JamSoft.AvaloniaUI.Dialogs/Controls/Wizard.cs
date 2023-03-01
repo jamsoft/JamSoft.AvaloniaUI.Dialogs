@@ -181,12 +181,14 @@ namespace JamSoft.AvaloniaUI.Dialogs.Controls
             return RegisterContentPresenter(presenter);
         }
 
+        /// <inheritdoc/>
         protected override void OnContainersMaterialized(ItemContainerEventArgs e)
         {
             base.OnContainersMaterialized(e);
             UpdateSelectedContent();
         }
 
+        /// <inheritdoc/>
         protected override void OnContainersRecycled(ItemContainerEventArgs e)
         {
             base.OnContainersRecycled(e);
@@ -223,6 +225,7 @@ namespace JamSoft.AvaloniaUI.Dialogs.Controls
             return false;
         }
 
+        /// <inheritdoc/>
         protected override IItemContainerGenerator CreateItemContainerGenerator()
         {
             return new WizardContainerGenerator(this);
@@ -253,6 +256,7 @@ namespace JamSoft.AvaloniaUI.Dialogs.Controls
             });
         }
         
+        /// <inheritdoc/>
         protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
         {
             ItemsPresenterPart = e.NameScope.Get<ItemsPresenter>("PART_StepsPresenter");
@@ -288,11 +292,11 @@ namespace JamSoft.AvaloniaUI.Dialogs.Controls
             PreviousButton.IsEnabled = false;
         }
 
-        public Button? CompleteButton { get; set; }
+        private Button? CompleteButton { get; set; }
 
-        public Button? PreviousButton { get; set; }
+        private Button? PreviousButton { get; set; }
 
-        public Button? NextButton { get; set; }
+        private Button? NextButton { get; set; }
 
         private void MoveNextCommandExecuted()
         {

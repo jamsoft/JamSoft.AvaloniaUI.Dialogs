@@ -8,16 +8,27 @@ using Avalonia.Reactive;
 
 namespace JamSoft.AvaloniaUI.Dialogs.Controls;
 
+/// <summary>
+/// The Wizard container generator
+/// </summary>
 public class WizardContainerGenerator : ItemContainerGenerator<WizardStep>
 {
+    /// <summary>
+    /// Default constructor
+    /// </summary>
+    /// <param name="owner"></param>
     public WizardContainerGenerator(Wizard owner)
         : base(owner, ContentControl.ContentProperty, ContentControl.ContentTemplateProperty)
     {
         Owner = owner;
     }
 
+    /// <summary>
+    /// The owner wizard control
+    /// </summary>
     public new Wizard Owner;
 
+    /// <inheritdoc/>
     protected override IControl CreateContainer(object item)
     {
         var step = (WizardStep)base.CreateContainer(item);

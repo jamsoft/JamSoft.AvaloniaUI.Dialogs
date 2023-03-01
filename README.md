@@ -10,6 +10,7 @@ More or less everything is replaceable, extendable, customisable.
 
 ![Nuget](https://img.shields.io/nuget/v/JamSoft.AvaloniaUI.Dialogs)
 ![GitHub](https://img.shields.io/github/license/jamsoft/JamSoft.AvaloniaUI.Dialogs)
+[![CodeFactor](https://www.codefactor.io/repository/github/jamsoft/jamsoft.avaloniaui.dialogs/badge)](https://www.codefactor.io/repository/github/jamsoft/jamsoft.avaloniaui.dialogs)
 
 https://jamsoft.github.io/JamSoft.AvaloniaUI.Dialogs/
 

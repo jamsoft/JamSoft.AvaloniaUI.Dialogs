@@ -19,7 +19,7 @@
   </Design.PreviewWith>
 
   <Styles.Resources>
-    <Thickness x:Key="TabControlTopPlacementItemMargin">0 0 0 2</Thickness>
+    <Thickness x:Key="WizardControlTopPlacementItemMargin">0 0 0 2</Thickness>
   </Styles.Resources>
   
   <Style Selector="controls|Wizard">
@@ -59,24 +59,24 @@
     </Setter>
   </Style>
 
-  <Style Selector="controls|Wizard[ButtonPlacement=Left] /template/ ItemsPresenter#PART_ItemsPresenter > WrapPanel">
+  <Style Selector="controls|Wizard[ButtonPlacement=Left] /template/ ItemsPresenter#PART_ButtonsPresenter > WrapPanel">
     <Setter Property="Orientation" Value="Vertical" />
   </Style>
-  <Style Selector="controls|Wizard[ButtonPlacement=Right] /template/ ItemsPresenter#PART_ItemsPresenter > WrapPanel">
+  <Style Selector="controls|Wizard[ButtonPlacement=Right] /template/ ItemsPresenter#PART_ButtonsPresenter > WrapPanel">
     <Setter Property="Orientation" Value="Vertical" />
   </Style>
-  <Style Selector="controls|Wizard[ButtonPlacement=Top] /template/ ItemsPresenter#PART_ItemsPresenter">
-    <Setter Property="Margin" Value="{DynamicResource TabControlTopPlacementItemMargin}" />
+  <Style Selector="controls|Wizard[ButtonPlacement=Top] /template/ ItemsPresenter#PART_ButtonsPresenter">
+    <Setter Property="Margin" Value="{DynamicResource WizardControlTopPlacementItemMargin}" />
   </Style>
   
-  <Style Selector="controls|Wizard[ProgressPlacement=Left] /template/ ItemsPresenter#PART_ItemsPresenter > WrapPanel">
+  <Style Selector="controls|Wizard[ProgressPlacement=Left] /template/ ItemsPresenter#PART_StepsPresenter > WrapPanel">
     <Setter Property="Orientation" Value="Vertical" />
   </Style>
-  <Style Selector="controls|Wizard[ProgressPlacement=Right] /template/ ItemsPresenter#PART_ItemsPresenter > WrapPanel">
+  <Style Selector="controls|Wizard[ProgressPlacement=Right] /template/ ItemsPresenter#PART_StepsPresenter > WrapPanel">
     <Setter Property="Orientation" Value="Vertical" />
   </Style>
-  <Style Selector="controls|Wizard[ProgressPlacement=Top] /template/ ItemsPresenter#PART_ItemsPresenter">
-    <Setter Property="Margin" Value="{DynamicResource TabControlTopPlacementItemMargin}" />
+  <Style Selector="controls|Wizard[ProgressPlacement=Top] /template/ ItemsPresenter#PART_StepsPresenter">
+    <Setter Property="Margin" Value="{DynamicResource WizardControlTopPlacementItemMargin}" />
   </Style>
   
 </Styles>

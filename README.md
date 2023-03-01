@@ -40,6 +40,8 @@ paket add JamSoft.AvaloniaUI.Dialogs --version 1.1.0
     <FluentTheme Mode="Dark"/>
     <StyleInclude Source="avares://JamSoft.AvaloniaUI.Dialogs/Themes/ChildStyle.axaml"/>
     <StyleInclude Source="avares://JamSoft.AvaloniaUI.Dialogs/Themes/ModalStyle.axaml"/>
+    <StyleInclude Source="avares://JamSoft.AvaloniaUI.Dialogs/Themes/WizardStyle.axaml"/>
+    <StyleInclude Source="avares://JamSoft.AvaloniaUI.Dialogs/Themes/WizardStepStyle.axaml"/>
 </Application.Styles>
 ```
 ### Custom Styling

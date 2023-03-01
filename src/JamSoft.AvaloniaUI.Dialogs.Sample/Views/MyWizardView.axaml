@@ -6,7 +6,8 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="JamSoft.AvaloniaUI.Dialogs.Sample.Views.MyWizardView">
     
-    <controls:Wizard ButtonPlacement="Bottom" ProgressPlacement="Bottom">
+    <controls:Wizard ButtonPlacement="Bottom" 
+                     ProgressPlacement="Top">
         
         <controls:WizardStep Header="Page 1" StepComplete="{Binding WizardStepOneComplete}">
             <controls:WizardStep.Content>

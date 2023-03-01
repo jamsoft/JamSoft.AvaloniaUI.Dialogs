@@ -5,25 +5,45 @@
              xmlns:controls="clr-namespace:JamSoft.AvaloniaUI.Dialogs.Controls;assembly=JamSoft.AvaloniaUI.Dialogs"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="JamSoft.AvaloniaUI.Dialogs.Sample.Views.MyWizardView">
-    <controls:Wizard TabStripPlacement="Bottom">
+    
+    <controls:Wizard ButtonPlacement="Bottom" ProgressPlacement="Bottom">
         
-        <controls:WizardStep Header="Page 1">
+        <controls:WizardStep Header="Page 1" StepComplete="{Binding WizardStepOneComplete}">
             <controls:WizardStep.Content>
-                <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White" Text="{Binding ValueOne}"></TextBlock>
+                <StackPanel Orientation="Vertical" Spacing="20">
+                    <TextBlock>Page 1</TextBlock>
+                    <TextBox Foreground="White" Text="{Binding ValueOne}"/>
+                </StackPanel>
             </controls:WizardStep.Content>
         </controls:WizardStep>
         
-        <controls:WizardStep Header="Page 2">
+        <controls:WizardStep Header="Page 2" StepComplete="{Binding WizardStepTwoComplete}">
             <controls:WizardStep.Content>
-                <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center">Page 2</TextBlock>
+                <StackPanel Orientation="Vertical" Spacing="20">
+                    <TextBlock>Page 2</TextBlock>
+                    <TextBox Foreground="White" Text="{Binding ValueTwo}"/>
+                </StackPanel>
             </controls:WizardStep.Content>
         </controls:WizardStep>
         
-        <controls:WizardStep Header="Page 3">
+        <controls:WizardStep Header="Page 3" StepComplete="{Binding WizardStepThreeComplete}">
             <controls:WizardStep.Content>
-                <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center">Page 3</TextBlock>
+                <StackPanel Orientation="Vertical" Spacing="20">
+                    <TextBlock>Page 3</TextBlock>
+                    <TextBox Foreground="White" Text="{Binding ValueThree}"/>
+                </StackPanel>
+            </controls:WizardStep.Content>
+        </controls:WizardStep>
+        
+        <controls:WizardStep Header="Page 4" StepComplete="{Binding WizardStepFourComplete}">
+            <controls:WizardStep.Content>
+                <StackPanel Orientation="Vertical" Spacing="20">
+                    <TextBlock>Final Step</TextBlock>
+                    <TextBox Foreground="White" Text="{Binding ValueFour}"/>
+                </StackPanel>
             </controls:WizardStep.Content>
         </controls:WizardStep>
         
     </controls:Wizard>
+    
 </UserControl>

@@ -1,6 +1,7 @@
 ﻿using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Generators;
+using Avalonia.Controls.Primitives;
 using Avalonia.Controls.Templates;
 using Avalonia.LogicalTree;
 using Avalonia.Reactive;
@@ -15,21 +16,21 @@ public class WizardContainerGenerator : ItemContainerGenerator<WizardStep>
         Owner = owner;
     }
 
-    public new Wizard Owner { get; }
+    public new Wizard Owner;
 
     protected override IControl CreateContainer(object item)
     {
         var step = (WizardStep)base.CreateContainer(item);
 
-        step.Bind(WizardStep.TabStripPlacementProperty, new OwnerBinding<Dock>(
+        step.Bind(WizardStep.ProgressPlacementProperty, new OwnerBinding<Dock>(
             step,
-            Wizard.TabStripPlacementProperty));
+            Wizard.ButtonPlacementProperty));
 
         if (step.HeaderTemplate == null)
         {
-            step.Bind(WizardStep.HeaderTemplateProperty, new OwnerBinding<IDataTemplate>(
+            step.Bind(HeaderedContentControl.HeaderTemplateProperty, new OwnerBinding<IDataTemplate>(
                 step,
-                Wizard.ItemTemplateProperty));
+                ItemsControl.ItemTemplateProperty));
         }
 
         if (step.Header == null)
@@ -49,7 +50,7 @@ public class WizardContainerGenerator : ItemContainerGenerator<WizardStep>
 
         if (!(step.Content is IControl))
         {
-            step.Bind(WizardStep.ContentTemplateProperty, new OwnerBinding<IDataTemplate>(
+            step.Bind(ContentControl.ContentTemplateProperty, new OwnerBinding<IDataTemplate>(
                 step,
                 Wizard.ContentTemplateProperty));
         }

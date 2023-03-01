@@ -6,17 +6,14 @@
     <Border Width="400">
       <controls:Wizard>
         <controls:WizardStep Header="Arch">
-          <Border Background="AntiqueWhite"
-                  Height="100">
+          <Border Background="AntiqueWhite" Height="100">
             <TextBlock Text="Content" Foreground="Black" FontSize="20"/>
           </Border>
         </controls:WizardStep>
         <controls:WizardStep Header="Leaf">
-          <Border Background="Green"
-                  Height="100" />
+          <Border Background="Green" Height="100" />
         </controls:WizardStep>
-        <controls:WizardStep Header="Disabled"
-                             IsEnabled="False" />
+        <controls:WizardStep />
       </controls:Wizard>
     </Border>
   </Design.PreviewWith>
@@ -38,34 +35,47 @@
                 HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
                 VerticalAlignment="{TemplateBinding VerticalAlignment}">
           <DockPanel>
-            <ItemsPresenter Name="PART_ItemsPresenter"
+            
+            <DockPanel Name="PART_ButtonsPresenter"
+                       DockPanel.Dock="{TemplateBinding ButtonPlacement}"
+                       LastChildFill="False"/>
+            
+            <ItemsPresenter Name="PART_StepsPresenter"
                             Items="{TemplateBinding Items}"
-                            ItemsPanel="{TemplateBinding ItemsPanel}"
+                            ItemsPanel="{TemplateBinding ItemsPanel}" 
+                            HorizontalAlignment="Center"
                             ItemTemplate="{TemplateBinding ItemTemplate}"
-                            DockPanel.Dock="{TemplateBinding TabStripPlacement}"/>
+                            DockPanel.Dock="{TemplateBinding ProgressPlacement}"/>
+
             <ContentPresenter Name="PART_SelectedContentHost"
                               Margin="{TemplateBinding Padding}"
-                              HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                              VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
                               Content="{TemplateBinding SelectedContent}"
-                              ContentTemplate="{TemplateBinding SelectedContentTemplate}" />
-            <ItemsPresenter Name="PART_ButtonsPresenter"
-                            ItemsPanel="{TemplateBinding ItemsPanel}"
-                            ItemTemplate="{TemplateBinding ItemTemplate}"
-                            DockPanel.Dock="Top"/>            
+                              ContentTemplate="{TemplateBinding SelectedContentTemplate}" 
+                              DockPanel.Dock="Top" />
+            
           </DockPanel>
         </Border>
       </ControlTemplate>
     </Setter>
   </Style>
 
-  <Style Selector="controls|Wizard[TabStripPlacement=Left] /template/ ItemsPresenter#PART_ItemsPresenter > WrapPanel">
+  <Style Selector="controls|Wizard[ButtonPlacement=Left] /template/ ItemsPresenter#PART_ItemsPresenter > WrapPanel">
     <Setter Property="Orientation" Value="Vertical" />
   </Style>
-  <Style Selector="controls|Wizard[TabStripPlacement=Right] /template/ ItemsPresenter#PART_ItemsPresenter > WrapPanel">
+  <Style Selector="controls|Wizard[ButtonPlacement=Right] /template/ ItemsPresenter#PART_ItemsPresenter > WrapPanel">
     <Setter Property="Orientation" Value="Vertical" />
   </Style>
-  <Style Selector="controls|Wizard[TabStripPlacement=Top] /template/ ItemsPresenter#PART_ItemsPresenter">
+  <Style Selector="controls|Wizard[ButtonPlacement=Top] /template/ ItemsPresenter#PART_ItemsPresenter">
+    <Setter Property="Margin" Value="{DynamicResource TabControlTopPlacementItemMargin}" />
+  </Style>
+  
+  <Style Selector="controls|Wizard[ProgressPlacement=Left] /template/ ItemsPresenter#PART_ItemsPresenter > WrapPanel">
+    <Setter Property="Orientation" Value="Vertical" />
+  </Style>
+  <Style Selector="controls|Wizard[ProgressPlacement=Right] /template/ ItemsPresenter#PART_ItemsPresenter > WrapPanel">
+    <Setter Property="Orientation" Value="Vertical" />
+  </Style>
+  <Style Selector="controls|Wizard[ProgressPlacement=Top] /template/ ItemsPresenter#PART_ItemsPresenter">
     <Setter Property="Margin" Value="{DynamicResource TabControlTopPlacementItemMargin}" />
   </Style>
   

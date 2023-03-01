@@ -3,25 +3,21 @@ using Avalonia.Controls;
 using Avalonia.Controls.Metadata;
 using Avalonia.Controls.Mixins;
 using Avalonia.Controls.Primitives;
+using Avalonia.Data;
 
 namespace JamSoft.AvaloniaUI.Dialogs.Controls;
 
-[PseudoClasses(":pressed", ":selected")]
+/// <summary>
+/// Defines a step in a Wizard control
+/// </summary>
+[PseudoClasses(":pressed", ":selected", ":complete")]
 public class WizardStep : HeaderedContentControl, ISelectable
 {
-	public Type StyleKey
-	{
-		get
-		{
-			return typeof(WizardStep);
-		}
-	}
-	
 	/// <summary>
-	/// Defines the <see cref="TabStripPlacement"/> property.
+	/// Defines the <see cref="ProgressPlacement"/> property.
 	/// </summary> 
-	public static readonly StyledProperty<Dock> TabStripPlacementProperty =
-		Wizard.TabStripPlacementProperty.AddOwner<WizardStep>();
+	public static readonly StyledProperty<Dock> ProgressPlacementProperty =
+		Wizard.ProgressPlacementProperty.AddOwner<WizardStep>();
 	
 	/// <summary>
 	/// Defines the <see cref="IsSelected"/> property.
@@ -29,23 +25,40 @@ public class WizardStep : HeaderedContentControl, ISelectable
 	public static readonly StyledProperty<bool> IsSelectedProperty =
 		ListBoxItem.IsSelectedProperty.AddOwner<WizardStep>();
 	
+	public static readonly StyledProperty<bool> StepCompleteProperty = AvaloniaProperty.Register<WizardStep, bool>(
+		nameof(StepComplete), defaultBindingMode: BindingMode.OneWay);
+	
+	public bool StepComplete
+	{
+		get { return GetValue(StepCompleteProperty); }
+		set
+		{
+			SetValue(StepCompleteProperty, value);
+		}
+	}
+	
 	static WizardStep()
 	{
 		SelectableMixin.Attach<WizardStep>(IsSelectedProperty);
-		//PressedMixin.Attach<WizardStep>();
 		FocusableProperty.OverrideDefaultValue(typeof(WizardStep), true);
 		DataContextProperty.Changed.AddClassHandler<WizardStep>((x, e) => x.UpdateHeader(e));
+		StepCompleteProperty.Changed.AddClassHandler<WizardStep>((x, _) => x.SetStepComplete());
 	}
-	
+
+	private void SetStepComplete()
+	{
+		PseudoClasses.Set(":complete", StepComplete);
+	}
+
 	/// <summary>
 	/// Gets the tab strip placement.
 	/// </summary>
 	/// <value>
 	/// The tab strip placement.
 	/// </value>
-	public Dock TabStripPlacement
+	public Dock ProgressPlacement
 	{
-		get { return GetValue(TabStripPlacementProperty); }
+		get { return GetValue(ProgressPlacementProperty); }
 	}
 	
 	/// <summary>

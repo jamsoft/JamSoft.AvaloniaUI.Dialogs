@@ -10,7 +10,8 @@
         Icon="/Assets/avalonia-logo.ico"
         Title="JamSoft.AvaloniaUI.Dialogs.Sample"
         Padding="20" 
-        Closed="TopLevel_OnClosed" x:DataType="viewModels:MainWindowViewModel">
+        Closed="TopLevel_OnClosed"
+        x:DataType="viewModels:MainWindowViewModel">
     
     <Grid RowDefinitions="*, *">
         <StackPanel>
@@ -45,6 +46,8 @@
             <Button Command="{Binding ChildWindowRememberPositionCommand}" Classes="horizontalCenter">Child Remember Size and Position</Button>
             
             <Button Command="{Binding MissingViewCommand}" Classes="horizontalCenter">Child Missing View</Button>
+            
+            <Button Command="{Binding WizardViewCommand}" Classes="horizontalCenter">Start Wizard</Button>
         
         </UniformGrid>
         

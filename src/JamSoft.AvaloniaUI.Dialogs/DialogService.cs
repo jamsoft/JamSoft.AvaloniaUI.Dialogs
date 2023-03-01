@@ -33,35 +33,19 @@ internal class DialogService : IDialogService
     public void ShowDialog<TViewModel>(TViewModel viewModel, Action<TViewModel> callback)
         where TViewModel : IDialogViewModel
     {
-        if (string.IsNullOrWhiteSpace(_config.ViewsAssemblyName))
-            throw new ArgumentNullException(nameof(_config.ViewsAssemblyName),
-                "You must set the assembly name containing your views in the DialogServiceConfiguration instance");
-        
-        var name = !string.IsNullOrWhiteSpace(_config.ViewsAssemblyName) 
-            ? $"{viewModel.GetType().FullName!.Replace("ViewModel", "View")},{_config.ViewsAssemblyName}" 
-            : "";
-        
-        var type = Type.GetType(name);
-        if (type != null)
+        var viewName = GetViewName(viewModel);
+        var viewType = Type.GetType(viewName);
+        if (viewType != null)
         {
-            Control? view;
-            try
-            {
-                view = (Control)Activator.CreateInstance(type)!;
-            }
-            catch (Exception ex)
-            {
-                throw new TypeInitializationException(name, ex);
-            }
-
-            ShowDialog(view, viewModel, callback);
+            Control viewInstance = CreateViewInstance(viewType, viewName);
+            ShowDialog(viewInstance, viewModel, callback);
         }
         else
         {
-            throw new ArgumentNullException($"Could not find type {name}");
+            throw new ArgumentNullException($"Could not find type {viewName}");
         }
     }
-    
+
     /// <summary>
     /// Shows a dialog with a callback to return the view model based on the result of the dialog.
     /// </summary>
@@ -98,35 +82,19 @@ internal class DialogService : IDialogService
     public void ShowChildWindow<TViewModel>(TViewModel viewModel, Action<TViewModel>? callback)
         where TViewModel : IChildWindowViewModel
     {
-        if (string.IsNullOrWhiteSpace(_config.ViewsAssemblyName))
-            throw new ArgumentNullException(nameof(_config.ViewsAssemblyName),
-                "You must set the assembly name containing your views in the DialogServiceConfiguration instance");
-        
-        var name = !string.IsNullOrWhiteSpace(_config.ViewsAssemblyName) 
-            ? $"{viewModel.GetType().FullName!.Replace("ViewModel", "View")},{_config.ViewsAssemblyName}" 
-            : "";
-        
-        var type = Type.GetType(name);
-        if (type != null)
+        var viewName = GetViewName(viewModel);
+        var viewType = Type.GetType(viewName);
+        if (viewType != null)
         {
-            Control? view;
-            try
-            {
-                view = (Control)Activator.CreateInstance(type)!;
-            }
-            catch (Exception ex)
-            {
-                throw new TypeInitializationException(name, ex);
-            }
-
-            ShowChildWindow(view, viewModel, callback);
+            Control viewInstance = CreateViewInstance(viewType, viewName);
+            ShowChildWindow(viewInstance, viewModel, callback);
         }
         else
         {
-            throw new TypeLoadException($"Could not find type {name}");
+            throw new TypeLoadException($"Could not find type {viewName}");
         }
     }
-    
+
     /// <summary>
     /// Shows a child window.
     /// </summary>
@@ -150,6 +118,41 @@ internal class DialogService : IDialogService
         contentControl.Content = view;
         win.DataContext = viewModel;
 
+        _openChildren.Add(viewModel);
+        win.Closing += (sender, args) =>
+        {
+            if (sender is ChildWindow window)
+            {
+                _openChildren.Remove(viewModel);
+            }
+            
+            if (callback != null)
+                callback(viewModel);
+        };
+        win.Show();
+    }
+
+    public void StartWizard<TViewModel>(TViewModel viewModel, Action<TViewModel> callback) where TViewModel : IWizardViewModel
+    {
+        // prevent multiple instances of the same child window
+        if (_openChildren.FirstOrDefault(x => x?.GetType() == typeof(TViewModel)) != null)
+            return;
+
+        var win = new ChildWindow();
+        win.Classes.Add("Wizard");
+
+        viewModel.ChildWindowTitle = CreateTitle(viewModel.ChildWindowTitle);
+        
+        var contentControl = win.FindControl<ContentControl>("Host");
+
+        var viewName = GetViewName(viewModel);
+        var viewType = Type.GetType(viewName);
+
+        var viewInstance = CreateViewInstance(viewType, viewName);
+        
+        win.DataContext = viewModel;
+        contentControl.Content = viewInstance;
+        
         _openChildren.Add(viewModel);
         win.Closing += (sender, args) =>
         {
@@ -274,5 +277,35 @@ internal class DialogService : IDialogService
             return $"{_config.ApplicationName}-{title}";
 
         return title;
+    }
+    
+    private string GetViewName<TViewModel>(TViewModel viewModel) where TViewModel : IDialogViewModel
+    {
+        if (viewModel == null)
+            throw new ArgumentNullException(nameof(viewModel));
+        
+        if (string.IsNullOrWhiteSpace(_config.ViewsAssemblyName))
+            throw new ArgumentNullException(nameof(_config.ViewsAssemblyName),
+                "You must set the assembly name containing your views in the DialogServiceConfiguration instance");
+
+        var viewName = !string.IsNullOrWhiteSpace(_config.ViewsAssemblyName)
+            ? $"{viewModel.GetType().FullName!.Replace("ViewModel", "View")},{_config.ViewsAssemblyName}"
+            : "";
+        return viewName;
+    }
+    
+    private static Control CreateViewInstance(Type viewType, string viewName)
+    {
+        Control? viewInstance;
+        try
+        {
+            viewInstance = (Control)Activator.CreateInstance(viewType)!;
+        }
+        catch (Exception ex)
+        {
+            throw new TypeInitializationException(viewName, ex);
+        }
+
+        return viewInstance;
     }
 }

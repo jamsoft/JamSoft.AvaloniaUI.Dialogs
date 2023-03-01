@@ -33,6 +33,7 @@
                 <Button Command="{Binding CancelCommand}" 
                         Content="{Binding CancelCommandText}" 
                         Grid.Column="0" />
+                
                 <Button Command="{Binding AcceptCommand}" 
                         Content="{Binding AcceptCommandText}"
                         Grid.Column="2" 

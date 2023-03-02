@@ -2,7 +2,6 @@ image: mcr.microsoft.com/dotnet/core/sdk:latest
 
 stages:
     - build
-#    - test
 
 build:
     stage: build
@@ -11,8 +10,3 @@ build:
     artifacts:
       paths:
         - bin/
-
-#test:
-#    stage: test
-#    script: 
-#        - "dotnet test"

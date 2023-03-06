@@ -16,16 +16,16 @@ https://jamsoft.github.io/JamSoft.AvaloniaUI.Dialogs/
 
 ## Installation
 ```shell
-dotnet add package JamSoft.AvaloniaUI.Dialogs --version 1.1.1
+dotnet add package JamSoft.AvaloniaUI.Dialogs --version 1.1.2
 ```
 ```shell
-Install-Package JamSoft.AvaloniaUI.Dialogs -Version 1.1.1
+Install-Package JamSoft.AvaloniaUI.Dialogs -Version 1.1.2
 ```
 ```xml
-<PackageReference Include="JamSoft.AvaloniaUI.Dialogs" Version="1.1.1" />
+<PackageReference Include="JamSoft.AvaloniaUI.Dialogs" Version="1.1.2" />
 ```
 ```shell
-paket add JamSoft.AvaloniaUI.Dialogs --version 1.1.1
+paket add JamSoft.AvaloniaUI.Dialogs --version 1.1.2
 ```
 ## Import Styles
 ### All Defaults

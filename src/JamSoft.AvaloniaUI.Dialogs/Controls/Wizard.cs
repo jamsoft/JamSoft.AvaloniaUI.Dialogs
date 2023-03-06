@@ -280,7 +280,7 @@ namespace JamSoft.AvaloniaUI.Dialogs.Controls
 
             CompleteButton = new Button
             {
-                Content = "Complete",
+                Content = CompleteButtonContent,
                 Command = (DataContext as IDialogViewModel)!.AcceptCommand
             };
             ButtonsPresenterPart.Children.Add(CompleteButton);

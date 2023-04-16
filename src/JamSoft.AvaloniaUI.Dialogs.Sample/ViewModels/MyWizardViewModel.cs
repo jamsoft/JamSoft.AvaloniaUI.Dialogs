@@ -1,4 +1,5 @@
-﻿using JamSoft.AvaloniaUI.Dialogs.ViewModels;
+﻿using System.Collections.ObjectModel;
+using JamSoft.AvaloniaUI.Dialogs.ViewModels;
 
 namespace JamSoft.AvaloniaUI.Dialogs.Sample.ViewModels;
 
@@ -12,6 +13,35 @@ public class MyWizardViewModel : WizardViewModel
     private bool _wizardStepTwoComplete;
     private bool _wizardStepThreeComplete;
     private bool _wizardStepFourComplete;
+    private ObservableCollection<ComboBoxItemViewModel>? _comboboxItems;
+    private ComboBoxItemViewModel? _selectedItem;
+    
+    public MyWizardViewModel()
+    {
+        ComboboxItems = new ObservableCollection<ComboBoxItemViewModel>
+        {
+            new ComboBoxItemViewModel { Name = string.Empty, Value = null },
+            new ComboBoxItemViewModel { Name = "Item One", Value = 1 },
+            new ComboBoxItemViewModel { Name = "Item Two", Value = 2 },
+            new ComboBoxItemViewModel { Name = "Item Three", Value = 3 }
+        };
+    }
+    
+    public ObservableCollection<ComboBoxItemViewModel> ComboboxItems
+    {
+        get => _comboboxItems;
+        set => RaiseAndSetIfChanged(ref _comboboxItems, value);
+    }
+
+    public ComboBoxItemViewModel SelectedItem
+    {
+        get => _selectedItem;
+        set
+        {
+            RaiseAndSetIfChanged(ref _selectedItem, value);
+            WizardStepOneComplete = !string.IsNullOrWhiteSpace(ValueOne) && value?.Value != null;
+        }
+    }
 
     public string? ValueOne
     {
@@ -19,7 +49,7 @@ public class MyWizardViewModel : WizardViewModel
         set
         {
             RaiseAndSetIfChanged(ref _valueOne, value);
-            WizardStepOneComplete = !string.IsNullOrWhiteSpace(value);
+            WizardStepOneComplete = !string.IsNullOrWhiteSpace(value) && SelectedItem?.Value != null;
         }
     }
 

@@ -5,7 +5,7 @@ using Splat;
 
 namespace JamSoft.AvaloniaUI.Dialogs.Sample;
 
-public class BootStrapper
+public static class BootStrapper
 {
     public static void Register(IMutableDependencyResolver services, IReadonlyDependencyResolver resolver)
     {

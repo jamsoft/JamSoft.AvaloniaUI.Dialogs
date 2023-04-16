@@ -80,7 +80,7 @@ internal class DialogService : IDialogService
     /// <param name="viewModel">The view model.</param>
     /// <param name="callback">the callback to received the view model instance on close</param>
     public void ShowChildWindow<TViewModel>(TViewModel viewModel, Action<TViewModel>? callback)
-        where TViewModel : IChildWindowViewModel
+        where TViewModel : class, IChildWindowViewModel
     {
         var viewName = GetViewName(viewModel);
         var viewType = Type.GetType(viewName);
@@ -104,7 +104,7 @@ internal class DialogService : IDialogService
     /// <param name="viewModel">The view model.</param>
     /// <param name="callback">the callback to received the view model instance on close</param>
     public void ShowChildWindow<TViewModel, TView>(TView view, TViewModel viewModel, Action<TViewModel>? callback)
-        where TView : Control where TViewModel : IChildWindowViewModel
+        where TView : Control where TViewModel : class, IChildWindowViewModel
     {
         // prevent multiple instances of the same child window
         if (_openChildren.FirstOrDefault(x => x?.GetType() == typeof(TViewModel)) != null)
@@ -132,7 +132,7 @@ internal class DialogService : IDialogService
         win.Show();
     }
 
-    public void StartWizard<TViewModel>(TViewModel viewModel, Action<TViewModel> callback) where TViewModel : IWizardViewModel
+    public void StartWizard<TViewModel>(TViewModel viewModel, Action<TViewModel> callback) where TViewModel : class, IWizardViewModel
     {
         // prevent multiple instances of the same child window
         if (_openChildren.FirstOrDefault(x => x?.GetType() == typeof(TViewModel)) != null)

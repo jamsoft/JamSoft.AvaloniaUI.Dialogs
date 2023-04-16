@@ -32,7 +32,7 @@ public interface IDialogService
     /// <typeparam name="TViewModel">The type of the view model.</typeparam>
     /// <param name="viewModel">The view model.</param>
     /// <param name="callback">the callback to received the view model instance on close</param>
-    void ShowChildWindow<TViewModel>(TViewModel viewModel, Action<TViewModel>? callback) where TViewModel : IChildWindowViewModel;
+    void ShowChildWindow<TViewModel>(TViewModel viewModel, Action<TViewModel>? callback) where TViewModel : class, IChildWindowViewModel;
     
     /// <summary>
     /// Shows a child window.
@@ -42,7 +42,7 @@ public interface IDialogService
     /// <param name="view">The view.</param>
     /// <param name="viewModel">The view model.</param>
     /// <param name="callback">the callback to received the view model instance on close</param>
-    void ShowChildWindow<TViewModel, TView>(TView view, TViewModel viewModel, Action<TViewModel>? callback = null) where TView : Control where TViewModel : IChildWindowViewModel;
+    void ShowChildWindow<TViewModel, TView>(TView view, TViewModel viewModel, Action<TViewModel>? callback = null) where TView : Control where TViewModel : class, IChildWindowViewModel;
 
     /// <summary>
     /// Shows a wizard view
@@ -50,7 +50,7 @@ public interface IDialogService
     /// <param name="viewModel">The view model.</param>
     /// <param name="callback">the callback to received the view model instance on close</param>
     /// <typeparam name="TViewModel">The type of the view model.</typeparam>
-    void StartWizard<TViewModel>(TViewModel viewModel, Action<TViewModel> callback) where TViewModel : IWizardViewModel;
+    void StartWizard<TViewModel>(TViewModel viewModel, Action<TViewModel> callback) where TViewModel : class, IWizardViewModel;
     
     /// <summary>
     /// Launches a system folder dialog so the user can pick a system folder on disk.

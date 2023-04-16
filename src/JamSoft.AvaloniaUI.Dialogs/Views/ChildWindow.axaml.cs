@@ -25,8 +25,7 @@ public partial class ChildWindow : Window
 #if DEBUG
         this.AttachDevTools();
 #endif
-        PointerPressed += OnPointerPressed;
-
+        this.FindControl<DockPanel>("ChromeDockPanel").PointerPressed += OnChromePointerPressed;
         this.FindControl<ContentControl>("Host").DataContextChanged += DialogPresenterDataContextChanged;
         Closed += ChildWindowClosed;
         PositionChanged += OnPositionChanged;
@@ -40,7 +39,7 @@ public partial class ChildWindow : Window
         _vm.RequestedTop = e.Point.Y;
     }
     
-    private void OnPointerPressed(object? sender, PointerPressedEventArgs e)
+    private void OnChromePointerPressed(object? sender, PointerPressedEventArgs e)
     {
         if (_vm == null) return;
         
@@ -63,7 +62,7 @@ public partial class ChildWindow : Window
     
     void ChildWindowClosed(object? sender, EventArgs e)
     {
-        PointerPressed -= OnPointerPressed;
+        PointerPressed -= OnChromePointerPressed;
         PositionChanged -= OnPositionChanged;
         Closed -= ChildWindowClosed;
         _isClosed = true;

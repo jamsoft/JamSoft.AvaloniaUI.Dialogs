@@ -2,9 +2,19 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:viewModels="clr-namespace:JamSoft.AvaloniaUI.Dialogs.Sample.ViewModels"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="JamSoft.AvaloniaUI.Dialogs.Sample.Views.MyChildWindowView">
     
-    <TextBox Text="{Binding ChildMessage}" Height="25" />
-    
+    <StackPanel Spacing="20">
+        <TextBox Text="{Binding ChildMessage}" Height="25" />
+        <ComboBox Items="{Binding ComboboxItems}" 
+                  SelectedItem="{Binding SelectedItem}">
+            <ComboBox.ItemTemplate>
+                <DataTemplate DataType="viewModels:ComboBoxItemViewModel">
+                    <TextBlock Text="{Binding Name}" />
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+    </StackPanel>
 </UserControl>

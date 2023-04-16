@@ -3,6 +3,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:controls="clr-namespace:JamSoft.AvaloniaUI.Dialogs.Controls;assembly=JamSoft.AvaloniaUI.Dialogs"
+             xmlns:viewModels="clr-namespace:JamSoft.AvaloniaUI.Dialogs.Sample.ViewModels"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="JamSoft.AvaloniaUI.Dialogs.Sample.Views.MyWizardView">
     
@@ -15,6 +16,14 @@
                 <StackPanel Orientation="Vertical" Spacing="20">
                     <TextBlock>Page 1</TextBlock>
                     <TextBox Foreground="White" Text="{Binding ValueOne}"/>
+                    <ComboBox Items="{Binding ComboboxItems}" 
+                              SelectedItem="{Binding SelectedItem}">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate DataType="viewModels:ComboBoxItemViewModel">
+                                <TextBlock Text="{Binding Name}" />
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
                 </StackPanel>
             </controls:WizardStep.Content>
         </controls:WizardStep>

@@ -41,7 +41,7 @@
     </Setter>
   </Style>
 
-  <!-- Nornal state -->
+  <!-- Normal state -->
   <Style Selector="controls|WizardStep /template/ Border#PART_LayoutRoot">
     <Setter Property="Background" Value="{Binding $parent[controls:WizardStep].Background}" />
   </Style>

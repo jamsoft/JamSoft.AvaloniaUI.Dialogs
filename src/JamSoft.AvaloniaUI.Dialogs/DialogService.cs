@@ -119,9 +119,9 @@ internal class DialogService : IDialogService
         win.DataContext = viewModel;
 
         _openChildren.Add(viewModel);
-        win.Closing += (sender, args) =>
+        win.Closing += (sender, _) =>
         {
-            if (sender is ChildWindow window)
+            if (sender is ChildWindow)
             {
                 _openChildren.Remove(viewModel);
             }
@@ -132,14 +132,14 @@ internal class DialogService : IDialogService
         win.Show();
     }
 
-    public void StartWizard<TViewModel>(TViewModel viewModel, Action<TViewModel> callback) where TViewModel : class, IWizardViewModel
+    public void StartWizard<TViewModel>(TViewModel viewModel, Action<TViewModel>? callback) where TViewModel : class, IWizardViewModel
     {
         // prevent multiple instances of the same child window
         if (_openChildren.FirstOrDefault(x => x?.GetType() == typeof(TViewModel)) != null)
             return;
 
         var win = new ChildWindow();
-        win.Classes.Add("Wizard");
+        //win.Classes.Add("Wizard");
 
         viewModel.ChildWindowTitle = CreateTitle(viewModel.ChildWindowTitle);
         
@@ -148,15 +148,15 @@ internal class DialogService : IDialogService
         var viewName = GetViewName(viewModel);
         var viewType = Type.GetType(viewName);
 
-        var viewInstance = CreateViewInstance(viewType, viewName);
+        var viewInstance = CreateViewInstance(viewType!, viewName);
         
         win.DataContext = viewModel;
         contentControl.Content = viewInstance;
         
         _openChildren.Add(viewModel);
-        win.Closing += (sender, args) =>
+        win.Closing += (sender, _) =>
         {
-            if (sender is ChildWindow window)
+            if (sender is ChildWindow)
             {
                 _openChildren.Remove(viewModel);
             }
@@ -164,6 +164,7 @@ internal class DialogService : IDialogService
             if (callback != null)
                 callback(viewModel);
         };
+        
         win.Show();
     }
 

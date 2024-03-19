@@ -18,7 +18,7 @@ namespace JamSoft.AvaloniaUI.Dialogs.Controls
     /// </summary>
     [TemplatePart("PART_StepsPresenter", typeof(ItemsPresenter))]
     [TemplatePart("PART_ButtonsPresenter", typeof(DockPanel))]
-    public class Wizard : SelectingItemsControl, IContentPresenterHost
+    public class Wizard : SelectingItemsControl
     {
         private ICommand MoveNextCommand => new DelegateCommand(MoveNextCommandExecuted);
         private ICommand MovePreviousCommand => new DelegateCommand(MovePreviousCommandExecuted);
@@ -26,7 +26,7 @@ namespace JamSoft.AvaloniaUI.Dialogs.Controls
         /// <summary>
         /// The default value for the <see cref="ItemsControl.ItemsPanel"/> property.
         /// </summary>
-        private static readonly FuncTemplate<Panel> DefaultPanel = new(() => new WrapPanel());
+        private static readonly FuncTemplate<Panel?> DefaultPanel = new(() => new WrapPanel());
         
         /// <summary>
         /// Defines the <see cref="ButtonPlacement"/> property.
@@ -82,7 +82,7 @@ namespace JamSoft.AvaloniaUI.Dialogs.Controls
         static Wizard()
         {
             SelectionModeProperty.OverrideDefaultValue<Wizard>(SelectionMode.AlwaysSelected);
-            ItemsPanelProperty.OverrideDefaultValue<Wizard>(DefaultPanel);
+            ItemsPanelProperty.OverrideDefaultValue(typeof(Wizard),DefaultPanel);
             AffectsMeasure<Wizard>(ButtonPlacementProperty);
             SelectedItemProperty.Changed.AddClassHandler<Wizard>((x, _) => x.UpdateSelectedContent());
             DataContextProperty.Changed.AddClassHandler<Wizard>((x, _) => x.HandleDataContextChanged());
@@ -168,32 +168,32 @@ namespace JamSoft.AvaloniaUI.Dialogs.Controls
 
         internal ItemsPresenter? ItemsPresenterPart;
 
-        internal IContentPresenter? ContentPart;
+        internal ContentPresenter? ContentPart;
         
         internal DockPanel? ButtonsPresenterPart { get; private set; }
 
         /// <inheritdoc/>
-        IAvaloniaList<ILogical> IContentPresenterHost.LogicalChildren => LogicalChildren;
+        //IAvaloniaList<ILogical> IContentPresenterHost.LogicalChildren => LogicalChildren;
 
         /// <inheritdoc/>
-        bool IContentPresenterHost.RegisterContentPresenter(IContentPresenter presenter)
-        {
-            return RegisterContentPresenter(presenter);
-        }
+        // bool RegisterContentPresenter(ContentPresenter presenter)
+        // {
+        //     return RegisterContentPresenter(presenter);
+        // }
 
         /// <inheritdoc/>
-        protected override void OnContainersMaterialized(ItemContainerEventArgs e)
-        {
-            base.OnContainersMaterialized(e);
-            UpdateSelectedContent();
-        }
-
-        /// <inheritdoc/>
-        protected override void OnContainersRecycled(ItemContainerEventArgs e)
-        {
-            base.OnContainersRecycled(e);
-            UpdateSelectedContent();
-        }
+        // protected override void OnContainersMaterialized(ItemContainerEventArgs e)
+        // {
+        //     base.OnContainersMaterialized(e);
+        //     UpdateSelectedContent();
+        // }
+        //
+        // /// <inheritdoc/>
+        // protected override void OnContainersRecycled(ItemContainerEventArgs e)
+        // {
+        //     base.OnContainersRecycled(e);
+        //     UpdateSelectedContent();
+        // }
 
         private void UpdateSelectedContent()
         {
@@ -211,10 +211,10 @@ namespace JamSoft.AvaloniaUI.Dialogs.Controls
         }
 
         /// <summary>
-        /// Called when an <see cref="IContentPresenter"/> is registered with the control.
+        /// Called when an <see cref="ContentPresenter"/> is registered with the control.
         /// </summary>
         /// <param name="presenter">The presenter.</param>
-        protected virtual bool RegisterContentPresenter(IContentPresenter presenter)
+        protected virtual bool RegisterContentPresenter(ContentPresenter presenter)
         {
             if (presenter.Name == "PART_SelectedContentHost")
             {
@@ -225,15 +225,14 @@ namespace JamSoft.AvaloniaUI.Dialogs.Controls
             return false;
         }
 
-        /// <inheritdoc/>
-        protected override IItemContainerGenerator CreateItemContainerGenerator()
+        protected ItemContainerGenerator CreateItemContainerGenerator()
         {
             return new WizardContainerGenerator(this);
         }
 
         private void HandleDataContextChanged()
         {
-            WizardStep.StepCompleteProperty.Changed.Subscribe(x =>
+            WizardStep.StepCompleteProperty.Changed.Subscribe( =>
             {
                 if (x.Sender.Equals(SelectedItem) && x.NewValue.Value)
                 {
@@ -244,7 +243,7 @@ namespace JamSoft.AvaloniaUI.Dialogs.Controls
                     NextButton!.IsEnabled = false;
                 }
                 
-                var list = (AvaloniaList<object>)Items;
+                var list = Items;
                 if (x.Sender.Equals(list.LastOrDefault()) && x.NewValue.Value)
                 {
                     CompleteButton!.IsEnabled = true;
@@ -315,7 +314,8 @@ namespace JamSoft.AvaloniaUI.Dialogs.Controls
             NextButton!.IsEnabled = false;
             PreviousButton!.IsEnabled = true;
 
-            var list = (AvaloniaList<object>)Items;
+            //var list = (AvaloniaList<object>)Items;
+            var list = Items;
             var selected = SelectedItem as WizardStep;
 
             if (selected!.Equals(list.LastOrDefault()))

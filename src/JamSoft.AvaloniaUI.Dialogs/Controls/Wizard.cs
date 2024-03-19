@@ -1,13 +1,10 @@
 ﻿using System.Windows.Input;
 using Avalonia;
-using Avalonia.Collections;
 using Avalonia.Controls;
-using Avalonia.Controls.Generators;
 using Avalonia.Controls.Metadata;
 using Avalonia.Controls.Presenters;
 using Avalonia.Controls.Primitives;
 using Avalonia.Controls.Templates;
-using Avalonia.LogicalTree;
 using JamSoft.AvaloniaUI.Dialogs.Commands;
 using JamSoft.AvaloniaUI.Dialogs.ViewModels;
 
@@ -16,6 +13,7 @@ namespace JamSoft.AvaloniaUI.Dialogs.Controls
     /// <summary>
     /// A wizard control that displays a series of elements in a workflow style progression.
     /// </summary>
+    // https://github.com/AvaloniaUI/Avalonia/blob/master/src/Avalonia.Controls/TabControl.cs
     [TemplatePart("PART_StepsPresenter", typeof(ItemsPresenter))]
     [TemplatePart("PART_ButtonsPresenter", typeof(DockPanel))]
     public class Wizard : SelectingItemsControl
@@ -82,7 +80,7 @@ namespace JamSoft.AvaloniaUI.Dialogs.Controls
         static Wizard()
         {
             SelectionModeProperty.OverrideDefaultValue<Wizard>(SelectionMode.AlwaysSelected);
-            ItemsPanelProperty.OverrideDefaultValue(typeof(Wizard),DefaultPanel);
+            ItemsPanelProperty.OverrideDefaultValue<Wizard>(DefaultPanel);
             AffectsMeasure<Wizard>(ButtonPlacementProperty);
             SelectedItemProperty.Changed.AddClassHandler<Wizard>((x, _) => x.UpdateSelectedContent());
             DataContextProperty.Changed.AddClassHandler<Wizard>((x, _) => x.HandleDataContextChanged());
@@ -225,40 +223,45 @@ namespace JamSoft.AvaloniaUI.Dialogs.Controls
             return false;
         }
 
-        protected ItemContainerGenerator CreateItemContainerGenerator()
-        {
-            return new WizardContainerGenerator(this);
-        }
+        // protected ItemContainerGenerator CreateItemContainerGenerator()
+        // {
+        //     return new WizardContainerGenerator(this);
+        // }
 
+        protected override Control CreateContainerForItemOverride(object? item, int index, object? recycleKey)
+        {
+            return new WizardStep();
+        }
+        
         private void HandleDataContextChanged()
         {
-            WizardStep.StepCompleteProperty.Changed.Subscribe( =>
-            {
-                if (x.Sender.Equals(SelectedItem) && x.NewValue.Value)
-                {
-                    NextButton!.IsEnabled = true;
-                }
-                else
-                {
-                    NextButton!.IsEnabled = false;
-                }
-                
-                var list = Items;
-                if (x.Sender.Equals(list.LastOrDefault()) && x.NewValue.Value)
-                {
-                    CompleteButton!.IsEnabled = true;
-                }
-                else
-                {
-                    CompleteButton!.IsEnabled = false;
-                }
-            });
+            //WizardStep.StepCompleteProperty.Changed.Subscribe(this); //, x =>
+            // {
+            //     if (x.Sender.Equals(SelectedItem) && x.NewValue.Value)
+            //     {
+            //         NextButton!.IsEnabled = true;
+            //     }
+            //     else
+            //     {
+            //         NextButton!.IsEnabled = false;
+            //     }
+            //     
+            //     var list = Items;
+            //     if (x.Sender.Equals(list.LastOrDefault()) && x.NewValue.Value)
+            //     {
+            //         CompleteButton!.IsEnabled = true;
+            //     }
+            //     else
+            //     {
+            //         CompleteButton!.IsEnabled = false;
+            //     }
+            // });
         }
         
         /// <inheritdoc/>
         protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
         {
-            ItemsPresenterPart = e.NameScope.Get<ItemsPresenter>("PART_StepsPresenter");
+            ItemsPresenterPart = e.NameScope.Get<ItemsControl>("PART_StepsPresenter");
             ButtonsPresenterPart = e.NameScope.Get<DockPanel>("PART_ButtonsPresenter");
 
             PreviousButton = new Button

@@ -211,7 +211,7 @@ internal class DialogService : IDialogService
             DefaultExtension = defaultExtension
         });
 
-        return fd!.Path.AbsolutePath;
+        return fd?.Path.AbsolutePath;
     }
 
     /// <summary>
@@ -248,14 +248,14 @@ internal class DialogService : IDialogService
         return null;
     }
     
-    private async Task<string[]?> OpenFile(string title, bool allowMulti, IEnumerable<FilePickerFileType>? filters = null)
+    private async Task<string[]?> OpenFile(string title, bool allowMultiFileSelection, IEnumerable<FilePickerFileType>? filters = null)
     {
         var storageProvider = GetStorageProvider();
         var folder = await storageProvider.TryGetFolderFromPathAsync(_lastDirectorySelected!);
         var fd = await storageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
         {
             Title = CreateTitle(title),
-            AllowMultiple = allowMulti,
+            AllowMultiple = allowMultiFileSelection,
             FileTypeFilter = filters?.ToList(),
             SuggestedStartLocation = folder
         });

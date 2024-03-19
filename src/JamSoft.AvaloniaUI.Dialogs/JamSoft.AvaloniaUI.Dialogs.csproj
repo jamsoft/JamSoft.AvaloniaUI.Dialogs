@@ -40,10 +40,10 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="Avalonia" Version="11.0.6" />
+      <PackageReference Include="Avalonia" Version="11.0.10" />
         <AvaloniaResource Include="Assets\**" />
-        <PackageReference Include="Avalonia.Diagnostics" Version="11.0.6" />
-        <PackageReference Include="Avalonia.Themes.Fluent" Version="11.0.6" />
+        <PackageReference Include="Avalonia.Diagnostics" Version="11.0.10" />
+        <PackageReference Include="Avalonia.Themes.Fluent" Version="11.0.10" />
     </ItemGroup>
 
     <ItemGroup>
@@ -58,6 +58,10 @@
       <UpToDateCheckInput Remove="Assets\iOS\icons8-close-30(@1x).png" />
       <UpToDateCheckInput Remove="Assets\iOS\icons8-close-60(@2x).png" />
       <UpToDateCheckInput Remove="Assets\iOS\icons8-close-90(@3x).png" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Remove="Controls\WizardContainerGenerator.cs" />
     </ItemGroup>
 
 </Project>

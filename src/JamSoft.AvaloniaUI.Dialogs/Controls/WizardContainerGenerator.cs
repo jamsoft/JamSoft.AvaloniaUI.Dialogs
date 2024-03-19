@@ -12,7 +12,7 @@ namespace JamSoft.AvaloniaUI.Dialogs.Controls;
 /// <summary>
 /// The Wizard container generator
 /// </summary>
-public class WizardContainerGenerator : ItemContainerGenerator
+public class WizardContainerGenerator 
 {
     /// <summary>
     /// Default constructor
@@ -84,7 +84,7 @@ public class WizardContainerGenerator : ItemContainerGenerator
 
         protected override void Subscribed()
         {
-            _ownerSubscription = ControlLocator.Track(_step, 0, typeof(Wizard)).Subscribe(OwnerChanged);
+            //_ownerSubscription = ControlLocator.Track(_step, 0, typeof(Wizard)).Subscribe(OwnerChanged);
         }
 
         protected override void Unsubscribed()
@@ -100,8 +100,8 @@ public class WizardContainerGenerator : ItemContainerGenerator
 
             if (c is Wizard wizard)
             {
-                _propertySubscription = wizard.GetObservable(_ownerProperty)
-                    .Subscribe(x => PublishNext(x));
+                // _propertySubscription = wizard.GetObservable(_ownerProperty)
+                //     .Subscribe(x => PublishNext(x));
             }
         }
     }

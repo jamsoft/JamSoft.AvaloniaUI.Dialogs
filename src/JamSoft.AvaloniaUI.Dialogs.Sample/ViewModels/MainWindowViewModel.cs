@@ -15,7 +15,6 @@ namespace JamSoft.AvaloniaUI.Dialogs.Sample.ViewModels;
 public class MainWindowViewModel : ViewModelBase
 {
     private readonly IDialogService _dialogService;
-    private string? _message;
     private ICommand? _openFileCommand;
     private ICommand? _openWordFileCommand;
     private ICommand? _saveFileCommand;
@@ -30,7 +29,8 @@ public class MainWindowViewModel : ViewModelBase
     private ICommand? _childWindowRememberPositionCommand;
     private ICommand? _missingViewCommand;
     private ICommand? _wizardViewCommand;
-
+    private string? _message;
+    
     public MainWindowViewModel(IDialogService dialogService)
     {
         _dialogService = dialogService;
@@ -138,12 +138,6 @@ public class MainWindowViewModel : ViewModelBase
         set => this.RaiseAndSetIfChanged(ref _saveWordFileCommand, value);
     }
 
-    public string? Message
-    {
-        get => _message;
-        set => this.RaiseAndSetIfChanged(ref _message, value);
-    }
-
     public ICommand? OpenFileCommand
     {
         get => _openFileCommand;
@@ -156,6 +150,12 @@ public class MainWindowViewModel : ViewModelBase
         set => this.RaiseAndSetIfChanged(ref _openWordFileCommand, value);
     }
 
+    public string? Message
+    {
+        get => _message;
+        set => this.RaiseAndSetIfChanged(ref _message, value);
+    }
+    
     private async void OpenFileCommandExecuted()
     {
         Message = await _dialogService.OpenFile("Open Any File");

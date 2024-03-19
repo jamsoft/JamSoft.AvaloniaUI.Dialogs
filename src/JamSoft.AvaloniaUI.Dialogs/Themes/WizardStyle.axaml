@@ -41,7 +41,7 @@
                        LastChildFill="False"/>
             
             <ItemsControl Name="PART_StepsPresenter"
-                            ItemsSource="{TemplateBinding Items}"
+                            ItemsSource="{TemplateBinding ItemsSource}"
                             ItemsPanel="{TemplateBinding ItemsPanel}" 
                             HorizontalAlignment="Center"
                             ItemTemplate="{TemplateBinding ItemTemplate}"

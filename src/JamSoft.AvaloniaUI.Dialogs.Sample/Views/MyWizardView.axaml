@@ -16,7 +16,7 @@
                 <StackPanel Orientation="Vertical" Spacing="20">
                     <TextBlock>Page 1</TextBlock>
                     <TextBox Foreground="White" Text="{Binding ValueOne}"/>
-                    <ComboBox Items="{Binding ComboboxItems}" 
+                    <ComboBox ItemsSource="{Binding ComboboxItems}" 
                               SelectedItem="{Binding SelectedItem}">
                         <ComboBox.ItemTemplate>
                             <DataTemplate DataType="viewModels:ComboBoxItemViewModel">

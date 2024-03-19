@@ -2,6 +2,7 @@
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Markup.Xaml;
+using Avalonia.Reactive;
 using JamSoft.AvaloniaUI.Dialogs.Events;
 using JamSoft.AvaloniaUI.Dialogs.ViewModels;
 
@@ -25,8 +26,8 @@ public partial class ChildWindow : Window
 #if DEBUG
         this.AttachDevTools();
 #endif
-        this.FindControl<DockPanel>("ChromeDockPanel").PointerPressed += OnChromePointerPressed;
-        this.FindControl<ContentControl>("Host").DataContextChanged += DialogPresenterDataContextChanged;
+        this.FindControl<DockPanel>("ChromeDockPanel")!.PointerPressed += OnChromePointerPressed;
+        this.FindControl<ContentControl>("Host")!.DataContextChanged += DialogPresenterDataContextChanged;
         Closed += ChildWindowClosed;
         PositionChanged += OnPositionChanged;
     }
@@ -46,14 +47,14 @@ public partial class ChildWindow : Window
         var p = e.GetCurrentPoint(null);
         if (p.Properties.IsLeftButtonPressed)
         {
-            ClientSizeProperty.Changed.Subscribe(size =>
+            this.GetObservable(ClientSizeProperty).Subscribe(new AnonymousObserver<Size>((s)=>
             {
-                if (ReferenceEquals(size.Sender, this))
-                {
+                //if (ReferenceEquals(size.Sender, this))
+                //{
                     _vm.RequestedLeft = Position.X;
                     _vm.RequestedTop = Position.Y;
-                }
-            });
+                //}
+            }));
 
             BeginMoveDrag(e);
             e.Handled = false;

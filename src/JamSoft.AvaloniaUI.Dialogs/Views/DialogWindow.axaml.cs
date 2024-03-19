@@ -22,7 +22,7 @@ public partial class DialogWindow : Window
 #if DEBUG
         this.AttachDevTools();
 #endif
-        this.FindControl<ContentControl>("Host").DataContextChanged += DialogPresenterDataContextChanged;
+        this.FindControl<ContentControl>("Host")!.DataContextChanged += DialogPresenterDataContextChanged;
         Closed += DialogWindowClosed;
     }
     

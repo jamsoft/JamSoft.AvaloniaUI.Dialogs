@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Windows.Input;
 using Avalonia.Controls;
+using Avalonia.Platform.Storage;
 using JamSoft.AvaloniaUI.Dialogs.Commands;
 using JamSoft.AvaloniaUI.Dialogs.Helpers;
 using JamSoft.AvaloniaUI.Dialogs.Sample.Models;
@@ -162,7 +163,7 @@ public class MainWindowViewModel : ViewModelBase
     
     private async void OpenWordFileCommandExecuted()
     {
-        Message = await _dialogService.OpenFile("Open Word File", new List<FileDialogFilter>
+        Message = await _dialogService.OpenFile("Open Word File", new List<FilePickerFileType>
         {
             CommonFilters.WordFilter
         });
@@ -180,7 +181,7 @@ public class MainWindowViewModel : ViewModelBase
     
     private async void SaveWordFileCommandExecuted()
     {
-        Message = await _dialogService.SaveFile("Save Word File", new List<FileDialogFilter>
+        Message = await _dialogService.SaveFile("Save Word File", new List<FilePickerFileType>
         {
             CommonFilters.WordFilter
         });

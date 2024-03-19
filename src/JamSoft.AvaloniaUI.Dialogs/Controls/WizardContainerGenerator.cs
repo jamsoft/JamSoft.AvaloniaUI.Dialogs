@@ -5,20 +5,20 @@ using Avalonia.Controls.Primitives;
 using Avalonia.Controls.Templates;
 using Avalonia.LogicalTree;
 using Avalonia.Reactive;
+using Avalonia.Threading;
 
 namespace JamSoft.AvaloniaUI.Dialogs.Controls;
 
 /// <summary>
 /// The Wizard container generator
 /// </summary>
-public class WizardContainerGenerator : ItemContainerGenerator<WizardStep>
+public class WizardContainerGenerator : ItemContainerGenerator
 {
     /// <summary>
     /// Default constructor
     /// </summary>
     /// <param name="owner"></param>
     public WizardContainerGenerator(Wizard owner)
-        : base(owner, ContentControl.ContentProperty, ContentControl.ContentTemplateProperty)
     {
         Owner = owner;
     }
@@ -26,12 +26,12 @@ public class WizardContainerGenerator : ItemContainerGenerator<WizardStep>
     /// <summary>
     /// The owner wizard control
     /// </summary>
-    public new Wizard Owner;
+    public Wizard Owner;
 
     /// <inheritdoc/>
-    protected override IControl CreateContainer(object item)
+    public Control CreateContainer(object item)
     {
-        var step = (WizardStep)base.CreateContainer(item);
+        var step = (WizardStep)base.CreateContainer(item, 0, null);
 
         step.Bind(WizardStep.ProgressPlacementProperty, new OwnerBinding<Dock>(
             step,
@@ -41,35 +41,35 @@ public class WizardContainerGenerator : ItemContainerGenerator<WizardStep>
         {
             step.Bind(HeaderedContentControl.HeaderTemplateProperty, new OwnerBinding<IDataTemplate>(
                 step,
-                ItemsControl.ItemTemplateProperty));
+                ItemsControl.ItemTemplateProperty!));
         }
 
         if (step.Header == null)
         {
-            if (item is IHeadered headered)
+            if (item is HeaderedContentControl headered)
             {
                 step.Header = headered.Header;
             }
             else
             {
-                if (!(step.DataContext is IControl))
+                if (!(step.DataContext is Control))
                 {
                     step.Header = step.DataContext;
                 }
             }
         }
 
-        if (!(step.Content is IControl))
+        if (!(step.Content is Control))
         {
             step.Bind(ContentControl.ContentTemplateProperty, new OwnerBinding<IDataTemplate>(
                 step,
-                Wizard.ContentTemplateProperty));
+                Wizard.ContentTemplateProperty!));
         }
 
         return step;
     }
 
-    private class OwnerBinding<T> : SingleSubscriberObservableBase<T>
+    private class OwnerBinding<T> : AvSingleSubscriberObservableBase<T>
     {
         private readonly WizardStep _step;
         private readonly StyledProperty<T> _ownerProperty;
@@ -104,5 +104,78 @@ public class WizardContainerGenerator : ItemContainerGenerator<WizardStep>
                     .Subscribe(x => PublishNext(x));
             }
         }
+    }
+
+    private abstract class AvSingleSubscriberObservableBase<T> : IObservable<T>, IDisposable
+    {
+        private Exception? _error;
+        private IObserver<T>? _observer;
+        private bool _completed;
+
+        public IDisposable Subscribe(IObserver<T> observer)
+        {
+            _ = observer ?? throw new ArgumentNullException(nameof(observer));
+            Dispatcher.UIThread.VerifyAccess();
+
+            if (_observer != null)
+            {
+                throw new InvalidOperationException("The observable can only be subscribed once.");
+            }
+
+            if (_error != null)
+            {
+                observer.OnError(_error);
+            }
+            else if (_completed)
+            {
+                observer.OnCompleted();
+            }
+            else
+            {
+                _observer = observer;
+                Subscribed();
+            }
+
+            return this;
+        }
+
+        public virtual void Dispose()
+        {
+            Unsubscribed();
+            _observer = null;
+        }
+
+        protected abstract void Unsubscribed();
+
+        protected void PublishNext(T value)
+        {
+            _observer?.OnNext(value);
+        }
+
+        protected void PublishCompleted()
+        {
+            _completed = true;
+
+            if (_observer != null)
+            {
+                _observer.OnCompleted();
+                Unsubscribed();
+                _observer = null;
+            }
+        }
+
+        protected void PublishError(Exception error)
+        {
+            _error = error;
+
+            if (_observer != null)
+            {
+                _observer.OnError(error);
+                Unsubscribed();
+                _observer = null;
+            }
+        }
+
+        protected abstract void Subscribed();
     }
 }

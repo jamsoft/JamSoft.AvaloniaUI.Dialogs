@@ -4,7 +4,11 @@
              x:Class="JamSoft.AvaloniaUI.Dialogs.Sample.App">
     
     <Application.Styles>
-        <FluentTheme Mode="Dark"/>
+        <FluentTheme>
+            <FluentTheme.Palettes>
+                <ColorPaletteResources x:Key="Dark" Accent="DarkGreen" RegionColor="Black" ErrorText="Yellow" />
+            </FluentTheme.Palettes>
+        </FluentTheme>
         <StyleInclude Source="avares://JamSoft.AvaloniaUI.Dialogs/Themes/Default.axaml"/>
         
         <Style Selector="Window">

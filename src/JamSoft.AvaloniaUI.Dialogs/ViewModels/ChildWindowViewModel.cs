@@ -1,5 +1,4 @@
-﻿using Avalonia;
-using Avalonia.Controls;
+﻿using Avalonia.Controls;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using Avalonia.Platform;
@@ -23,8 +22,7 @@ public abstract class ChildWindowViewModel : DialogViewModel, IChildWindowViewMo
     /// </summary>
     protected ChildWindowViewModel()
     {
-        var assets = AvaloniaLocator.Current.GetService<IAssetLoader>();
-        _closeIcon = new Bitmap(assets?.Open(new Uri("avares://JamSoft.AvaloniaUI.Dialogs/Assets/CloseIcon/icons8-close-30.png")));
+        _closeIcon = new Bitmap(AssetLoader.Open(new Uri("avares://JamSoft.AvaloniaUI.Dialogs/Assets/CloseIcon/icons8-close-30.png")));
     }
 
     /// <summary>

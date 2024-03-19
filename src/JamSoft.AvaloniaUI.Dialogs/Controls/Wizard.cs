@@ -26,7 +26,7 @@ namespace JamSoft.AvaloniaUI.Dialogs.Controls
         /// <summary>
         /// The default value for the <see cref="ItemsControl.ItemsPanel"/> property.
         /// </summary>
-        private static readonly FuncTemplate<IPanel> DefaultPanel = new(() => new WrapPanel());
+        private static readonly FuncTemplate<Panel> DefaultPanel = new(() => new WrapPanel());
         
         /// <summary>
         /// Defines the <see cref="ButtonPlacement"/> property.
@@ -43,7 +43,7 @@ namespace JamSoft.AvaloniaUI.Dialogs.Controls
         /// <summary>
         /// Defines the <see cref="ContentTemplate"/> property.
         /// </summary>
-        public static readonly StyledProperty<IDataTemplate> ContentTemplateProperty =
+        public static readonly StyledProperty<IDataTemplate?> ContentTemplateProperty =
             ContentControl.ContentTemplateProperty.AddOwner<Wizard>();
 
         /// <summary>
@@ -111,7 +111,7 @@ namespace JamSoft.AvaloniaUI.Dialogs.Controls
         /// </summary>
         public IDataTemplate ContentTemplate
         {
-            get { return GetValue(ContentTemplateProperty); }
+            get { return GetValue(ContentTemplateProperty)!; }
             set { SetValue(ContentTemplateProperty, value); }
         }
 
@@ -203,8 +203,8 @@ namespace JamSoft.AvaloniaUI.Dialogs.Controls
             }
             else
             {
-                var container = SelectedItem as IContentControl ??
-                    ItemContainerGenerator.ContainerFromIndex(SelectedIndex) as IContentControl;
+                var container = SelectedItem as ContentControl ??
+                    this.ContainerFromIndex(SelectedIndex) as ContentControl;
                 SelectedContentTemplate = container?.ContentTemplate;
                 SelectedContent = container?.Content;
             }

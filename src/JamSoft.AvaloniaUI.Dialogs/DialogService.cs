@@ -1,6 +1,7 @@
 ﻿using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
+using Avalonia.Platform.Storage;
 using JamSoft.AvaloniaUI.Dialogs.ViewModels;
 using JamSoft.AvaloniaUI.Dialogs.Views;
 
@@ -63,7 +64,7 @@ internal class DialogService : IDialogService
         };
         
         var contentControl = win.FindControl<ContentControl>("Host");
-        contentControl.Content = view;
+        contentControl!.Content = view;
         win.DataContext = viewModel;
         
         var accept = await win.ShowDialog<bool>(GetActiveWindowOrMainWindow());
@@ -115,7 +116,7 @@ internal class DialogService : IDialogService
         viewModel.ChildWindowTitle = CreateTitle(viewModel.ChildWindowTitle);
         
         var contentControl = win.FindControl<ContentControl>("Host");
-        contentControl.Content = view;
+        contentControl!.Content = view;
         win.DataContext = viewModel;
 
         _openChildren.Add(viewModel);
@@ -151,7 +152,7 @@ internal class DialogService : IDialogService
         var viewInstance = CreateViewInstance(viewType!, viewName);
         
         win.DataContext = viewModel;
-        contentControl.Content = viewInstance;
+        contentControl!.Content = viewInstance;
         
         _openChildren.Add(viewModel);
         win.Closing += (sender, _) =>
@@ -176,17 +177,19 @@ internal class DialogService : IDialogService
     /// <returns>the selected folder path or null if the dialog was cancelled</returns>
     public async Task<string?> OpenFolder(string? title, string? startDirectory = null)
     {
-        var fd = new OpenFolderDialog
+        var storageProvider = GetStorageProvider();
+        var folder = await storageProvider.TryGetFolderFromPathAsync((startDirectory ?? _lastDirectorySelected)!);    
+        var path = await storageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions
         {
-            Directory = startDirectory ?? _lastDirectorySelected,
+            SuggestedStartLocation = folder,
             Title = CreateTitle(title)
-        };
+        });
 
-        var path = await fd.ShowAsync(GetActiveWindowOrMainWindow());
+        //var path = await fd.ShowAsync(GetActiveWindowOrMainWindow());
 
-        _lastDirectorySelected = path!;
+        _lastDirectorySelected = path[0].Path.AbsolutePath;
 
-        return path;
+        return _lastDirectorySelected;
     }
     
     /// <summary>
@@ -196,17 +199,19 @@ internal class DialogService : IDialogService
     /// <param name="filters">The file extension filters</param>
     /// <param name="defaultExtension">The default file extension</param>
     /// <returns>the selected file path or null if the dialog was cancelled</returns>
-    public async Task<string?> SaveFile(string title, IEnumerable<FileDialogFilter>? filters = null, string? defaultExtension = null)
+    public async Task<string?> SaveFile(string title, IEnumerable<FilePickerFileType>? filters = null, string? defaultExtension = null)
     {
-        var fd = new SaveFileDialog
+        var storageProvider = GetStorageProvider();
+        var folder = await storageProvider.TryGetFolderFromPathAsync(_lastDirectorySelected!);
+        var fd = await storageProvider.SaveFilePickerAsync(new FilePickerSaveOptions
         {
             Title = CreateTitle(title),
-            Filters = filters?.ToList(),
-            Directory = _lastDirectorySelected,
+            FileTypeChoices = filters?.ToList(),
+            SuggestedStartLocation = folder,
             DefaultExtension = defaultExtension
-        };
+        });
 
-        return await fd.ShowAsync(GetActiveWindowOrMainWindow());
+        return fd!.Path.AbsolutePath;
     }
 
     /// <summary>
@@ -215,7 +220,7 @@ internal class DialogService : IDialogService
     /// <param name="title">The dialog title</param>
     /// <param name="filters">The file extension filters</param>
     /// <returns>the selected file path or null if the dialog was cancelled</returns>
-    public async Task<string?> OpenFile(string title, IEnumerable<FileDialogFilter>? filters = null)
+    public async Task<string?> OpenFile(string title, IEnumerable<FilePickerFileType>? filters = null)
     {
         var paths = await OpenFile(title, false, filters);
         if (paths != null && paths.Any())
@@ -232,7 +237,7 @@ internal class DialogService : IDialogService
     /// <param name="title">The dialog title</param>
     /// <param name="filters">The file extension filters</param>
     /// <returns>the selected file paths or null if the dialog was cancelled</returns>
-    public async Task<string[]?> OpenFiles(string title, IEnumerable<FileDialogFilter>? filters = null)
+    public async Task<string[]?> OpenFiles(string title, IEnumerable<FilePickerFileType>? filters = null)
     {
         var paths = await OpenFile(title, true, filters);
         if (paths != null && paths.Any())
@@ -243,30 +248,37 @@ internal class DialogService : IDialogService
         return null;
     }
     
-    private async Task<string[]?> OpenFile(string title, bool allowMulti, IEnumerable<FileDialogFilter>? filters = null)
+    private async Task<string[]?> OpenFile(string title, bool allowMulti, IEnumerable<FilePickerFileType>? filters = null)
     {
-        var fd = new OpenFileDialog
+        var storageProvider = GetStorageProvider();
+        var folder = await storageProvider.TryGetFolderFromPathAsync(_lastDirectorySelected!);
+        var fd = await storageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
         {
             Title = CreateTitle(title),
             AllowMultiple = allowMulti,
-            Filters = filters?.ToList(),
-            Directory = _lastDirectorySelected
-        };
+            FileTypeFilter = filters?.ToList(),
+            SuggestedStartLocation = folder
+        });
 
-        var paths = await fd.ShowAsync(GetActiveWindowOrMainWindow());
-        if (paths != null && paths.Any())
+        return fd.Select(x => x.Path.AbsolutePath).ToArray();
+    }
+    
+    private IStorageProvider GetStorageProvider()
+    {
+        var topLevel = TopLevel.GetTopLevel(GetActiveWindowOrMainWindow());
+        if (topLevel != null)
         {
-            return paths;
+            return topLevel.StorageProvider;
         }
 
-        return null;
+        throw new InvalidOperationException("Cannot find a StorageProvider when TopLevel is null");
     }
     
     private Window GetActiveWindowOrMainWindow()
     {
         if (Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
-            return desktop.Windows.SingleOrDefault(x => x.IsActive) ?? desktop.MainWindow;
+            return (desktop.Windows.SingleOrDefault(x => x.IsActive) ?? desktop.MainWindow)!;
         }
 
         throw new InvalidOperationException("Cannot find a Window when ApplicationLifetime is not ClassicDesktopStyleApplicationLifetime");

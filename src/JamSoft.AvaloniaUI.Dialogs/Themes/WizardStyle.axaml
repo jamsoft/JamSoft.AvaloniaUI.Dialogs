@@ -40,8 +40,8 @@
                        DockPanel.Dock="{TemplateBinding ButtonPlacement}"
                        LastChildFill="False"/>
             
-            <ItemsPresenter Name="PART_StepsPresenter"
-                            Items="{TemplateBinding Items}"
+            <ItemsControl Name="PART_StepsPresenter"
+                            ItemsSource="{TemplateBinding Items}"
                             ItemsPanel="{TemplateBinding ItemsPanel}" 
                             HorizontalAlignment="Center"
                             ItemTemplate="{TemplateBinding ItemTemplate}"

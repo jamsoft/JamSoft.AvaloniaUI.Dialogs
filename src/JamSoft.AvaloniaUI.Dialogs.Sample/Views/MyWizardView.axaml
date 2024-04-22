@@ -8,7 +8,7 @@
              x:Class="JamSoft.AvaloniaUI.Dialogs.Sample.Views.MyWizardView">
     
     <controls:Wizard ButtonPlacement="Bottom" 
-                     ProgressPlacement="Top" 
+                     ProgressPlacement="Bottom" 
                      CompleteButtonContent="Submit Wizard">
         
         <controls:WizardStep Header="Page 1" StepComplete="{Binding WizardStepOneComplete}">
@@ -54,7 +54,7 @@
                 </StackPanel>
             </controls:WizardStep.Content>
         </controls:WizardStep>
-        
+
     </controls:Wizard>
     
 </UserControl>

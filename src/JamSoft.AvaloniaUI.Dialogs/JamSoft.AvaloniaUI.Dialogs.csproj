@@ -21,11 +21,11 @@
         <SignAssembly>true</SignAssembly>
         <AssemblyOriginatorKeyFile>JamSoft.AssemblyKeyFile.snk</AssemblyOriginatorKeyFile>
         <PublicSign>true</PublicSign>
-        <Version>1.1.4</Version>
-        <AssemblyVersion>1.1.4.0</AssemblyVersion>
-        <FileVersion>1.1.4.0</FileVersion>
+        <Version>1.2.0</Version>
+        <AssemblyVersion>1.2.0.0</AssemblyVersion>
+        <FileVersion>1.2.0.0</FileVersion>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
-        <InformationalVersion>1.1.4.0-rel</InformationalVersion>
+        <InformationalVersion>1.2.0.0-rel</InformationalVersion>
         <EnablePackageValidation>true</EnablePackageValidation>
         <PackageReadmeFile>README.md</PackageReadmeFile>        
     </PropertyGroup>
@@ -40,9 +40,10 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="Avalonia" Version="0.10.21" />
+      <PackageReference Include="Avalonia" Version="11.0.6" />
         <AvaloniaResource Include="Assets\**" />
-        <PackageReference Include="Avalonia.Diagnostics" Version="0.10.21" />
+        <PackageReference Include="Avalonia.Diagnostics" Version="11.0.6" />
+        <PackageReference Include="Avalonia.Themes.Fluent" Version="11.0.6" />
     </ItemGroup>
 
     <ItemGroup>
@@ -57,6 +58,10 @@
       <UpToDateCheckInput Remove="Assets\iOS\icons8-close-30(@1x).png" />
       <UpToDateCheckInput Remove="Assets\iOS\icons8-close-60(@2x).png" />
       <UpToDateCheckInput Remove="Assets\iOS\icons8-close-90(@3x).png" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Remove="Controls\WizardContainerGenerator.cs" />
     </ItemGroup>
 
 </Project>

@@ -8,7 +8,7 @@
     
     <StackPanel Spacing="20">
         <TextBox Text="{Binding ChildMessage}" Height="25" />
-        <ComboBox Items="{Binding ComboboxItems}" 
+        <ComboBox ItemsSource="{Binding ComboboxItems}" 
                   SelectedItem="{Binding SelectedItem}">
             <ComboBox.ItemTemplate>
                 <DataTemplate DataType="viewModels:ComboBoxItemViewModel">

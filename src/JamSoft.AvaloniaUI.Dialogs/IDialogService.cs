@@ -1,4 +1,5 @@
 ﻿using Avalonia.Controls;
+using Avalonia.Platform.Storage;
 using JamSoft.AvaloniaUI.Dialogs.ViewModels;
 
 namespace JamSoft.AvaloniaUI.Dialogs;
@@ -67,7 +68,7 @@ public interface IDialogService
     /// <param name="filters">The file extension filters</param>
     /// <param name="defaultExtension">The default file extension</param>
     /// <returns>the selected file path or null if the dialog was cancelled</returns>
-    Task<string?> SaveFile(string title, IEnumerable<FileDialogFilter>? filters = null, string? defaultExtension = null);
+    Task<string?> SaveFile(string title, IEnumerable<FilePickerFileType>? filters = null, string? defaultExtension = null);
 
     /// <summary>
     /// The an individual file path
@@ -75,7 +76,7 @@ public interface IDialogService
     /// <param name="title">The dialog title</param>
     /// <param name="filters">The file extension filters</param>
     /// <returns>the selected file path or null if the dialog was cancelled</returns>
-    Task<string?> OpenFile(string title, IEnumerable<FileDialogFilter>? filters = null);
+    Task<string?> OpenFile(string title, IEnumerable<FilePickerFileType>? filters = null);
 
     /// <summary>
     /// Returns multiple existing file paths
@@ -83,5 +84,5 @@ public interface IDialogService
     /// <param name="title">The dialog title</param>
     /// <param name="filters">The file extension filters</param>
     /// <returns>the selected file paths or null if the dialog was cancelled</returns>
-    Task<string[]?> OpenFiles(string title, IEnumerable<FileDialogFilter>? filters = null);
+    Task<string[]?> OpenFiles(string title, IEnumerable<FilePickerFileType>? filters = null);
 }

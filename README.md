@@ -16,16 +16,16 @@ https://jamsoft.github.io/JamSoft.AvaloniaUI.Dialogs/
 
 ## Installation
 ```shell
-dotnet add package JamSoft.AvaloniaUI.Dialogs --version 1.1.4
+dotnet add package JamSoft.AvaloniaUI.Dialogs --version 1.2.0
 ```
 ```shell
-Install-Package JamSoft.AvaloniaUI.Dialogs -Version 1.1.4
+Install-Package JamSoft.AvaloniaUI.Dialogs -Version 1.2.0
 ```
 ```xml
-<PackageReference Include="JamSoft.AvaloniaUI.Dialogs" Version="1.1.4" />
+<PackageReference Include="JamSoft.AvaloniaUI.Dialogs" Version="1.2.0" />
 ```
 ```shell
-paket add JamSoft.AvaloniaUI.Dialogs --version 1.1.4
+paket add JamSoft.AvaloniaUI.Dialogs --version 1.2.0
 ```
 ## Import Styles
 ### All Defaults
@@ -368,7 +368,8 @@ See the Sample Application for a complete implementation example and guidance.
 You can easily target elements of the dialogs via their names and types, such as:
 ```xml
 <Application>
-    <Application.Styles>        
+    <Application.Styles>
+        
         <Style Selector="Button.CloseChildButton:pointerover /template/ Border">
                 <Setter Property="Background" Value="#c42b1c" />
         </Style>
@@ -382,7 +383,13 @@ You can easily target elements of the dialogs via their names and types, such as
                 <Setter Property="FontSize" Value="12"/>
                 <Setter Property="VerticalAlignment" Value="Center" />
                 <Setter Property="Margin" Value="10,0"/>
-        </Style>        
+        </Style>
+        
+        <Style Selector="controls|WizardStep:complete /template/ Ellipse#PART_SelectedPipe">
+            <Setter Property="Fill" Value="DeepPink" />
+            <Setter Property="StrokeThickness" Value="0" />
+        </Style>
+        
     </Application.Styles>
 </Application>
 ```

@@ -80,7 +80,7 @@ public class WizardStep : HeaderedContentControl, ISelectable
 	{
 		if (Header == null)
 		{
-			if (obj.NewValue is IHeadered headered)
+			if (obj.NewValue is HeaderedContentControl headered)
 			{
 				if (Header != headered.Header)
 				{
@@ -89,7 +89,7 @@ public class WizardStep : HeaderedContentControl, ISelectable
 			}
 			else
 			{
-				if (!(obj.NewValue is IControl))
+				if (!(obj.NewValue is Control))
 				{
 					Header = obj.NewValue;
 				}

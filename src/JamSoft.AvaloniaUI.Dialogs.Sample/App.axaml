@@ -4,7 +4,11 @@
              x:Class="JamSoft.AvaloniaUI.Dialogs.Sample.App">
     
     <Application.Styles>
-        <FluentTheme Mode="Dark"/>
+        <FluentTheme>
+            <FluentTheme.Palettes>
+                <ColorPaletteResources x:Key="Dark" Accent="DarkGreen" RegionColor="Black" ErrorText="Yellow" />
+            </FluentTheme.Palettes>
+        </FluentTheme>
         <StyleInclude Source="avares://JamSoft.AvaloniaUI.Dialogs/Themes/Default.axaml"/>
         
         <Style Selector="Window">
@@ -15,9 +19,9 @@
             <Setter Property="HorizontalAlignment" Value="Center"/>
         </Style>
         
-        <Style Selector="controls|WizardStep:complete /template/ Ellipse#PART_SelectedPipe">
-            <Setter Property="Fill" Value="DeepPink" />
-            <Setter Property="StrokeThickness" Value="0" />
-        </Style>    
+        <!-- <Style Selector="controls|WizardStep:complete /template/ Ellipse#PART_SelectedPipe"> -->
+        <!--     <Setter Property="Fill" Value="DeepPink" /> -->
+        <!--     <Setter Property="StrokeThickness" Value="0" /> -->
+        <!-- </Style>     -->
     </Application.Styles>
 </Application>

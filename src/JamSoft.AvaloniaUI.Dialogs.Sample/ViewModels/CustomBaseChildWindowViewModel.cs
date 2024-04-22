@@ -1,7 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Windows.Input;
-using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
@@ -20,9 +19,7 @@ public class CustomBaseChildWindowViewModel : IChildWindowViewModel
     {
         AcceptCommand = new DelegateCommand(null, null);
         CancelCommand = new DelegateCommand(null, null);
-        
-        var assets = AvaloniaLocator.Current.GetService<IAssetLoader>();
-        CloseIcon = new Bitmap(assets?.Open(new Uri("avares://JamSoft.AvaloniaUI.Dialogs/Assets/CloseIcon/icons8-close-30.png")));
+        CloseIcon = new Bitmap(AssetLoader.Open(new Uri("avares://JamSoft.AvaloniaUI.Dialogs/Assets/CloseIcon/icons8-close-30.png")));
         
         _cancelCommand = new DelegateCommand(() => InvokeRequestCloseDialog(new RequestCloseDialogEventArgs(false)), CanCancel);
         CancelCommandText = "Cancel";

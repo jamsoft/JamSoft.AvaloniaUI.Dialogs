@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Windows.Input;
 using Avalonia.Controls;
+using Avalonia.Platform.Storage;
 using JamSoft.AvaloniaUI.Dialogs.Commands;
 using JamSoft.AvaloniaUI.Dialogs.Helpers;
 using JamSoft.AvaloniaUI.Dialogs.Sample.Models;
@@ -14,7 +15,6 @@ namespace JamSoft.AvaloniaUI.Dialogs.Sample.ViewModels;
 public class MainWindowViewModel : ViewModelBase
 {
     private readonly IDialogService _dialogService;
-    private string? _message;
     private ICommand? _openFileCommand;
     private ICommand? _openWordFileCommand;
     private ICommand? _saveFileCommand;
@@ -29,7 +29,8 @@ public class MainWindowViewModel : ViewModelBase
     private ICommand? _childWindowRememberPositionCommand;
     private ICommand? _missingViewCommand;
     private ICommand? _wizardViewCommand;
-
+    private string? _message;
+    
     public MainWindowViewModel(IDialogService dialogService)
     {
         _dialogService = dialogService;
@@ -137,12 +138,6 @@ public class MainWindowViewModel : ViewModelBase
         set => this.RaiseAndSetIfChanged(ref _saveWordFileCommand, value);
     }
 
-    public string? Message
-    {
-        get => _message;
-        set => this.RaiseAndSetIfChanged(ref _message, value);
-    }
-
     public ICommand? OpenFileCommand
     {
         get => _openFileCommand;
@@ -155,6 +150,12 @@ public class MainWindowViewModel : ViewModelBase
         set => this.RaiseAndSetIfChanged(ref _openWordFileCommand, value);
     }
 
+    public string? Message
+    {
+        get => _message;
+        set => this.RaiseAndSetIfChanged(ref _message, value);
+    }
+    
     private async void OpenFileCommandExecuted()
     {
         Message = await _dialogService.OpenFile("Open Any File");
@@ -162,7 +163,7 @@ public class MainWindowViewModel : ViewModelBase
     
     private async void OpenWordFileCommandExecuted()
     {
-        Message = await _dialogService.OpenFile("Open Word File", new List<FileDialogFilter>
+        Message = await _dialogService.OpenFile("Open Word File", new List<FilePickerFileType>
         {
             CommonFilters.WordFilter
         });
@@ -180,7 +181,7 @@ public class MainWindowViewModel : ViewModelBase
     
     private async void SaveWordFileCommandExecuted()
     {
-        Message = await _dialogService.SaveFile("Save Word File", new List<FileDialogFilter>
+        Message = await _dialogService.SaveFile("Save Word File", new List<FilePickerFileType>
         {
             CommonFilters.WordFilter
         });

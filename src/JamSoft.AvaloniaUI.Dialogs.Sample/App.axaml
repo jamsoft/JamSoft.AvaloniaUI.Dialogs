@@ -19,9 +19,9 @@
             <Setter Property="HorizontalAlignment" Value="Center"/>
         </Style>
         
-        <Style Selector="controls|WizardStep:complete /template/ Ellipse#PART_SelectedPipe">
-            <Setter Property="Fill" Value="DeepPink" />
-            <Setter Property="StrokeThickness" Value="0" />
-        </Style>    
+        <!-- <Style Selector="controls|WizardStep:complete /template/ Ellipse#PART_SelectedPipe"> -->
+        <!--     <Setter Property="Fill" Value="DeepPink" /> -->
+        <!--     <Setter Property="StrokeThickness" Value="0" /> -->
+        <!-- </Style>     -->
     </Application.Styles>
 </Application>

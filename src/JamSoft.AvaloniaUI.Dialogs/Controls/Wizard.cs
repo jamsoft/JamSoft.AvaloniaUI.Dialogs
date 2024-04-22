@@ -40,7 +40,7 @@ namespace JamSoft.AvaloniaUI.Dialogs.Controls
         /// <summary>
         /// The index of the active WizardStep
         /// </summary>
-        public int SelectedIndex { get; set; } = 0;
+        public int SelectedIndex { get; set; }
 
         /// <summary>
         /// Defines the <see cref="SelectedIndex"/> property.
@@ -51,7 +51,7 @@ namespace JamSoft.AvaloniaUI.Dialogs.Controls
                 o => o.SelectedIndex,
                 (o, v) => o.SelectedIndex = v,
                 unsetValue: 0,
-                defaultBindingMode: BindingMode.TwoWay);
+                defaultBindingMode: BindingMode.OneWay);
         
         /// <summary>
         /// Defines the <see cref="SelectedItem"/> property.
@@ -96,32 +96,32 @@ namespace JamSoft.AvaloniaUI.Dialogs.Controls
         /// <summary>
         /// Defines the <see cref="NextButtonContent"/> property.
         /// </summary>
-        public static readonly StyledProperty<object> NextButtonContentProperty =
-            AvaloniaProperty.Register<Wizard, object>(nameof(NextButtonContent), "Next");
+        public static readonly StyledProperty<object?> NextButtonContentProperty =
+            AvaloniaProperty.Register<Wizard, object?>(nameof(NextButtonContent), "Next");
         
         /// <summary>
         /// Defines the <see cref="PreviousButtonContent"/> property.
         /// </summary>
-        public static readonly StyledProperty<object> PreviousButtonContentProperty =
-            AvaloniaProperty.Register<Wizard, object>(nameof(PreviousButtonContent), "Back");
+        public static readonly StyledProperty<object?> PreviousButtonContentProperty =
+            AvaloniaProperty.Register<Wizard, object?>(nameof(PreviousButtonContent), "Back");
         
         /// <summary>
         /// Defines the <see cref="CompleteButtonContent"/> property.
         /// </summary>
-        public static readonly StyledProperty<object> CompleteButtonContentProperty =
-            AvaloniaProperty.Register<Wizard, object>(nameof(CompleteButtonContent), "Complete");
+        public static readonly StyledProperty<object?> CompleteButtonContentProperty =
+            AvaloniaProperty.Register<Wizard, object?>(nameof(CompleteButtonContent), "Complete");
 
         /// <summary>
         /// Defines the <see cref="Steps"/> property.
         /// </summary>
-        public static readonly StyledProperty<List<WizardStep>?> StepsProperty =
-            AvaloniaProperty.Register<Wizard, List<WizardStep>?>(nameof(Steps));
+        public static readonly StyledProperty<IList<WizardStep>?> StepsProperty =
+            AvaloniaProperty.Register<Wizard, IList<WizardStep>?>(nameof(Steps));
         
         /// <summary>
         /// Gets or sets a collection used to generate the content of the <see cref="Wizard"/>.
         /// </summary>
         [Content]
-        public List<WizardStep>? Steps
+        public IList<WizardStep>? Steps
         {
             get => GetValue(StepsProperty);
             set => SetValue(StepsProperty, value);
@@ -191,7 +191,7 @@ namespace JamSoft.AvaloniaUI.Dialogs.Controls
         /// <summary>
         /// Next button content
         /// </summary>
-        public object NextButtonContent
+        public object? NextButtonContent
         {
             get { return GetValue(NextButtonContentProperty); }
             set { SetValue(NextButtonContentProperty, value); }
@@ -200,7 +200,7 @@ namespace JamSoft.AvaloniaUI.Dialogs.Controls
         /// <summary>
         /// Previous button content
         /// </summary>
-        public object PreviousButtonContent
+        public object? PreviousButtonContent
         {
             get { return GetValue(PreviousButtonContentProperty); }
             set { SetValue(PreviousButtonContentProperty, value); }
@@ -209,7 +209,7 @@ namespace JamSoft.AvaloniaUI.Dialogs.Controls
         /// <summary>
         /// Complete button content
         /// </summary>
-        public object CompleteButtonContent
+        public object? CompleteButtonContent
         {
             get { return GetValue(CompleteButtonContentProperty); }
             set { SetValue(CompleteButtonContentProperty, value); }
@@ -227,7 +227,7 @@ namespace JamSoft.AvaloniaUI.Dialogs.Controls
             }
             
             var list = Steps;
-            if (args.Sender.Equals(list.LastOrDefault()) && (args.NewValue is bool && (bool)args.NewValue))
+            if (args.Sender.Equals(list?.LastOrDefault()) && (args.NewValue is bool value && value))
             {
                 CompleteButton!.IsEnabled = true;
             }
@@ -239,16 +239,25 @@ namespace JamSoft.AvaloniaUI.Dialogs.Controls
         
         private void UpdateSelectedContent()
         {
-            if (ContentPart != null)
+            if (ContentPart == null) return;
+            
+            if (SelectedItem != null && Steps?[SelectedIndex] != null)
             {
-                SelectedItem = Steps?[SelectedIndex];
-                ContentPart.SetValue(ContentControl.ContentProperty, SelectedItem?.Content);
+                SelectedItem.IsSelected = false;
+            }
+            
+            SelectedItem = Steps?[SelectedIndex];
+            
+            if (SelectedItem != null)
+            {
+                ContentPart.SetValue(ContentControl.ContentProperty, SelectedItem.Content);
+                SelectedItem.IsSelected = true;
             }
         }
 
         private void HandleDataContextChanged()
         {
-            WizardStep.StepCompleteProperty.Changed.AddClassHandler<WizardStep>((x, args) => StepCompleted(args));
+            WizardStep.StepCompleteProperty.Changed.AddClassHandler<WizardStep>((_, args) => StepCompleted(args));
         }
         
         /// <inheritdoc/>
@@ -322,7 +331,7 @@ namespace JamSoft.AvaloniaUI.Dialogs.Controls
             var list = Steps;
             var selected = SelectedItem;
 
-            if (selected!.Equals(list.LastOrDefault()))
+            if (selected!.Equals(list?.LastOrDefault()))
             {
                 NextButton!.IsVisible = false;
                 CompleteButton!.IsVisible = true;

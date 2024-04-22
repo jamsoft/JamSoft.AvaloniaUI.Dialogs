@@ -2,8 +2,18 @@
 
 namespace JamSoft.AvaloniaUI.Dialogs.Helpers;
 
+/// <summary>
+/// A class containing extension methods for <see cref="FilePickerFileType"/> to allow for easier merging of file types.
+/// </summary>
 public static class CommonFiltersExtensionMethods
 {
+    /// <summary>
+    /// Merges the specified file type with the other file types.
+    /// </summary>
+    /// <param name="fileType"></param>
+    /// <param name="others"></param>
+    /// <param name="name"></param>
+    /// <returns></returns>
     public static FilePickerFileType MergeWith(this FilePickerFileType fileType, FilePickerFileType[] others, string? name)
     {
         if (!string.IsNullOrWhiteSpace(name))
@@ -29,6 +39,13 @@ public static class CommonFiltersExtensionMethods
         return fileType;
     }
     
+    /// <summary>
+    /// merges the specified file type with the other file type.
+    /// </summary>
+    /// <param name="fileType"></param>
+    /// <param name="other"></param>
+    /// <param name="name"></param>
+    /// <returns></returns>
     public static FilePickerFileType MergeWith(this FilePickerFileType fileType, FilePickerFileType? other, string? name = null)
     {
         if (other == null)

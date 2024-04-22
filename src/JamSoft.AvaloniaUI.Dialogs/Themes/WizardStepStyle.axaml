@@ -34,7 +34,7 @@
                 CornerRadius="{TemplateBinding CornerRadius}"
                 Padding="{TemplateBinding Padding}">
           <Panel>
-            <Ellipse Name="PART_SelectedPipe" Width="12" Height="12" Stroke="Gray" />
+            <Ellipse Name="PART_SelectedPipe" Width="12" Height="12" StrokeThickness="1" Stroke="Gray" />
           </Panel>
         </Border>
       </ControlTemplate>

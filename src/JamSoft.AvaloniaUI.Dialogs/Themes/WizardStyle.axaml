@@ -41,12 +41,16 @@
                        LastChildFill="False"/>
             
             <ItemsControl Name="PART_StepsPresenter"
-                            ItemsSource="{TemplateBinding ItemsSource}"
-                            ItemsPanel="{TemplateBinding ItemsPanel}" 
-                            HorizontalAlignment="Center"
-                            ItemTemplate="{TemplateBinding ItemTemplate}"
-                            DockPanel.Dock="{TemplateBinding ProgressPlacement}"/>
-
+                          ItemsSource="{TemplateBinding Steps}"
+                          HorizontalAlignment="Center"
+                          DockPanel.Dock="{TemplateBinding ProgressPlacement}">
+              <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                  <WrapPanel Orientation="Horizontal" />
+                </ItemsPanelTemplate>
+              </ItemsControl.ItemsPanel>
+            </ItemsControl>
+            
             <ContentPresenter Name="PART_SelectedContentHost"
                               Margin="{TemplateBinding Padding}"
                               Content="{TemplateBinding SelectedContent}"
@@ -62,9 +66,11 @@
   <Style Selector="controls|Wizard[ButtonPlacement=Left] /template/ ItemsPresenter#PART_ButtonsPresenter > WrapPanel">
     <Setter Property="Orientation" Value="Vertical" />
   </Style>
+  
   <Style Selector="controls|Wizard[ButtonPlacement=Right] /template/ ItemsPresenter#PART_ButtonsPresenter > WrapPanel">
     <Setter Property="Orientation" Value="Vertical" />
   </Style>
+  
   <Style Selector="controls|Wizard[ButtonPlacement=Top] /template/ ItemsPresenter#PART_ButtonsPresenter">
     <Setter Property="Margin" Value="{DynamicResource WizardControlTopPlacementItemMargin}" />
   </Style>
@@ -72,9 +78,11 @@
   <Style Selector="controls|Wizard[ProgressPlacement=Left] /template/ ItemsPresenter#PART_StepsPresenter > WrapPanel">
     <Setter Property="Orientation" Value="Vertical" />
   </Style>
+  
   <Style Selector="controls|Wizard[ProgressPlacement=Right] /template/ ItemsPresenter#PART_StepsPresenter > WrapPanel">
     <Setter Property="Orientation" Value="Vertical" />
   </Style>
+  
   <Style Selector="controls|Wizard[ProgressPlacement=Top] /template/ ItemsPresenter#PART_StepsPresenter">
     <Setter Property="Margin" Value="{DynamicResource WizardControlTopPlacementItemMargin}" />
   </Style>

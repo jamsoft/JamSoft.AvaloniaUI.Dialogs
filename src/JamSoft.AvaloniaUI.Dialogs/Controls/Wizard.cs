@@ -5,6 +5,8 @@ using Avalonia.Controls.Metadata;
 using Avalonia.Controls.Presenters;
 using Avalonia.Controls.Primitives;
 using Avalonia.Controls.Templates;
+using Avalonia.Data;
+using Avalonia.Metadata;
 using JamSoft.AvaloniaUI.Dialogs.Commands;
 using JamSoft.AvaloniaUI.Dialogs.ViewModels;
 
@@ -13,18 +15,53 @@ namespace JamSoft.AvaloniaUI.Dialogs.Controls
     /// <summary>
     /// A wizard control that displays a series of elements in a workflow style progression.
     /// </summary>
-    // https://github.com/AvaloniaUI/Avalonia/blob/master/src/Avalonia.Controls/TabControl.cs
-    [TemplatePart("PART_StepsPresenter", typeof(ItemsPresenter))]
+    [TemplatePart("PART_StepsPresenter", typeof(ItemsControl))]
     [TemplatePart("PART_ButtonsPresenter", typeof(DockPanel))]
-    public class Wizard : SelectingItemsControl
+    public class Wizard : TemplatedControl
     {
+        internal ContentPresenter? ContentPart;
+        
+        internal DockPanel? ButtonsPresenterPart { get; private set; }
+        
+        private Button? CompleteButton { get; set; }
+
+        private Button? PreviousButton { get; set; }
+
+        private Button? NextButton { get; set; }
+        
         private ICommand MoveNextCommand => new DelegateCommand(MoveNextCommandExecuted);
         private ICommand MovePreviousCommand => new DelegateCommand(MovePreviousCommandExecuted);
+        
+        /// <summary>
+        /// Gets or sets the selected item.
+        /// </summary>
+        public WizardStep? SelectedItem { get; set; }
 
         /// <summary>
-        /// The default value for the <see cref="ItemsControl.ItemsPanel"/> property.
+        /// The index of the active WizardStep
         /// </summary>
-        private static readonly FuncTemplate<Panel?> DefaultPanel = new(() => new WrapPanel());
+        public int SelectedIndex { get; set; } = 0;
+
+        /// <summary>
+        /// Defines the <see cref="SelectedIndex"/> property.
+        /// </summary>
+        public static readonly DirectProperty<Wizard, int> SelectedIndexProperty =
+            AvaloniaProperty.RegisterDirect<Wizard, int>(
+                nameof(SelectedIndex),
+                o => o.SelectedIndex,
+                (o, v) => o.SelectedIndex = v,
+                unsetValue: 0,
+                defaultBindingMode: BindingMode.TwoWay);
+        
+        /// <summary>
+        /// Defines the <see cref="SelectedItem"/> property.
+        /// </summary>
+        public static readonly DirectProperty<Wizard, WizardStep?> SelectedItemProperty =
+            AvaloniaProperty.RegisterDirect<Wizard, WizardStep?>(
+                nameof(SelectedItem),
+                o => o.SelectedItem,
+                (o, v) => o.SelectedItem = v,
+                defaultBindingMode: BindingMode.OneWay, enableDataValidation: true);
         
         /// <summary>
         /// Defines the <see cref="ButtonPlacement"/> property.
@@ -75,15 +112,29 @@ namespace JamSoft.AvaloniaUI.Dialogs.Controls
             AvaloniaProperty.Register<Wizard, object>(nameof(CompleteButtonContent), "Complete");
 
         /// <summary>
+        /// Defines the <see cref="Steps"/> property.
+        /// </summary>
+        public static readonly StyledProperty<List<WizardStep>?> StepsProperty =
+            AvaloniaProperty.Register<Wizard, List<WizardStep>?>(nameof(Steps));
+        
+        /// <summary>
+        /// Gets or sets a collection used to generate the content of the <see cref="Wizard"/>.
+        /// </summary>
+        [Content]
+        public List<WizardStep>? Steps
+        {
+            get => GetValue(StepsProperty);
+            set => SetValue(StepsProperty, value);
+        }
+        
+        /// <summary>
         /// Initializes static members of the <see cref="Wizard"/> class.
         /// </summary>
-        static Wizard()
+        public Wizard()
         {
-            SelectionModeProperty.OverrideDefaultValue<Wizard>(SelectionMode.AlwaysSelected);
-            ItemsPanelProperty.OverrideDefaultValue<Wizard>(DefaultPanel);
             AffectsMeasure<Wizard>(ButtonPlacementProperty);
-            SelectedItemProperty.Changed.AddClassHandler<Wizard>((x, _) => x.UpdateSelectedContent());
             DataContextProperty.Changed.AddClassHandler<Wizard>((x, _) => x.HandleDataContextChanged());
+            Steps = new List<WizardStep>();
         }
 
         /// <summary>
@@ -164,105 +215,48 @@ namespace JamSoft.AvaloniaUI.Dialogs.Controls
             set { SetValue(CompleteButtonContentProperty, value); }
         }
 
-        internal ItemsPresenter? ItemsPresenterPart;
-
-        internal ContentPresenter? ContentPart;
-        
-        internal DockPanel? ButtonsPresenterPart { get; private set; }
-
-        /// <inheritdoc/>
-        //IAvaloniaList<ILogical> IContentPresenterHost.LogicalChildren => LogicalChildren;
-
-        /// <inheritdoc/>
-        // bool RegisterContentPresenter(ContentPresenter presenter)
-        // {
-        //     return RegisterContentPresenter(presenter);
-        // }
-
-        /// <inheritdoc/>
-        // protected override void OnContainersMaterialized(ItemContainerEventArgs e)
-        // {
-        //     base.OnContainersMaterialized(e);
-        //     UpdateSelectedContent();
-        // }
-        //
-        // /// <inheritdoc/>
-        // protected override void OnContainersRecycled(ItemContainerEventArgs e)
-        // {
-        //     base.OnContainersRecycled(e);
-        //     UpdateSelectedContent();
-        // }
-
-        private void UpdateSelectedContent()
+        private void StepCompleted(AvaloniaPropertyChangedEventArgs args)
         {
-            if (SelectedIndex == -1)
+            if (args.NewValue is bool && (bool)args.NewValue)
             {
-                SelectedContent = SelectedContentTemplate = null;
+                NextButton!.IsEnabled = true;
             }
             else
             {
-                var container = SelectedItem as ContentControl ??
-                    this.ContainerFromIndex(SelectedIndex) as ContentControl;
-                SelectedContentTemplate = container?.ContentTemplate;
-                SelectedContent = container?.Content;
+                NextButton!.IsEnabled = false;
             }
-        }
-
-        /// <summary>
-        /// Called when an <see cref="ContentPresenter"/> is registered with the control.
-        /// </summary>
-        /// <param name="presenter">The presenter.</param>
-        protected virtual bool RegisterContentPresenter(ContentPresenter presenter)
-        {
-            if (presenter.Name == "PART_SelectedContentHost")
+            
+            var list = Steps;
+            if (args.Sender.Equals(list.LastOrDefault()) && (args.NewValue is bool && (bool)args.NewValue))
             {
-                ContentPart = presenter;
-                return true;
+                CompleteButton!.IsEnabled = true;
             }
-
-            return false;
-        }
-
-        // protected ItemContainerGenerator CreateItemContainerGenerator()
-        // {
-        //     return new WizardContainerGenerator(this);
-        // }
-
-        protected override Control CreateContainerForItemOverride(object? item, int index, object? recycleKey)
-        {
-            return new WizardStep();
+            else
+            {
+                CompleteButton!.IsEnabled = false;
+            }
         }
         
+        private void UpdateSelectedContent()
+        {
+            if (ContentPart != null)
+            {
+                SelectedItem = Steps?[SelectedIndex];
+                ContentPart.SetValue(ContentControl.ContentProperty, SelectedItem?.Content);
+            }
+        }
+
         private void HandleDataContextChanged()
         {
-            //WizardStep.StepCompleteProperty.Changed.Subscribe(this); //, x =>
-            // {
-            //     if (x.Sender.Equals(SelectedItem) && x.NewValue.Value)
-            //     {
-            //         NextButton!.IsEnabled = true;
-            //     }
-            //     else
-            //     {
-            //         NextButton!.IsEnabled = false;
-            //     }
-            //     
-            //     var list = Items;
-            //     if (x.Sender.Equals(list.LastOrDefault()) && x.NewValue.Value)
-            //     {
-            //         CompleteButton!.IsEnabled = true;
-            //     }
-            //     else
-            //     {
-            //         CompleteButton!.IsEnabled = false;
-            //     }
-            // });
+            WizardStep.StepCompleteProperty.Changed.AddClassHandler<WizardStep>((x, args) => StepCompleted(args));
         }
         
         /// <inheritdoc/>
         protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
         {
-            ItemsPresenterPart = e.NameScope.Get<ItemsControl>("PART_StepsPresenter");
+            //ItemsPresenterPart = e.NameScope.Get<ItemsControl>("PART_StepsPresenter");
             ButtonsPresenterPart = e.NameScope.Get<DockPanel>("PART_ButtonsPresenter");
+            ContentPart = e.NameScope.Get<ContentPresenter>("PART_SelectedContentHost");
 
             PreviousButton = new Button
             {
@@ -292,23 +286,31 @@ namespace JamSoft.AvaloniaUI.Dialogs.Controls
             CompleteButton.IsVisible = false;
             NextButton.IsEnabled = false;
             PreviousButton.IsEnabled = false;
+            
+            UpdateSelectedContent();
         }
-
-        private Button? CompleteButton { get; set; }
-
-        private Button? PreviousButton { get; set; }
-
-        private Button? NextButton { get; set; }
 
         private void MoveNextCommandExecuted()
         {
+            if (SelectedIndex == Steps?.Count - 1)
+            {
+                return;
+            }
+            
             SelectedIndex++;
+            UpdateSelectedContent();
             SetButtons();
         }
         
         private void MovePreviousCommandExecuted()
         {
+            if (SelectedIndex == 0)
+            {
+                return;
+            }
+            
             SelectedIndex--;
+            UpdateSelectedContent();
             SetButtons();
         }
         
@@ -317,9 +319,8 @@ namespace JamSoft.AvaloniaUI.Dialogs.Controls
             NextButton!.IsEnabled = false;
             PreviousButton!.IsEnabled = true;
 
-            //var list = (AvaloniaList<object>)Items;
-            var list = Items;
-            var selected = SelectedItem as WizardStep;
+            var list = Steps;
+            var selected = SelectedItem;
 
             if (selected!.Equals(list.LastOrDefault()))
             {

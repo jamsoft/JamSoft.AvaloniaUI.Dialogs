@@ -31,14 +31,14 @@ paket add JamSoft.AvaloniaUI.Dialogs --version 1.2.0
 ### All Defaults
 ```xml
 <Application.Styles>
-    <FluentTheme Mode="Dark"/>
+    <FluentTheme />
     <StyleInclude Source="avares://JamSoft.AvaloniaUI.Dialogs/Themes/Default.axaml"/>
 </Application.Styles>
 ```
 ### Individual
 ```xml
 <Application.Styles>
-    <FluentTheme Mode="Dark"/>
+    <FluentTheme />
     <StyleInclude Source="avares://JamSoft.AvaloniaUI.Dialogs/Themes/ChildStyle.axaml"/>
     <StyleInclude Source="avares://JamSoft.AvaloniaUI.Dialogs/Themes/ModalStyle.axaml"/>
     <StyleInclude Source="avares://JamSoft.AvaloniaUI.Dialogs/Themes/WizardStyle.axaml"/>
@@ -120,10 +120,11 @@ string path = await _dialogService.OpenFile("Open Any File");
 ```csharp
 string path = await _dialogService.OpenFile("Open Word File", new List<FileDialogFilter>
 {
-    new()
+    new("Word Files")
     {
-        Name = "Docx Word File", 
-        Extensions = new List<string> { "docx" }
+        Patterns = new List<string> { "*.docx", "*.doc" }, 
+        AppleUniformTypeIdentifiers = new List<string> { "com.microsoft.word.doc", "org.openxmlformats.wordprocessingml.document" }, 
+        MimeTypes = new List<string> { "application/msword", "application/vnd.openxmlformats-officedocument.wordprocessingml.document" }
     }
 });
 ```
@@ -149,7 +150,8 @@ string path = await _dialogService.SaveFile("Save New MyApp Project", new List<F
     new()
     {
         Name = "MyApp Project", 
-        Extensions = new List<string> { "myappext" }
+        Patterns = new List<string> { "*.myappext" },
+        AppleUniformTypeIdentifiers = new List<string> { "com.myorgname.myappext" },
     }
 });
 ```

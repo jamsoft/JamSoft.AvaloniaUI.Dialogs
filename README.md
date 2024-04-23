@@ -38,7 +38,7 @@ paket add JamSoft.AvaloniaUI.Dialogs --version 1.2.0
 ### Individual
 ```xml
 <Application.Styles>
-    <FluentTheme Mode="Dark"/>
+    <FluentTheme />
     <StyleInclude Source="avares://JamSoft.AvaloniaUI.Dialogs/Themes/ChildStyle.axaml"/>
     <StyleInclude Source="avares://JamSoft.AvaloniaUI.Dialogs/Themes/ModalStyle.axaml"/>
     <StyleInclude Source="avares://JamSoft.AvaloniaUI.Dialogs/Themes/WizardStyle.axaml"/>

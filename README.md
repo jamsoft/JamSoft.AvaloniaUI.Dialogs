@@ -391,6 +391,11 @@ You can easily target elements of the dialogs via their names and types, such as
             <Setter Property="Fill" Value="DeepPink" />
             <Setter Property="StrokeThickness" Value="0" />
         </Style>
+
+        <!-- Hide the child window Chrome -->
+        <Style Selector="DockPanel#ChromeDockPanel">
+            <Setter Property="IsVisible" Value="False" />
+        </Style>
         
     </Application.Styles>
 </Application>

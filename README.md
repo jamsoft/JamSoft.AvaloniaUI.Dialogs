@@ -386,7 +386,8 @@ You can easily target elements of the dialogs via their names and types, such as
                 <Setter Property="VerticalAlignment" Value="Center" />
                 <Setter Property="Margin" Value="10,0"/>
         </Style>
-        
+
+        <!-- Override Wizard complete ellipse fill and stroke -->
         <Style Selector="controls|WizardStep:complete /template/ Ellipse#PART_SelectedPipe">
             <Setter Property="Fill" Value="DeepPink" />
             <Setter Property="StrokeThickness" Value="0" />

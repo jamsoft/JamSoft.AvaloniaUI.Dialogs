@@ -1,0 +1,22 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:viewModels="clr-namespace:JamSoft.AvaloniaUI.Dialogs.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:DataType="viewModels:MsgBoxViewModel"
+             x:Class="JamSoft.AvaloniaUI.Dialogs.Views.MsgBoxView">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        
+        <Border Background="Gray">
+            <TextBlock Text="{Binding MsgBoxTitle}" Margin="10"></TextBlock>
+        </Border>
+        
+        <TextBlock Grid.Row="1" Text="{Binding Message}" Margin="10"></TextBlock>
+        
+    </Grid>
+</UserControl>

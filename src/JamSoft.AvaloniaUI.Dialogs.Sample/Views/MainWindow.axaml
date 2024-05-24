@@ -48,6 +48,8 @@
             <Button Command="{Binding MissingViewCommand}" Classes="horizontalCenter">Child Missing View</Button>
             
             <Button Command="{Binding WizardViewCommand}" Classes="horizontalCenter">Start Wizard</Button>
+            
+            <Button Command="{Binding ShowMessageBoxCommand}" Classes="horizontalCenter">Show MessageBox</Button>
         
         </UniformGrid>
         

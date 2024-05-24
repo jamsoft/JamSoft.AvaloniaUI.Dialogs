@@ -5,6 +5,7 @@ using Avalonia.Controls;
 using Avalonia.Platform.Storage;
 using JamSoft.AvaloniaUI.Dialogs.Commands;
 using JamSoft.AvaloniaUI.Dialogs.Helpers;
+using JamSoft.AvaloniaUI.Dialogs.MsgBox;
 using JamSoft.AvaloniaUI.Dialogs.Sample.Models;
 using JamSoft.AvaloniaUI.Dialogs.Sample.Views;
 using ReactiveUI;
@@ -15,6 +16,7 @@ namespace JamSoft.AvaloniaUI.Dialogs.Sample.ViewModels;
 public class MainWindowViewModel : ViewModelBase
 {
     private readonly IDialogService _dialogService;
+    private readonly IMessageBoxService _messageBoxService;
     private ICommand? _openFileCommand;
     private ICommand? _openWordFileCommand;
     private ICommand? _saveFileCommand;
@@ -29,11 +31,13 @@ public class MainWindowViewModel : ViewModelBase
     private ICommand? _childWindowRememberPositionCommand;
     private ICommand? _missingViewCommand;
     private ICommand? _wizardViewCommand;
+    private ICommand? _showMessageBoxCommand;
     private string? _message;
     
-    public MainWindowViewModel(IDialogService dialogService)
+    public MainWindowViewModel(IDialogService dialogService, IMessageBoxService messageBoxService)
     {
         _dialogService = dialogService;
+        _messageBoxService = messageBoxService;
 
         Message = "Welcome to JamSoft Avalonia Dialogs!";
         
@@ -64,8 +68,31 @@ public class MainWindowViewModel : ViewModelBase
         MissingViewCommand = new DelegateCommand(MissingViewCommandExecuted, () => true);
         
         WizardViewCommand = new DelegateCommand(WizardViewCommandExecuted, () => true);
+        
+        ShowMessageBoxCommand = new DelegateCommand(ShowMessageBoxCommandExecuted, () => true);
     }
 
+    private async void ShowMessageBoxCommandExecuted()
+    {
+        var resultOkCancel = await _messageBoxService.Show("OK Cancel", "Do you want to carry on?", MsgBoxButton.OkCancel, MsgBoxImage.Question);
+        Message = $"{resultOkCancel} clicked";
+        
+        var resultOk = await _messageBoxService.Show("Ok", "Do you want to carry on?", MsgBoxButton.Ok, MsgBoxImage.Question);
+        Message = $"{resultOk} clicked";
+        
+        var resultYesNo = await _messageBoxService.Show("Yes No", "Do you want to carry on?", MsgBoxButton.YesNo, MsgBoxImage.Question);
+        Message = $"{resultYesNo} clicked";
+        
+        var resultYesNoCancel = await _messageBoxService.Show("Yes No Cancel", "Do you want to carry on?", MsgBoxButton.YesNoCancel, MsgBoxImage.Question);
+        Message = $"{resultYesNoCancel} clicked";
+    }
+
+    public ICommand? ShowMessageBoxCommand
+    {
+        get => _showMessageBoxCommand;
+        set => this.RaiseAndSetIfChanged(ref _showMessageBoxCommand, value);
+    }
+    
     public ICommand? WizardViewCommand
     {
         get => _wizardViewCommand;

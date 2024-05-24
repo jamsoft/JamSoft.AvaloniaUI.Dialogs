@@ -14,4 +14,9 @@ public static class DialogServiceFactory
     {
         return new DialogService(config);
     }
+
+    public static IMessageBoxService CreateMessageBoxService()
+    {
+        return new MessageBoxService();
+    }
 }

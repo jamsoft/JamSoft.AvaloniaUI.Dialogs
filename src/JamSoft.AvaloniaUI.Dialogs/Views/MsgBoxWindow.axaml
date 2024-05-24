@@ -1,0 +1,63 @@
+﻿<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="JamSoft.AvaloniaUI.Dialogs.Views.MsgBoxWindow"
+        Classes="Modal"
+        Topmost="{Binding Topmost}"
+        WindowStartupLocation="{Binding WindowStartupLocation}"
+        Padding="0"
+        MinHeight="100"
+        MinWidth="200">
+    
+    <Window.KeyBindings>
+        <KeyBinding Gesture="Escape" Command="{Binding CancelCommand}" />
+        <KeyBinding Gesture="Enter" Command="{Binding AcceptCommand}" />
+    </Window.KeyBindings>
+    
+    <Grid>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="55" />
+            </Grid.RowDefinitions>
+
+            <Border Name="DialogBorder" />
+            <Border Grid.Row="0" Grid.RowSpan="2" />
+
+            <ContentControl x:Name="Host" Grid.Row="0" Margin="0" Padding="0" />
+		
+            <Grid Grid.Row="1" Margin="10,0,10,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition MinWidth="75" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition MinWidth="75" />
+                </Grid.ColumnDefinitions>
+              
+                <StackPanel Margin="0" Orientation="Horizontal">
+                    <Button IsVisible="{Binding ShowNoButton}"
+                            Command="{Binding NoCommand}" 
+                            Content="{Binding NoCommandText}" />
+                    
+                    <Button IsVisible="{Binding ShowCancelButton}"
+                            Command="{Binding CancelCommand}" 
+                            Content="{Binding CancelCommandText}" />
+                </StackPanel>
+                
+                <Button IsVisible="{Binding ShowOkButton}"
+                        Command="{Binding AcceptCommand}" 
+                        Content="{Binding AcceptCommandText}"
+                        Grid.Column="2" 
+                        HorizontalAlignment="Right"/>
+                
+                <Button IsVisible="{Binding ShowYesButton}"
+                        Command="{Binding AcceptCommand}" 
+                        Content="{Binding AcceptCommandText}"
+                        Grid.Column="2" 
+                        HorizontalAlignment="Right"/>
+            </Grid>
+        </Grid>
+    </Grid>
+    
+</Window>

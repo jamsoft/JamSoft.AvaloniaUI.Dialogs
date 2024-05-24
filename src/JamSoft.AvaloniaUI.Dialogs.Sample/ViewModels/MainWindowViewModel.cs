@@ -16,6 +16,7 @@ public class MainWindowViewModel : ViewModelBase
 {
     private readonly IDialogService _dialogService;
     private ICommand? _openFileCommand;
+    private ICommand? _openFolderCommand;
     private ICommand? _openWordFileCommand;
     private ICommand? _saveFileCommand;
     private ICommand? _saveWordFileCommand;
@@ -38,6 +39,8 @@ public class MainWindowViewModel : ViewModelBase
         Message = "Welcome to JamSoft Avalonia Dialogs!";
         
         OpenFileCommand = new DelegateCommand(OpenFileCommandExecuted, () => true);
+        
+        OpenFolderCommand = new DelegateCommand(OpenFolderCommandExecuted, () => true);
         
         OpenWordFileCommand = new DelegateCommand(OpenWordFileCommandExecuted, () => true);
 
@@ -64,6 +67,12 @@ public class MainWindowViewModel : ViewModelBase
         MissingViewCommand = new DelegateCommand(MissingViewCommandExecuted, () => true);
         
         WizardViewCommand = new DelegateCommand(WizardViewCommandExecuted, () => true);
+    }
+
+    public ICommand? OpenFolderCommand    
+    {
+        get => _openFolderCommand;
+        set => this.RaiseAndSetIfChanged(ref _openFolderCommand, value);
     }
 
     public ICommand? WizardViewCommand
@@ -159,6 +168,11 @@ public class MainWindowViewModel : ViewModelBase
     private async void OpenFileCommandExecuted()
     {
         Message = await _dialogService.OpenFile("Open Any File");
+    }
+    
+    private async void OpenFolderCommandExecuted()
+    {
+        Message = await _dialogService.OpenFolder("Open Any Folder");
     }
     
     private async void OpenWordFileCommandExecuted()

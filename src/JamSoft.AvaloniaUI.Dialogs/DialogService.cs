@@ -212,7 +212,7 @@ internal class DialogService : IDialogService
             DefaultExtension = defaultExtension
         });
 
-        return fd?.Path.AbsolutePath;
+        return fd?.Path.LocalPath;
     }
 
     /// <summary>

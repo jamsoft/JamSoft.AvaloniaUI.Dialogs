@@ -185,9 +185,10 @@ internal class DialogService : IDialogService
             Title = CreateTitle(title)
         });
 
-        //var path = await fd.ShowAsync(GetActiveWindowOrMainWindow());
+        if (path.Count < 1)
+            return null;
 
-        _lastDirectorySelected = path[0].Path.AbsolutePath;
+        _lastDirectorySelected = path[0].Path.LocalPath;
 
         return _lastDirectorySelected;
     }
@@ -260,7 +261,7 @@ internal class DialogService : IDialogService
             SuggestedStartLocation = folder
         });
 
-        return fd.Select(x => x.Path.AbsolutePath).ToArray();
+        return fd.Select(x => x.Path.LocalPath).ToArray();
     }
     
     private IStorageProvider GetStorageProvider()

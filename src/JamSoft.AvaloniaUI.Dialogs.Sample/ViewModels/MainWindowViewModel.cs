@@ -185,7 +185,7 @@ public class MainWindowViewModel : ViewModelBase
     
     private async void OpenFilesCommandExecuted()
     {
-        Message = string.Join(Environment.NewLine, await _dialogService.OpenFiles("Open Multiple Files") ?? new string[0]);
+        Message = string.Join(Environment.NewLine, await _dialogService.OpenFiles("Open Multiple Files") ?? []);
     }
     
     private async void SaveFileCommandExecuted()
@@ -203,96 +203,101 @@ public class MainWindowViewModel : ViewModelBase
     
     private void ShowDialogCommandExecuted()
     {
-        _dialogService.ShowDialog(new MyDialogView(), Locator.Current.GetService<MyDialogViewModel>(), DialogCallback);
+        var vm = Locator.Current.GetService<MyDialogViewModel>();
+        if (vm != null) _dialogService.ShowDialog(new MyDialogView(), vm, DialogCallback);
     }
     
     private void ShowDialogAutoFindViewCommandExecuted()
     {
-        _dialogService.ShowDialog(Locator.Current.GetService<MyDialogViewModel>(), DialogCallback);
+        var vm = Locator.Current.GetService<MyDialogViewModel>();
+        if (vm != null) _dialogService.ShowDialog(vm, DialogCallback);
     }
     
     private void ShowCustomizedDialogCommandExecuted()
     {
         var vm = Locator.Current.GetService<MyDialogViewModel>();
-        vm.AcceptCommandText = "Accept";
-        vm.CancelCommandText = "Oh No!";
-        
-        _dialogService.ShowDialog(new MyDialogView(), vm, DialogCallback);
+        if (vm != null)
+        {
+            vm.AcceptCommandText = "Accept";
+            vm.CancelCommandText = "Oh No!";
+            
+            _dialogService.ShowDialog(new MyDialogView(), vm, DialogCallback);
+        }
     }
 
-    private void DialogCallback(MyDialogViewModel obj)
+    private void DialogCallback(MyDialogViewModel? obj)
     {
-        Message = obj.DialogMessage;
+        Message = obj?.DialogMessage;
     }
     
     private void ShowChildWindowCommandExecuted()
     {
         var vm = Locator.Current.GetService<MyChildWindowViewModel>();
-
-        vm.RequestedLeft = 50;
-        vm.RequestedTop = 50;
-        vm.RequestedHeight = 500;
-        vm.RequestedWidth = 600;
-        // these values can be stored in user settings and loaded at runtime etc.
-        vm.ChildMessage = "Child Message Value";
-        vm.ChildWindowTitle = "My Child Window Title";
-        
-        _dialogService.ShowChildWindow(new MyChildWindowView(), vm, model =>
+        if (vm != null)
         {
-            Message = $"Child Closed - {model.ChildMessage}";
-        });
+            vm.RequestedLeft = 50;
+            vm.RequestedTop = 50;
+            vm.RequestedHeight = 500;
+            vm.RequestedWidth = 600;
+            // these values can be stored in user settings and loaded at runtime etc.
+            vm.ChildMessage = "Child Message Value";
+            vm.ChildWindowTitle = "My Child Window Title";
+
+            _dialogService.ShowChildWindow(new MyChildWindowView(), vm,
+                model => { Message = $"Child Closed - {model.ChildMessage}"; });
+        }
     }
     
     private void ShowChildWindowAutoFindViewCommandExecuted()
     {
         var vm = Locator.Current.GetService<MyChildWindowViewModel>();
-
-        vm.RequestedLeft = 50;
-        vm.RequestedTop = 50;
-        vm.RequestedHeight = 500;
-        vm.RequestedWidth = 600;
-        vm.ChildMessage = "Child Message Value";
-        vm.ChildWindowTitle = "My Child Window Title Auto Find";
-        vm.Location = WindowStartupLocation.CenterScreen;
-        
-        _dialogService.ShowChildWindow(vm, model =>
+        if (vm != null)
         {
-            Message = $"Child Closed - {model.ChildMessage}";
-        });
+            vm.RequestedLeft = 50;
+            vm.RequestedTop = 50;
+            vm.RequestedHeight = 500;
+            vm.RequestedWidth = 600;
+            vm.ChildMessage = "Child Message Value";
+            vm.ChildWindowTitle = "My Child Window Title Auto Find";
+            vm.Location = WindowStartupLocation.CenterScreen;
+
+            _dialogService.ShowChildWindow(vm, model => { Message = $"Child Closed - {model.ChildMessage}"; });
+        }
     }
     
     private void ShowCustomChildWindowAutoFindViewCommandExecuted()
     {
         var vm = Locator.Current.GetService<CustomBaseChildWindowViewModel>();
-        vm.RequestedLeft = 50;
-        vm.RequestedTop = 50;
-        vm.RequestedHeight = 500;
-        vm.RequestedWidth = 600;
-        
-        vm.ChildWindowTitle = "My Custom Child Window Title Auto Find";
-        
-        _dialogService.ShowChildWindow(vm, model =>
+        if (vm != null)
         {
-            Message = $"Custom Child View Model Closed - {model.GetType()}";
-        });
+            vm.RequestedLeft = 50;
+            vm.RequestedTop = 50;
+            vm.RequestedHeight = 500;
+            vm.RequestedWidth = 600;
+
+            vm.ChildWindowTitle = "My Custom Child Window Title Auto Find";
+
+            _dialogService.ShowChildWindow(vm,
+                model => { Message = $"Custom Child View Model Closed - {model.GetType()}"; });
+        }
     }
     
     private void ChildWindowRememberPositionCommandExecuted()
     {
         var vm = Locator.Current.GetService<MyChildWindowViewModel>();
-
-        // these values can be stored in user settings and loaded at runtime etc.
-        vm.RequestedLeft = MyUserSettings.Instance.Left;
-        vm.RequestedTop = MyUserSettings.Instance.Top;
-        vm.RequestedHeight = MyUserSettings.Instance.Height;
-        vm.RequestedWidth = MyUserSettings.Instance.Width;
-        
-        vm.ChildWindowTitle = "My Custom Child Window Title Auto Find";
-        
-        _dialogService.ShowChildWindow(vm, model =>
+        if (vm != null)
         {
-            Message = $"Child Remember Position Closed - {model.GetType()}";
-        });
+            // these values can be stored in user settings and loaded at runtime etc.
+            vm.RequestedLeft = MyUserSettings.Instance.Left;
+            vm.RequestedTop = MyUserSettings.Instance.Top;
+            vm.RequestedHeight = MyUserSettings.Instance.Height;
+            vm.RequestedWidth = MyUserSettings.Instance.Width;
+
+            vm.ChildWindowTitle = "My Custom Child Window Title Auto Find";
+
+            _dialogService.ShowChildWindow(vm,
+                model => { Message = $"Child Remember Position Closed - {model.GetType()}"; });
+        }
     }
     
     private void MissingViewCommandExecuted()
@@ -301,7 +306,7 @@ public class MainWindowViewModel : ViewModelBase
 
         try
         {
-            _dialogService.ShowChildWindow(vm, model => { });
+            if (vm != null) _dialogService.ShowChildWindow(vm, model => { });
         }
         catch (Exception ex)
         {
@@ -312,17 +317,16 @@ public class MainWindowViewModel : ViewModelBase
     private void WizardViewCommandExecuted()
     {
         var vm = Locator.Current.GetService<MyWizardViewModel>();
-        
-        vm.RequestedLeft = MyUserSettings.Instance.Left;
-        vm.RequestedTop = MyUserSettings.Instance.Top;
-        vm.RequestedHeight = MyUserSettings.Instance.Height;
-        vm.RequestedWidth = MyUserSettings.Instance.Width;
-        
-        vm.ChildWindowTitle = "My Wizard";
-        
-        _dialogService.StartWizard(vm, model =>
+        if (vm != null)
         {
-            Message = $"Wizard Closed - {model.GetType()}";
-        });
+            vm.RequestedLeft = MyUserSettings.Instance.Left;
+            vm.RequestedTop = MyUserSettings.Instance.Top;
+            vm.RequestedHeight = MyUserSettings.Instance.Height;
+            vm.RequestedWidth = MyUserSettings.Instance.Width;
+
+            vm.ChildWindowTitle = "My Wizard";
+
+            _dialogService.StartWizard(vm, model => { Message = $"Wizard Closed - {model.GetType()}"; });
+        }
     }
 }

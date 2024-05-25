@@ -8,6 +8,7 @@ using JamSoft.AvaloniaUI.Dialogs.Helpers;
 using JamSoft.AvaloniaUI.Dialogs.MsgBox;
 using JamSoft.AvaloniaUI.Dialogs.Sample.Models;
 using JamSoft.AvaloniaUI.Dialogs.Sample.Views;
+using JamSoft.AvaloniaUI.Dialogs.ViewModels;
 using ReactiveUI;
 using Splat;
 
@@ -43,35 +44,20 @@ public class MainWindowViewModel : ViewModelBase
         Message = "Welcome to JamSoft Avalonia Dialogs!";
         
         OpenFileCommand = new DelegateCommand(OpenFileCommandExecuted, () => true);
-        
         OpenFolderCommand = new DelegateCommand(OpenFolderCommandExecuted, () => true);
-        
         OpenWordFileCommand = new DelegateCommand(OpenWordFileCommandExecuted, () => true);
-
         OpenFilesCommand = new DelegateCommand(OpenFilesCommandExecuted, () => true);
-
         SaveFileCommand = new DelegateCommand(SaveFileCommandExecuted, () => true);
-        
         SaveWordFileCommand = new DelegateCommand(SaveWordFileCommandExecuted, () => true);
-
         ShowDialogCommand = new DelegateCommand(ShowDialogCommandExecuted, () => true);
-        
         ShowDialogAutoFindViewCommand = new DelegateCommand(ShowDialogAutoFindViewCommandExecuted, () => true);
-        
         ShowCustomizedDialogCommand = new DelegateCommand(ShowCustomizedDialogCommandExecuted, () => true);
-
         ShowChildWindowCommand = new DelegateCommand(ShowChildWindowCommandExecuted, () => true);
-        
         ShowChildWindowAutoFindViewCommand = new DelegateCommand(ShowChildWindowAutoFindViewCommandExecuted, () => true);
-
         ShowCustomChildWindowCommand = new DelegateCommand(ShowCustomChildWindowAutoFindViewCommandExecuted, () => true);
-
         ChildWindowRememberPositionCommand = new DelegateCommand(ChildWindowRememberPositionCommandExecuted, () => true);
-
         MissingViewCommand = new DelegateCommand(MissingViewCommandExecuted, () => true);
-        
         WizardViewCommand = new DelegateCommand(WizardViewCommandExecuted, () => true);
-        
         ShowMessageBoxCommand = new DelegateCommand(ShowMessageBoxCommandExecuted, () => true);
     }
 
@@ -94,6 +80,10 @@ public class MainWindowViewModel : ViewModelBase
         
         var resultYesNoNoIcon = await _messageBoxService.Show("Yes No Without Icon", "Do you want to carry on?", MsgBoxButton.YesNo);
         Message = $"{resultYesNoNoIcon} clicked";
+        
+        var viewModel = new MsgBoxViewModel("Yes No With Icon", "Do you want to carry on?", MsgBoxButton.YesNo, MsgBoxImage.Warning);
+        var resultVm = await _messageBoxService.Show(viewModel);
+        Message = $"{resultVm} clicked";
     }
 
     public ICommand? ShowMessageBoxCommand

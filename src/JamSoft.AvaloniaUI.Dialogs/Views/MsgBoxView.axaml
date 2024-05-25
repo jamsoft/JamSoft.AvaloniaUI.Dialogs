@@ -8,11 +8,11 @@
              x:Class="JamSoft.AvaloniaUI.Dialogs.Views.MsgBoxView">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"></RowDefinition>
-            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         
-        <Border x:Name="MsgBoxTitleBorder" Background="Gray">
+        <Border x:Name="MsgBoxTitleBorder">
             <TextBlock x:Name="MsgBoxTitle" 
                        Text="{Binding MsgBoxTitle}" 
                        Margin="10" />
@@ -23,8 +23,8 @@
                 <Ellipse x:Name="MsgBoxIconBackgroundEllipse" 
                          IsVisible="{Binding HasIcon}"
                          Width="36"
-                         Height="36"
-                         Fill="White" />
+                         Height="36" />
+                
                 <Image Width="32"
                        Height="32" 
                        IsVisible="{Binding HasIcon}" 

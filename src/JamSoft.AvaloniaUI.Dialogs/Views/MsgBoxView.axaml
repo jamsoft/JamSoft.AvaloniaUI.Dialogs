@@ -12,11 +12,27 @@
             <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
         
-        <Border Background="Gray">
-            <TextBlock Text="{Binding MsgBoxTitle}" Margin="10"></TextBlock>
+        <Border x:Name="MsgBoxTitleBorder" Background="Gray">
+            <TextBlock x:Name="MsgBoxTitle" 
+                       Text="{Binding MsgBoxTitle}" 
+                       Margin="10" />
         </Border>
         
-        <TextBlock Grid.Row="1" Text="{Binding Message}" Margin="10"></TextBlock>
-        
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="10">
+            <Grid>
+                <Ellipse x:Name="MsgBoxIconBackgroundEllipse" 
+                         IsVisible="{Binding HasIcon}"
+                         Width="36"
+                         Height="36"
+                         Fill="White" />
+                <Image Width="32"
+                       Height="32" 
+                       IsVisible="{Binding HasIcon}" 
+                       Source="{Binding Icon}" />
+            </Grid>
+            <TextBlock x:Name="MsgBoxMessage" 
+                       Text="{Binding Message}" 
+                       Margin="10" />
+        </StackPanel>
     </Grid>
 </UserControl>

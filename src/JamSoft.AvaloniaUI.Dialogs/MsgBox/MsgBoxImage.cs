@@ -3,8 +3,13 @@
 public enum MsgBoxImage
 {
     None,
+    Asterisk,
+    Exclamation,
+    Hand,
+    Stop,
     Error,
     Question,
     Warning,
-    Information
+    Information,
+    Custom
 }

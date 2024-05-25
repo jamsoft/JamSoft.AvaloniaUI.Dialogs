@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Windows.Input;
 using Avalonia.Controls;
@@ -77,17 +77,23 @@ public class MainWindowViewModel : ViewModelBase
 
     private async void ShowMessageBoxCommandExecuted()
     {
-        var resultOkCancel = await _messageBoxService.Show("OK Cancel", "Do you want to carry on?", MsgBoxButton.OkCancel, MsgBoxImage.Question);
+        var resultOkCancel = await _messageBoxService.Show("OK Cancel", "Do you want to carry on?", MsgBoxButton.OkCancel, MsgBoxImage.Error);
         Message = $"{resultOkCancel} clicked";
         
-        var resultOk = await _messageBoxService.Show("Ok", "Do you want to carry on?", MsgBoxButton.Ok, MsgBoxImage.Question);
+        var resultOk = await _messageBoxService.Show("Ok", "Do you want to carry on?", MsgBoxButton.Ok, MsgBoxImage.Information);
         Message = $"{resultOk} clicked";
         
-        var resultYesNo = await _messageBoxService.Show("Yes No", "Do you want to carry on?", MsgBoxButton.YesNo, MsgBoxImage.Question);
+        var resultYesNo = await _messageBoxService.Show("Yes No", "Do you want to carry on?", MsgBoxButton.YesNo, MsgBoxImage.Asterisk);
         Message = $"{resultYesNo} clicked";
         
         var resultYesNoCancel = await _messageBoxService.Show("Yes No Cancel", "Do you want to carry on?", MsgBoxButton.YesNoCancel, MsgBoxImage.Question);
         Message = $"{resultYesNoCancel} clicked";
+        
+        var resultYesNoWarning = await _messageBoxService.Show("Yes No", "Do you want to carry on?", MsgBoxButton.YesNo, MsgBoxImage.Warning);
+        Message = $"{resultYesNoWarning} clicked";
+        
+        var resultYesNoNoIcon = await _messageBoxService.Show("Yes No Without Icon", "Do you want to carry on?", MsgBoxButton.YesNo);
+        Message = $"{resultYesNoNoIcon} clicked";
     }
 
     public ICommand? ShowMessageBoxCommand

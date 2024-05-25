@@ -2,6 +2,7 @@
 
 public enum MsgBoxResult
 {
+    None,
     Ok,
     Cancel,
     Yes,

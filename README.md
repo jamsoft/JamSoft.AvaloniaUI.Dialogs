@@ -1,6 +1,6 @@
 # Introduction
 
-Provides the ability to show various dialogs and child windows in a DI injectable application dialog service ready to plug into MVVM AvaloniaUI applications.
+Provides the ability to show various dialogs, child windows, message boxes and Wizards in a DI injectable application dialog service ready to plug into MVVM AvaloniaUI applications.
 
 The general idea is to make it as simple as possible to handle all the basics of using dialogs with as few assumptions as possible whilst also providing a feature rich experience.
 

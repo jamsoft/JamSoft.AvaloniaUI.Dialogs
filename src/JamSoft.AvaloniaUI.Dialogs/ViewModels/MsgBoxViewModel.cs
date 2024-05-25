@@ -2,28 +2,45 @@
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using Avalonia.Controls;
+using Avalonia.Media.Imaging;
+using Avalonia.Platform;
 using JamSoft.AvaloniaUI.Dialogs.Commands;
 using JamSoft.AvaloniaUI.Dialogs.Events;
 using JamSoft.AvaloniaUI.Dialogs.MsgBox;
 
 namespace JamSoft.AvaloniaUI.Dialogs.ViewModels;
 
-public class MsgBoxViewModel : INotifyPropertyChanged, IDialogResultVmHelper
+/// <summary>
+/// The default view model for the message box dialog
+/// </summary>
+public class MsgBoxViewModel : IMsgBoxViewModel
 {
     private string? _message;
     private string? _msgBoxTitle;
     private string? _noCommandText;
-    private ICommand? _noCommand;
     private bool _showNoButton;
     private bool _showYesButton;
     private bool _showOkButton;
     private bool _showCancelButton;
-    private ICommand _acceptCommand = null!;
     private string? _acceptCommandText;
-    private ICommand _cancelCommand = null!;
     private string? _cancelCommandText;
+    private ICommand _cancelCommand = null!;
+    private ICommand _noCommand = null!;
+    private ICommand _acceptCommand = null!;
+    private Bitmap? _icon;
+    private MsgBoxImage _msgBoxImage;
 
-    public MsgBoxViewModel(string caption, string message, MsgBoxButton buttons, MsgBoxImage image, string? noButtonText = null, string? yesButtonText = null, string? cancelButtonText = null)
+    /// <summary>
+    /// The default constructor
+    /// </summary>
+    /// <param name="caption"></param>
+    /// <param name="message"></param>
+    /// <param name="buttons"></param>
+    /// <param name="icon"></param>
+    /// <param name="noButtonText"></param>
+    /// <param name="yesButtonText"></param>
+    /// <param name="cancelButtonText"></param>
+    public MsgBoxViewModel(string caption, string message, MsgBoxButton buttons, MsgBoxImage icon = MsgBoxImage.None, string? noButtonText = null, string? yesButtonText = null, string? cancelButtonText = null)
     {
         _msgBoxTitle = caption;
         _message = message;
@@ -33,19 +50,89 @@ public class MsgBoxViewModel : INotifyPropertyChanged, IDialogResultVmHelper
         AcceptCommandText = yesButtonText;
         CancelCommandText = cancelButtonText;
         Buttons = buttons;
+        MsgBoxImage = icon;
+        Topmost = false;
         
         SetupCommands();
         SetupButtons();
     }
+
+    public bool HasIcon => Icon is not null;
     
+    /// <summary>
+    /// The dialog image enum
+    /// </summary>
+    public MsgBoxImage MsgBoxImage
+    {
+        get => _msgBoxImage;
+        set
+        {
+            RaiseAndSetIfChanged(ref _msgBoxImage, value);
+            SetImage();
+        }
+    }
+
+    protected virtual void SetImage()
+    {
+        if (MsgBoxImage == MsgBoxImage.Custom)
+        {
+            return;
+        }
+        
+        switch (MsgBoxImage)
+        {
+            case MsgBoxImage.Asterisk:
+                Icon = new Bitmap(AssetLoader.Open(new Uri($"avares://JamSoft.AvaloniaUI.Dialogs/Assets/exclamation.png")));
+                break;
+            case MsgBoxImage.Information:
+                Icon = new Bitmap(AssetLoader.Open(new Uri($"avares://JamSoft.AvaloniaUI.Dialogs/Assets/info.png")));
+                break;
+            case MsgBoxImage.Error:
+            case MsgBoxImage.Hand:
+            case MsgBoxImage.Stop:
+                Icon = new Bitmap(AssetLoader.Open(new Uri($"avares://JamSoft.AvaloniaUI.Dialogs/Assets/cross-circle.png")));
+                break;
+            case MsgBoxImage.Exclamation:
+            case MsgBoxImage.Warning:
+                Icon = new Bitmap(AssetLoader.Open(new Uri($"avares://JamSoft.AvaloniaUI.Dialogs/Assets/diamond-exclamation.png")));
+                break;
+            case MsgBoxImage.Question:
+                Icon = new Bitmap(AssetLoader.Open(new Uri($"avares://JamSoft.AvaloniaUI.Dialogs/Assets/interrogation.png")));
+                break;
+            default:
+                Icon = null;
+                break;
+        }
+    }
+
+    /// <summary>
+    /// The dialog result
+    /// </summary>
     public MsgBoxResult Result { get; set; }
     
+    /// <summary>
+    /// The dialog buttons
+    /// </summary>
     public MsgBoxButton Buttons { get; set; }
     
+    /// <summary>
+    /// The dialog Startup location
+    /// </summary>
     public WindowStartupLocation WindowStartupLocation { get; set; }
     
+    /// <summary>
+    /// The dialog topmost flag
+    /// </summary>
     public bool Topmost { get; set; }
     
+    /// <summary>
+    /// The dialog icon
+    /// </summary>
+    public Bitmap? Icon
+    {
+        get => _icon;
+        set => RaiseAndSetIfChanged(ref _icon, value);
+    }
     /// <summary>
     /// The dialog accept command
     /// </summary>
@@ -79,7 +166,7 @@ public class MsgBoxViewModel : INotifyPropertyChanged, IDialogResultVmHelper
     /// <summary>
     /// The dialog accept command
     /// </summary>
-    public ICommand? NoCommand
+    public ICommand NoCommand
     {
         get => _noCommand;
         set => RaiseAndSetIfChanged(ref _noCommand, value);
@@ -104,49 +191,73 @@ public class MsgBoxViewModel : INotifyPropertyChanged, IDialogResultVmHelper
     /// </summary>
     public event EventHandler<RequestCloseDialogEventArgs>? RequestCloseDialog;
     
+    /// <summary>
+    /// The message box message
+    /// </summary>
     public string? Message
     {
         get => _message;
         set => this.RaiseAndSetIfChanged(ref _message, value);
     }
 
+    /// <summary>
+    /// The message box title
+    /// </summary>
     public string? MsgBoxTitle
     {
         get => _msgBoxTitle;
         set => this.RaiseAndSetIfChanged(ref _msgBoxTitle, value);
     }
 
+    /// <summary>
+    /// The no button text
+    /// </summary>
     public string? NoCommandText
     {
         get => _noCommandText;
         set => this.RaiseAndSetIfChanged(ref _noCommandText, value);
     }
 
+    /// <summary>
+    /// Boolean flag to show the no button
+    /// </summary>
     public bool ShowNoButton
     {
         get => _showNoButton;
         set => this.RaiseAndSetIfChanged(ref _showNoButton, value);
     }
 
+    /// <summary>
+    /// Boolean flag to show the yes button
+    /// </summary>
     public bool ShowYesButton
     {
         get => _showYesButton;
         set => this.RaiseAndSetIfChanged(ref _showYesButton, value);
     }
 
+    /// <summary>
+    /// Boolean flag to show the ok button
+    /// </summary>
     public bool ShowOkButton
     {
         get => _showOkButton;
         set => this.RaiseAndSetIfChanged(ref _showOkButton, value);
     }
 
+    /// <summary>
+    /// Boolean flag to show the cancel button
+    /// </summary>
     public bool ShowCancelButton
     {
         get => _showCancelButton;
         set => this.RaiseAndSetIfChanged(ref _showCancelButton, value);
     }
 
-    protected void SetupCommands()
+    /// <summary>
+    /// Sets up the various commands for the dialog
+    /// </summary>
+    private void SetupCommands()
     {
         _noCommand = new DelegateCommand(() =>
         {
@@ -161,7 +272,7 @@ public class MsgBoxViewModel : INotifyPropertyChanged, IDialogResultVmHelper
                 Result = MsgBoxResult.Yes;
             }
             
-            if (Buttons == MsgBoxButton.Ok)
+            if (Buttons == MsgBoxButton.Ok || Buttons == MsgBoxButton.OkCancel)
             {
                 Result = MsgBoxResult.Ok;
             }
@@ -176,7 +287,10 @@ public class MsgBoxViewModel : INotifyPropertyChanged, IDialogResultVmHelper
         }, CanCancel);
     }
 
-    protected void SetupButtons()
+    /// <summary>
+    /// Sets up the buttons for the dialog
+    /// </summary>
+    private void SetupButtons()
     {
         switch (Buttons)
         {
@@ -211,7 +325,7 @@ public class MsgBoxViewModel : INotifyPropertyChanged, IDialogResultVmHelper
     /// Implements the logic that controls the accept command execution validation
     /// </summary>
     /// <returns></returns>
-    public virtual bool CanAccept()
+    protected virtual bool CanAccept()
     {
         return true;
     }
@@ -220,7 +334,7 @@ public class MsgBoxViewModel : INotifyPropertyChanged, IDialogResultVmHelper
     /// Implements the logic that controls the cancel command execution validation
     /// </summary>
     /// <returns></returns>
-    public virtual bool CanCancel()
+    protected virtual bool CanCancel()
     {
         return true;
     }
@@ -229,11 +343,15 @@ public class MsgBoxViewModel : INotifyPropertyChanged, IDialogResultVmHelper
     /// Implements the logic that controls the accept command execution validation
     /// </summary>
     /// <returns></returns>
-    public virtual bool CanNoAccept()
+    protected virtual bool CanNoAccept()
     {
         return true;
     }
     
+    /// <summary>
+    /// Invokes the request close dialog event
+    /// </summary>
+    /// <param name="e"></param>
     protected virtual void InvokeRequestCloseDialog(RequestCloseDialogEventArgs e)
     {
         RequestCloseDialog?.Invoke(this, e);

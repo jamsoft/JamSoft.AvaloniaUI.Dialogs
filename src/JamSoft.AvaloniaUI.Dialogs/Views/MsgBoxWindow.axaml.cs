@@ -11,7 +11,7 @@ namespace JamSoft.AvaloniaUI.Dialogs.Views;
 /// </summary>
 public partial class MsgBoxWindow : Window
 {
-    private bool _isClosed = false;
+    private bool _isClosed;
     
     /// <summary>
     /// The default constructor

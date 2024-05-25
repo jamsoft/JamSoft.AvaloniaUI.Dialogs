@@ -9,14 +9,17 @@ namespace JamSoft.AvaloniaUI.Dialogs;
 
 internal class MessageBoxService : IMessageBoxService
 {
-    public Task<MsgBoxResult> Show(string caption, string messageBoxText, MsgBoxButton button, MsgBoxImage icon,
+    public Task<MsgBoxResult> Show(string caption, string messageBoxText, MsgBoxButton button, MsgBoxImage icon = MsgBoxImage.None,
         string? noButtonText = null, string? yesButtonText = null, string? cancelButtonText = null)
     {
         return Show(new MsgBoxViewModel(caption, messageBoxText, button, icon, noButtonText, yesButtonText, cancelButtonText));
     }
     
-    public Task<MsgBoxResult> Show(MsgBoxViewModel viewModel)
+    public Task<MsgBoxResult> Show(IMsgBoxViewModel? viewModel)
     {
+        if (viewModel == null)
+            return Task.FromResult(MsgBoxResult.None);
+        
         if (Application.Current != null &&
             Application.Current.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop && desktop.MainWindow != null)
         {
@@ -32,10 +35,9 @@ internal class MessageBoxService : IMessageBoxService
         throw new NotSupportedException("ApplicationLifetime is not supported");
     }
 
-    private Task<MsgBoxResult> ShowWindow(Window owner, MsgBoxViewModel viewModel)
+    private Task<MsgBoxResult> ShowWindow(Window owner, IMsgBoxViewModel viewModel)
     {
         var view = new MsgBoxView();
-        //var viewModel = new MsgBoxViewModel();
         var win = new MsgBoxWindow();
         
         var contentControl = win.FindControl<ContentControl>("Host");
@@ -45,8 +47,7 @@ internal class MessageBoxService : IMessageBoxService
         win.Topmost = viewModel.Topmost;
 
         var tcs = new TaskCompletionSource<MsgBoxResult>();
-
-        win.Closing += (sender, _) =>
+        win.Closing += (_, _) =>
         {
             tcs.TrySetResult(viewModel.Result);
         };

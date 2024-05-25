@@ -18,7 +18,7 @@
                 <RowDefinition Height="55" />
             </Grid.RowDefinitions>
 
-            <Border Name="DialogBorder" />
+            <Border x:Name="DialogBorder" />
             <Border Grid.Row="0" Grid.RowSpan="2" />
 
             <ContentControl x:Name="Host" Grid.Row="0" Margin="10, 10, 10, 0" Padding="0" />
@@ -30,11 +30,13 @@
                     <ColumnDefinition MinWidth="75" />
                 </Grid.ColumnDefinitions>
                 
-                <Button Command="{Binding CancelCommand}" 
+                <Button x:Name="DialogCancelButton"
+                        Command="{Binding CancelCommand}" 
                         Content="{Binding CancelCommandText}" 
                         Grid.Column="0" />
                 
-                <Button Command="{Binding AcceptCommand}" 
+                <Button x:Name="DialogAcceptButton"
+                        Command="{Binding AcceptCommand}" 
                         Content="{Binding AcceptCommandText}"
                         Grid.Column="2" 
                         HorizontalAlignment="Right"/>

@@ -23,7 +23,7 @@
                 <RowDefinition Height="55" />
             </Grid.RowDefinitions>
 
-            <Border Name="DialogBorder" />
+            <Border x:Name="DialogBorder" />
             <Border Grid.Row="0" Grid.RowSpan="2" />
 
             <ContentControl x:Name="Host" Grid.Row="0" Margin="0" Padding="0" />
@@ -36,22 +36,26 @@
                 </Grid.ColumnDefinitions>
               
                 <StackPanel Margin="0" Orientation="Horizontal">
-                    <Button IsVisible="{Binding ShowNoButton}"
-                            Command="{Binding NoCommand}" 
-                            Content="{Binding NoCommandText}" />
-                    
-                    <Button IsVisible="{Binding ShowCancelButton}"
+                    <Button x:Name="MsgBoxCancelButton"
+                            IsVisible="{Binding ShowCancelButton}"
                             Command="{Binding CancelCommand}" 
                             Content="{Binding CancelCommandText}" />
+                    
+                    <Button x:Name="MsgBoxNoButton"
+                            IsVisible="{Binding ShowNoButton}"
+                            Command="{Binding NoCommand}" 
+                            Content="{Binding NoCommandText}" />
                 </StackPanel>
                 
-                <Button IsVisible="{Binding ShowOkButton}"
+                <Button x:Name="MsgBoxOkButton"
+                        IsVisible="{Binding ShowOkButton}"
                         Command="{Binding AcceptCommand}" 
                         Content="{Binding AcceptCommandText}"
                         Grid.Column="2" 
                         HorizontalAlignment="Right"/>
                 
-                <Button IsVisible="{Binding ShowYesButton}"
+                <Button x:Name="MsgBoxYesButton"
+                        IsVisible="{Binding ShowYesButton}"
                         Command="{Binding AcceptCommand}" 
                         Content="{Binding AcceptCommandText}"
                         Grid.Column="2" 

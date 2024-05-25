@@ -15,6 +15,10 @@ public static class DialogServiceFactory
         return new DialogService(config);
     }
 
+    /// <summary>
+    /// Creates a new instance of the messagebox service
+    /// </summary>
+    /// <returns>a new instance of <see cref="IMessageBoxService"/></returns>
     public static IMessageBoxService CreateMessageBoxService()
     {
         return new MessageBoxService();

@@ -1,4 +1,4 @@
-using System.Reflection;
+﻿using System.Reflection;
 using JamSoft.AvaloniaUI.Dialogs.Sample.ViewModels;
 using JamSoft.AvaloniaUI.Dialogs.ViewModels;
 using Splat;
@@ -18,7 +18,7 @@ public static class BootStrapper
         
         services.RegisterLazySingleton(DialogServiceFactory.CreateMessageBoxService);
         
-        services.Register(() => new MainWindowViewModel(resolver.GetService<IDialogService>(), resolver.GetService<IMessageBoxService>()));
+        services.Register(() => new MainWindowViewModel(resolver.GetService<IDialogService>()!, resolver.GetService<IMessageBoxService>()!));
         services.Register(() => new MyDialogViewModel());
         services.Register(() => new MyChildWindowViewModel());
         services.Register(() => new CustomBaseChildWindowViewModel());

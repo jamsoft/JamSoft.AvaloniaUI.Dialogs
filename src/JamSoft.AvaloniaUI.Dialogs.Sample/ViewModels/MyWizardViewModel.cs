@@ -27,13 +27,13 @@ public class MyWizardViewModel : WizardViewModel
         };
     }
     
-    public ObservableCollection<ComboBoxItemViewModel> ComboboxItems
+    public ObservableCollection<ComboBoxItemViewModel>? ComboboxItems
     {
         get => _comboboxItems;
         set => RaiseAndSetIfChanged(ref _comboboxItems, value);
     }
 
-    public ComboBoxItemViewModel SelectedItem
+    public ComboBoxItemViewModel? SelectedItem
     {
         get => _selectedItem;
         set

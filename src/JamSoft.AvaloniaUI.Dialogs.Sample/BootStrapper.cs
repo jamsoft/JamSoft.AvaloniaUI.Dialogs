@@ -1,4 +1,4 @@
-﻿using System.Reflection;
+using System.Reflection;
 using JamSoft.AvaloniaUI.Dialogs.Sample.ViewModels;
 using JamSoft.AvaloniaUI.Dialogs.ViewModels;
 using Splat;

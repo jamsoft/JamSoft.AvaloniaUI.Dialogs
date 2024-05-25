@@ -19,7 +19,7 @@
             <TextBlock Text="{Binding Message}" HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="Wrap"/>
         </StackPanel>
         
-        <UniformGrid Grid.Row="1" Columns="3">
+        <UniformGrid Grid.Row="1" Columns="4">
         
             <Button Command="{Binding OpenFileCommand}" Classes="horizontalCenter">Open File</Button>
         
@@ -27,6 +27,8 @@
         
             <Button Command="{Binding OpenFilesCommand}" Classes="horizontalCenter">Open Files</Button>
         
+            <Button Command="{Binding OpenFolderCommand}" Classes="horizontalCenter">Open Folder</Button>
+            
             <Button Command="{Binding SaveFileCommand}" Classes="horizontalCenter">Save File</Button>
         
             <Button Command="{Binding SaveWordFileCommand}" Classes="horizontalCenter">Save Word File</Button>

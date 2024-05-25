@@ -1,8 +1,6 @@
 ﻿using Avalonia;
 using Avalonia.ReactiveUI;
 using System;
-using System.Reflection;
-using Avalonia.Dialogs;
 using JamSoft.AvaloniaUI.Dialogs.Sample.Models;
 using Splat;
 

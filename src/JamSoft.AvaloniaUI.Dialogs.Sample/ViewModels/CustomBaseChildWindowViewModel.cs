@@ -17,8 +17,8 @@ public class CustomBaseChildWindowViewModel : IChildWindowViewModel
 
     public CustomBaseChildWindowViewModel()
     {
-        AcceptCommand = new DelegateCommand(null, null);
-        CancelCommand = new DelegateCommand(null, null);
+        AcceptCommand = new DelegateCommand(null);
+        CancelCommand = new DelegateCommand(null);
         CloseIcon = new Bitmap(AssetLoader.Open(new Uri("avares://JamSoft.AvaloniaUI.Dialogs/Assets/CloseIcon/icons8-close-30.png")));
         
         _cancelCommand = new DelegateCommand(() => InvokeRequestCloseDialog(new RequestCloseDialogEventArgs(false)), CanCancel);

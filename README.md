@@ -16,17 +16,22 @@ https://jamsoft.github.io/JamSoft.AvaloniaUI.Dialogs/
 
 ## Installation
 ```shell
-dotnet add package JamSoft.AvaloniaUI.Dialogs --version 1.2.0
+dotnet add package JamSoft.AvaloniaUI.Dialogs --version 1.2.2
 ```
 ```shell
-Install-Package JamSoft.AvaloniaUI.Dialogs -Version 1.2.0
+Install-Package JamSoft.AvaloniaUI.Dialogs -Version 1.2.2
 ```
 ```xml
-<PackageReference Include="JamSoft.AvaloniaUI.Dialogs" Version="1.2.0" />
+<PackageReference Include="JamSoft.AvaloniaUI.Dialogs" Version="1.2.2" />
 ```
 ```shell
-paket add JamSoft.AvaloniaUI.Dialogs --version 1.2.0
+paket add JamSoft.AvaloniaUI.Dialogs --version 1.2.2
 ```
+### Tested On
+- Windows 10 & 11 
+- MacOS Sonoma 14.5
+- Pop!_OS 22.04
+
 ## Import Styles
 ### All Defaults
 ```xml
@@ -401,3 +406,5 @@ You can easily target elements of the dialogs via their names and types, such as
     </Application.Styles>
 </Application>
 ```
+#### Known Issues
+Window sizes and positions on Linux not always accurate due to window manager differences. Under investigation. 

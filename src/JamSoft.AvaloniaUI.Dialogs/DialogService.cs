@@ -103,7 +103,7 @@ internal class DialogService : IDialogService
     /// <typeparam name="TView">The type of the view.</typeparam>
     /// <param name="view">The view.</param>
     /// <param name="viewModel">The view model.</param>
-    /// <param name="callback">the callback to received the view model instance on close</param>
+    /// <param name="callback">the callback to receive the view model instance on close</param>
     public void ShowChildWindow<TViewModel, TView>(TView view, TViewModel viewModel, Action<TViewModel>? callback)
         where TView : Control where TViewModel : class, IChildWindowViewModel
     {
@@ -124,7 +124,7 @@ internal class DialogService : IDialogService
         {
             if (sender is ChildWindow)
             {
-                _openChildren.Remove(viewModel);
+                _openChildren.Clear();
             }
             
             if (callback != null)
@@ -140,8 +140,7 @@ internal class DialogService : IDialogService
             return;
 
         var win = new ChildWindow();
-        //win.Classes.Add("Wizard");
-
+        
         viewModel.ChildWindowTitle = CreateTitle(viewModel.ChildWindowTitle);
         
         var contentControl = win.FindControl<ContentControl>("Host");
@@ -159,7 +158,7 @@ internal class DialogService : IDialogService
         {
             if (sender is ChildWindow)
             {
-                _openChildren.Remove(viewModel);
+                _openChildren.Clear();
             }
             
             if (callback != null)

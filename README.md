@@ -1,6 +1,6 @@
 # Introduction
 
-Provides the ability to show various dialogs and child windows in a DI injectable application dialog service ready to plug into MVVM AvaloniaUI applications.
+Provides the ability to show various dialogs, child windows, message boxes and Wizards in a DI injectable application dialog service ready to plug into MVVM AvaloniaUI applications.
 
 The general idea is to make it as simple as possible to handle all the basics of using dialogs with as few assumptions as possible whilst also providing a feature rich experience.
 
@@ -58,6 +58,7 @@ Since we are using plain old `Window` objects, basic styling properties like `Ba
 </Style>
 ```
 ## Creating Service Instances
+### Dialog Service
 ```csharp
 IDialogService dialogService = DialogServiceFactory.Create(new DialogServiceConfiguration({
     ApplicationName = "Dialog Sample App", 
@@ -65,7 +66,10 @@ IDialogService dialogService = DialogServiceFactory.Create(new DialogServiceConf
     ViewsAssemblyName = Assembly.GetExecutingAssembly().GetName().Name
 });
 ```
-
+### MessageBox Service
+```csharp
+IMessageBoxService msgboxService = DialogServiceFactory.CreateMessageBoxService();
+```
 ## Registration Example Using Splat DI
 
 ```csharp
@@ -94,7 +98,9 @@ public class BootStrapper
             ViewsAssemblyName = "JamSoft.AvaloniaUI.Dialogs.Sample"
         }));
         
-        services.Register(() => new MainWindowViewModel(resolver.GetService<IDialogService>()));
+        services.RegisterLazySingleton(DialogServiceFactory.CreateMessageBoxService);
+        
+        services.Register(() => new MainWindowViewModel(resolver.GetService<IDialogService>()!, resolver.GetService<IMessageBoxService>()!));
         services.Register(() => new MyDialogViewModel());
         services.Register(() => new MyChildViewModel());
     }
@@ -160,8 +166,37 @@ string path = await _dialogService.SaveFile("Save New MyApp Project", new List<F
     }
 });
 ```
-# Usage - Dialogs
+# Usage - MessageBoxes
+![basic-message-box](https://github.com/jamsoft/JamSoft.AvaloniaUI.Dialogs/blob/master/src/img/message-box.png?raw=true)
+## Show Message Box
+```csharp
+var msgbResult = await _messageBoxService.Show("OK Cancel", "Do you want to carry on?", MsgBoxButton.OkCancel, MsgBoxImage.Question);
+```
+You can also pass a view model instance to the `Show` method to customise the message box.
+```csharp
+var viewModel = new MsgBoxViewModel("Yes No With Icon", "Do you want to carry on?", MsgBoxButton.YesNo, MsgBoxImage.Warning);
+var btnResult = await _messageBoxService.Show(viewModel);
+```
+You can also use any custom view model class by implementing the `IMessageBoxViewModel` interface.
+```csharp
+public class MyCustomMsgBoxViewModel : IMsgBoxViewModel
+{
+}
+```
+### Custom Icons
+```csharp
+var viewModel = new MsgBoxViewModel("Yes No With Icon", "Do you want to carry on?", MsgBoxButton.YesNo, MsgBoxImage.Custom);
+viewModel.Icon = new Bitmap("myicon.png");
+var btnResult = await _messageBoxService.Show(viewModel);
+```
+### Changing Icon Background Color
+```xml
+<Style Selector="Ellipse#MsgBoxIconBackgroundEllipse">
+    <Setter Property="Fill" Value="Red"/>
+</Style>
+```
 
+# Usage - Dialogs
 There are two base view model classes already baked in for ease of use of the library. These are provided as defaults and a starting point. Create a suitable view model and inherit from either `DialogViewModel` or `ChildWindowViewModel` as base class.
 
 ## Show Dialog

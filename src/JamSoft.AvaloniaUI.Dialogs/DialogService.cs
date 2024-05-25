@@ -215,7 +215,7 @@ internal class DialogService : IDialogService
     }
 
     /// <summary>
-    /// The an individual file path
+    /// The individual file path
     /// </summary>
     /// <param name="title">The dialog title</param>
     /// <param name="filters">The file extension filters</param>

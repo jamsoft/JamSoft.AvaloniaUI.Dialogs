@@ -74,7 +74,7 @@ public class DialogViewModel : IDialogViewModel
         CancelCommandText = "Cancel";
     }
 
-    private void InvokeRequestCloseDialog(RequestCloseDialogEventArgs e)
+    protected void InvokeRequestCloseDialog(RequestCloseDialogEventArgs e)
     {
         RequestCloseDialog?.Invoke(this, e);
     }

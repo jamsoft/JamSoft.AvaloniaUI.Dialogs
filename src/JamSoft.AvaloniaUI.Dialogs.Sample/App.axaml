@@ -23,5 +23,10 @@
         <!--     <Setter Property="Fill" Value="DeepPink" /> -->
         <!--     <Setter Property="StrokeThickness" Value="0" /> -->
         <!-- </Style>     -->
+        
+        <!-- <Style Selector="Ellipse#MsgBoxIconBackgroundEllipse"> -->
+        <!--     <Setter Property="Fill" Value="Red"/> -->
+        <!-- </Style> -->
+        
     </Application.Styles>
 </Application>

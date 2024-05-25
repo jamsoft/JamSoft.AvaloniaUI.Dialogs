@@ -1,3 +1,5 @@
+using JamSoft.AvaloniaUI.Dialogs.MsgBox;
+
 namespace JamSoft.AvaloniaUI.Dialogs.Events;
 
 /// <summary>
@@ -9,7 +11,7 @@ public class RequestCloseDialogEventArgs : EventArgs
     /// The dialog result
     /// </summary>
     public bool DialogResult { get; set; }
-
+    
     /// <summary>
     /// Default constructor
     /// </summary>

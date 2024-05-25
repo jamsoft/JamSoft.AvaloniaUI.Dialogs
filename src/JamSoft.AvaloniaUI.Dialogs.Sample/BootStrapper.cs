@@ -16,7 +16,9 @@ public static class BootStrapper
             ViewsAssemblyName = Assembly.GetExecutingAssembly().GetName().Name
         }));
         
-        services.Register(() => new MainWindowViewModel(resolver.GetService<IDialogService>()!));
+        services.RegisterLazySingleton(DialogServiceFactory.CreateMessageBoxService);
+        
+        services.Register(() => new MainWindowViewModel(resolver.GetService<IDialogService>()!, resolver.GetService<IMessageBoxService>()!));
         services.Register(() => new MyDialogViewModel());
         services.Register(() => new MyChildWindowViewModel());
         services.Register(() => new CustomBaseChildWindowViewModel());

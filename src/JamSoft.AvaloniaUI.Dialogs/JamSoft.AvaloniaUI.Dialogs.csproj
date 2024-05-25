@@ -62,6 +62,10 @@
 
     <ItemGroup>
       <Compile Remove="Controls\WizardContainerGenerator.cs" />
+      <Compile Update="Views\MsgBoxWindow.axaml.cs">
+        <DependentUpon>MsgBoxWindow.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
     </ItemGroup>
 
 </Project>

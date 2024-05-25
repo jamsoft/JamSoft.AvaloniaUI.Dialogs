@@ -9,14 +9,14 @@ namespace JamSoft.AvaloniaUI.Dialogs.Views;
 /// <summary>
 /// The default dialog window
 /// </summary>
-public partial class DialogWindow : Window
+public partial class MsgBoxWindow : Window
 {
     private bool _isClosed;
     
     /// <summary>
     /// The default constructor
     /// </summary>
-    public DialogWindow()
+    public MsgBoxWindow()
     {
         InitializeComponent();
 #if DEBUG

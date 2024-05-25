@@ -29,7 +29,7 @@ paket add JamSoft.AvaloniaUI.Dialogs --version 1.2.2
 ```
 ### Tested On
 - Windows 10 & 11 
-- MacOS 12.0.1
+- MacOS Sonoma 14.5
 - Pop!_OS 22.04
 
 ## Import Styles

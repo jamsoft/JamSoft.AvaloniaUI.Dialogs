@@ -57,6 +57,9 @@ public class MsgBoxViewModel : IMsgBoxViewModel
         SetupButtons();
     }
 
+    /// <summary>
+    /// Determines if the dialog has an icon to show
+    /// </summary>
     public bool HasIcon => Icon is not null;
     
     /// <summary>
@@ -72,6 +75,9 @@ public class MsgBoxViewModel : IMsgBoxViewModel
         }
     }
 
+    /// <summary>
+    /// Configures the icon for the dialog
+    /// </summary>
     protected virtual void SetImage()
     {
         if (MsgBoxImage == MsgBoxImage.Custom)

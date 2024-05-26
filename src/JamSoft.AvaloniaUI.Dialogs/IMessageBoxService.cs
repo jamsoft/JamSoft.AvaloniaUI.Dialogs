@@ -3,6 +3,9 @@ using JamSoft.AvaloniaUI.Dialogs.ViewModels;
 
 namespace JamSoft.AvaloniaUI.Dialogs;
 
+/// <summary>
+/// The message box service interface
+/// </summary>
 public interface IMessageBoxService
 {
     /// <summary>

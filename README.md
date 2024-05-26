@@ -1,10 +1,10 @@
 # Introduction
 
-Provides the ability to show various dialogs, child windows, message boxes and Wizards in a DI injectable application dialog service ready to plug into MVVM AvaloniaUI applications.
+Provides the ability to show various dialogs, child windows, message boxes and Wizards in a DI injectable service ready to plug into MVVM AvaloniaUI applications.
 
 The general idea is to make it as simple as possible to handle all the basics of using dialogs with as few assumptions as possible whilst also providing a feature rich experience.
 
-More or less everything is replaceable, extendable, customisable.
+More or less everything is replaceable, extendable & customisable.
 
 ## GitHub Pages Site
 
@@ -48,6 +48,7 @@ The sample application demonstrates how to use the library in a real-world scena
 ```xml
 <Application.Styles>
     <FluentTheme />
+    <StyleInclude Source="avares://JamSoft.AvaloniaUI.Dialogs/Themes/MsgBoxStyles.axaml"/>
     <StyleInclude Source="avares://JamSoft.AvaloniaUI.Dialogs/Themes/ChildStyle.axaml"/>
     <StyleInclude Source="avares://JamSoft.AvaloniaUI.Dialogs/Themes/ModalStyle.axaml"/>
     <StyleInclude Source="avares://JamSoft.AvaloniaUI.Dialogs/Themes/WizardStyle.axaml"/>
@@ -62,6 +63,7 @@ Since we are using plain old `Window` objects, basic styling properties like `Ba
     <Setter Property="Background" Value="#333333" />
 </Style>
 ```
+The same is true for your default button styles and basic text and font settings so theming things should be little more than plugging in the library and starting to use it.
 ## Creating Service Instances
 #### Dialog Service
 ```csharp
@@ -129,11 +131,13 @@ public MainWindowViewModel(IDialogService dialogService, IMessageBoxService mess
 
 # Usage - Message Boxes
 ![basic-message-box](https://github.com/jamsoft/JamSoft.AvaloniaUI.Dialogs/blob/master/src/img/message-box.png?raw=true)
+
+The message box implementation closely follows the .NET/Forms/WPF `MessageBox` class. It provides a simple way to show message boxes with various button configurations and icons.
 ## Show Message Box
 ```csharp
 var msgbResult = await _messageBoxService.Show("OK Cancel", "Do you want to carry on?", MsgBoxButton.OkCancel, MsgBoxImage.Question);
 ```
-You can also pass a view model instance to the `Show` method to customise the message box.
+You can also pass a view model instance to the `Show` method to customise the message box using the default provided `MsgBoxViewModel` class.
 ```csharp
 var viewModel = new MsgBoxViewModel("Yes No With Icon", "Do you want to carry on?", MsgBoxButton.YesNo, MsgBoxImage.Warning);
 var btnResult = await _messageBoxService.Show(viewModel);
@@ -143,6 +147,10 @@ You can also use any custom view model class by implementing the `IMessageBoxVie
 public class MyCustomMsgBoxViewModel : IMsgBoxViewModel
 {
 }
+
+var myCustomMsgBoxViewModel = new MyCustomMsgBoxViewModel();
+...
+var btnResult = await _messageBoxService.Show(myCustomMsgBoxViewModel);
 ```
 ### Custom Icons
 ```csharp
@@ -364,9 +372,8 @@ public class MyUserSettings : SettingsBase<MyUserSettings>
 ```
 `SettingsBase<T>` can be found in the JamSoft.Helpers package https://github.com/jamsoft/JamSoft.Helpers
 
-```shell
-Install-Package JamSoft.Helpers
-```
+Nuget - https://www.nuget.org/packages/JamSoft.Helpers
+
 Then in your view model you can listen for the `RequestCloseDialog` event and respond accordingly by storing the settings in the `OnRequestCloseDialog` method.
 ```csharp
 public class MyChildWindowViewModel : ChildWindowViewModel

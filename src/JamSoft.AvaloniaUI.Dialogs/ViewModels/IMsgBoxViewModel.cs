@@ -6,8 +6,14 @@ using JamSoft.AvaloniaUI.Dialogs.MsgBox;
 
 namespace JamSoft.AvaloniaUI.Dialogs.ViewModels;
 
+/// <summary>
+/// The message box view model interface
+/// </summary>
 public interface IMsgBoxViewModel : INotifyPropertyChanged, IDialogResultVmHelper
 {
+    /// <summary>
+    /// Determines if the dialog has an icon to show
+    /// </summary>
     bool HasIcon { get; }
 
     /// <summary>

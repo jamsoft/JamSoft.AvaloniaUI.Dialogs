@@ -8,14 +8,14 @@
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>JamSoft AvaloniaUI Dialogs</Title>
         <Company>JamSoft Solution Ltd</Company>
-        <Product>JamSoft AvaloniaUI LCD Label Control</Product>        
+        <Product>JamSoft AvaloniaUI Dialog Library</Product>        
         <Authors>James Green</Authors>
         <Description>A standardised service for managing dialogs and child windows in Avalonia UI.</Description>
         <Copyright>JamSoft Solutions Ltd 2024</Copyright>
         <PackageProjectUrl>https://github.com/jamsoft/JamSoft.AvaloniaUI.Dialogs</PackageProjectUrl>
         <RepositoryUrl>https://github.com/jamsoft/JamSoft.AvaloniaUI.Dialogs</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
-        <PackageTags>avalonia, avaloniaui, dialogs, mvvm, wizard</PackageTags>
+        <PackageTags>avalonia, avaloniaui, dialogs, mvvm, wizard, messagebox</PackageTags>
         <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
         <PackageIcon>JamSoftLogo-Splat513x513.png</PackageIcon>
         <SignAssembly>true</SignAssembly>
@@ -40,10 +40,10 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="Avalonia" Version="11.0.6" />
+      <PackageReference Include="Avalonia" Version="11.0.0" />
         <AvaloniaResource Include="Assets\**" />
-        <PackageReference Include="Avalonia.Diagnostics" Version="11.0.6" />
-        <PackageReference Include="Avalonia.Themes.Fluent" Version="11.0.6" />
+        <PackageReference Include="Avalonia.Diagnostics" Version="11.0.0" />
+        <PackageReference Include="Avalonia.Themes.Fluent" Version="11.0.0" />
     </ItemGroup>
 
     <ItemGroup>

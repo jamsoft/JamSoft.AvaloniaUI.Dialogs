@@ -74,6 +74,10 @@ public class DialogViewModel : IDialogViewModel
         CancelCommandText = "Cancel";
     }
 
+    /// <summary>
+    /// Invokes the request close dialog event
+    /// </summary>
+    /// <param name="e"></param>
     protected void InvokeRequestCloseDialog(RequestCloseDialogEventArgs e)
     {
         RequestCloseDialog?.Invoke(this, e);
@@ -142,7 +146,7 @@ public class DialogViewModel : IDialogViewModel
     }
 
     /// <summary>
-    /// 
+    /// The property changed event
     /// </summary>
     public event PropertyChangedEventHandler? PropertyChanged;
 }

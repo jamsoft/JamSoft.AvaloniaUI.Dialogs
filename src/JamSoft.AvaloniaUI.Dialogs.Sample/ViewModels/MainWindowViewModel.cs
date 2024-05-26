@@ -61,31 +61,6 @@ public class MainWindowViewModel : ViewModelBase
         ShowMessageBoxCommand = new DelegateCommand(ShowMessageBoxCommandExecuted, () => true);
     }
 
-    private async void ShowMessageBoxCommandExecuted()
-    {
-        var resultOkCancel = await _messageBoxService.Show("OK Cancel", "Do you want to carry on?", MsgBoxButton.OkCancel, MsgBoxImage.Error);
-        Message = $"{resultOkCancel} clicked";
-        
-        var resultOk = await _messageBoxService.Show("Ok", "Do you want to carry on?", MsgBoxButton.Ok, MsgBoxImage.Information);
-        Message = $"{resultOk} clicked";
-        
-        var resultYesNo = await _messageBoxService.Show("Yes No", "Do you want to carry on?", MsgBoxButton.YesNo, MsgBoxImage.Asterisk);
-        Message = $"{resultYesNo} clicked";
-        
-        var resultYesNoCancel = await _messageBoxService.Show("Yes No Cancel", "Do you want to carry on?", MsgBoxButton.YesNoCancel, MsgBoxImage.Question);
-        Message = $"{resultYesNoCancel} clicked";
-        
-        var resultYesNoWarning = await _messageBoxService.Show("Yes No", "Do you want to carry on?", MsgBoxButton.YesNo, MsgBoxImage.Warning);
-        Message = $"{resultYesNoWarning} clicked";
-        
-        var resultYesNoNoIcon = await _messageBoxService.Show("Yes No Without Icon", "Do you want to carry on?", MsgBoxButton.YesNo);
-        Message = $"{resultYesNoNoIcon} clicked";
-        
-        var viewModel = new MsgBoxViewModel("Yes No With Icon", "Do you want to carry on?", MsgBoxButton.YesNo, MsgBoxImage.Warning);
-        var resultVm = await _messageBoxService.Show(viewModel);
-        Message = $"{resultVm} clicked";
-    }
-
     public ICommand? ShowMessageBoxCommand
     {
         get => _showMessageBoxCommand;
@@ -351,5 +326,33 @@ public class MainWindowViewModel : ViewModelBase
 
             _dialogService.StartWizard(vm, model => { Message = $"Wizard Closed - {model.GetType()}"; });
         }
+    }
+    
+    private async void ShowMessageBoxCommandExecuted()
+    {
+        var resultOkCancel = await _messageBoxService.Show("OK Cancel", "Do you want to carry on?", MsgBoxButton.OkCancel, MsgBoxImage.Error);
+        Message = $"{resultOkCancel} clicked";
+        
+        var resultOk = await _messageBoxService.Show("Ok", "Do you want to carry on?", MsgBoxButton.Ok, MsgBoxImage.Information);
+        Message = $"{resultOk} clicked";
+        
+        var resultYesNo = await _messageBoxService.Show("Yes No", "Do you want to carry on?", MsgBoxButton.YesNo, MsgBoxImage.Asterisk);
+        Message = $"{resultYesNo} clicked";
+        
+        var resultYesNoCancel = await _messageBoxService.Show("Yes No Cancel", "Do you want to carry on?", MsgBoxButton.YesNoCancel, MsgBoxImage.Question);
+        Message = $"{resultYesNoCancel} clicked";
+        
+        var resultYesNoWarning = await _messageBoxService.Show("Yes No", "Do you want to carry on?", MsgBoxButton.YesNo, MsgBoxImage.Warning);
+        Message = $"{resultYesNoWarning} clicked";
+        
+        var resultYesNoNoIcon = await _messageBoxService.Show("Yes No Without Icon", "Do you want to carry on?", MsgBoxButton.YesNo);
+        Message = $"{resultYesNoNoIcon} clicked";
+        
+        var viewModel = new MsgBoxViewModel("Yes No With Icon", "Do you want to carry on?", MsgBoxButton.YesNo, MsgBoxImage.Warning);
+        var resultVm = await _messageBoxService.Show(viewModel);
+        Message = $"{resultVm} clicked";
+        
+        var resultYesNoCancelCustomButtonText = await _messageBoxService.Show("German Yes No Cancel", "Möchten Sie weitermachen?", MsgBoxButton.YesNoCancel, MsgBoxImage.Question, "Nein", "Ja", "Abbrechen");
+        Message = $"{resultYesNoCancelCustomButtonText} clicked";
     }
 }

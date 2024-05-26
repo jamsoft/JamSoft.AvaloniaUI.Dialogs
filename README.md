@@ -164,7 +164,12 @@ var btnResult = await _messageBoxService.Show(viewModel);
     <Setter Property="Fill" Value="Red"/>
 </Style>
 ```
-
+### Custom Button Text
+```csharp
+var result = await _messageBoxService.Show("German Yes No Cancel", "Möchten Sie weitermachen?", 
+    MsgBoxButton.YesNoCancel, 
+    MsgBoxImage.Question, "Nein", "Ja", "Abbrechen");
+```
 # File Paths
 ### Open Any File
 ```csharp

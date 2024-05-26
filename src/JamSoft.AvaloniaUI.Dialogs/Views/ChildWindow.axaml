@@ -23,7 +23,7 @@
                     HorizontalAlignment="Right"
                     Command="{Binding CancelCommand}"
                     Classes="CloseChildButton">
-                <Image Source="{Binding CloseIcon}" />
+                <Image x:Name="ChromeDockPanelCloseButtonImage" Source="{Binding CloseIcon}" />
             </Button>
             
         </DockPanel>

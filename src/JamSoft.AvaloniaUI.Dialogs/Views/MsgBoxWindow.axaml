@@ -7,7 +7,7 @@
         Classes="Modal"
         Topmost="{Binding Topmost}"
         WindowStartupLocation="{Binding WindowStartupLocation}"
-        Padding="0"
+        Padding="0" SystemDecorations="BorderOnly"
         MinHeight="100"
         MinWidth="200">
     

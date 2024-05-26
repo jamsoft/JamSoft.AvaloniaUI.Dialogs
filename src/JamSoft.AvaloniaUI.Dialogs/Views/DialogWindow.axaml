@@ -19,7 +19,7 @@
             </Grid.RowDefinitions>
 
             <Border x:Name="DialogBorder" />
-            <Border Grid.Row="0" Grid.RowSpan="2" />
+            <Border x:Name="InnerDialogBorder" Grid.Row="0" Grid.RowSpan="2" />
 
             <ContentControl x:Name="Host" Grid.Row="0" Margin="10, 10, 10, 0" Padding="0" />
 		

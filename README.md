@@ -1,10 +1,10 @@
 # Introduction
 
-Provides the ability to show various dialogs and child windows in a DI injectable application dialog service ready to plug into MVVM AvaloniaUI applications.
+Provides the ability to show various dialogs, child windows, message boxes and Wizards in a DI injectable service ready to plug into MVVM AvaloniaUI applications.
 
 The general idea is to make it as simple as possible to handle all the basics of using dialogs with as few assumptions as possible whilst also providing a feature rich experience.
 
-More or less everything is replaceable, extendable, customisable.
+More or less everything is replaceable, extendable & customisable.
 
 ## GitHub Pages Site
 
@@ -16,21 +16,25 @@ https://jamsoft.github.io/JamSoft.AvaloniaUI.Dialogs/
 
 ## Installation
 ```shell
-dotnet add package JamSoft.AvaloniaUI.Dialogs --version 1.2.2
+dotnet add package JamSoft.AvaloniaUI.Dialogs --version 1.3.0
 ```
 ```shell
-Install-Package JamSoft.AvaloniaUI.Dialogs -Version 1.2.2
+Install-Package JamSoft.AvaloniaUI.Dialogs -Version 1.3.0
 ```
 ```xml
-<PackageReference Include="JamSoft.AvaloniaUI.Dialogs" Version="1.2.2" />
+<PackageReference Include="JamSoft.AvaloniaUI.Dialogs" Version="1.3.0" />
 ```
 ```shell
-paket add JamSoft.AvaloniaUI.Dialogs --version 1.2.2
+paket add JamSoft.AvaloniaUI.Dialogs --version 1.3.0
 ```
 ### Tested On
 - Windows 10 & 11 
 - MacOS Sonoma 14.5
 - Pop!_OS 22.04
+
+## Sample Application
+The sample application demonstrates how to use the library in a real-world scenario. It shows how to use the dialog service to open files, save files, show message boxes, show dialogs and child windows. It also demonstrates how to use the wizard control along with saving and restoring window sizes and positions.
+![sample-app](https://github.com/jamsoft/JamSoft.AvaloniaUI.Dialogs/blob/master/src/img/sample-app.png?raw=true)
 
 ## Import Styles
 ### All Defaults
@@ -40,24 +44,28 @@ paket add JamSoft.AvaloniaUI.Dialogs --version 1.2.2
     <StyleInclude Source="avares://JamSoft.AvaloniaUI.Dialogs/Themes/Default.axaml"/>
 </Application.Styles>
 ```
-### Individual
+### Individual Style Files
 ```xml
 <Application.Styles>
     <FluentTheme />
+    <StyleInclude Source="avares://JamSoft.AvaloniaUI.Dialogs/Themes/MsgBoxStyles.axaml"/>
     <StyleInclude Source="avares://JamSoft.AvaloniaUI.Dialogs/Themes/ChildStyle.axaml"/>
     <StyleInclude Source="avares://JamSoft.AvaloniaUI.Dialogs/Themes/ModalStyle.axaml"/>
     <StyleInclude Source="avares://JamSoft.AvaloniaUI.Dialogs/Themes/WizardStyle.axaml"/>
     <StyleInclude Source="avares://JamSoft.AvaloniaUI.Dialogs/Themes/WizardStepStyle.axaml"/>
 </Application.Styles>
 ```
-### Custom Styling
+
+### Custom Window Styling
 Since we are using plain old `Window` objects, basic styling properties like `Background` colors will be inherited from your own applications default `Window` style, such as:
 ```xml
 <Style Selector="Window">
     <Setter Property="Background" Value="#333333" />
 </Style>
 ```
+The same is true for your default button styles and basic text and font settings so theming things should be little more than plugging in the library and starting to use it.
 ## Creating Service Instances
+#### Dialog Service
 ```csharp
 IDialogService dialogService = DialogServiceFactory.Create(new DialogServiceConfiguration({
     ApplicationName = "Dialog Sample App", 
@@ -65,9 +73,12 @@ IDialogService dialogService = DialogServiceFactory.Create(new DialogServiceConf
     ViewsAssemblyName = Assembly.GetExecutingAssembly().GetName().Name
 });
 ```
-
+#### MessageBox Service
+```csharp
+IMessageBoxService msgboxService = DialogServiceFactory.CreateMessageBoxService();
+```
 ## Registration Example Using Splat DI
-
+#### Registering the Services - Program.cs
 ```csharp
 public static void Main(string[] args)
 {
@@ -81,7 +92,7 @@ private static void RegisterDependencies() =>
     BootStrapper.Register(Locator.CurrentMutable, Locator.Current);
         
 ```
-#### Registering the Service - Bootstrapper.cs
+#### Registering the Services - Bootstrapper.cs
 ```csharp
 public class BootStrapper
 {
@@ -94,7 +105,9 @@ public class BootStrapper
             ViewsAssemblyName = "JamSoft.AvaloniaUI.Dialogs.Sample"
         }));
         
-        services.Register(() => new MainWindowViewModel(resolver.GetService<IDialogService>()));
+        services.RegisterLazySingleton(DialogServiceFactory.CreateMessageBoxService);
+        
+        services.Register(() => new MainWindowViewModel(resolver.GetService<IDialogService>()!, resolver.GetService<IMessageBoxService>()!));
         services.Register(() => new MyDialogViewModel());
         services.Register(() => new MyChildViewModel());
     }
@@ -102,21 +115,57 @@ public class BootStrapper
 ```
 # Usage
 
-## Sample Application
-![sample-app](https://github.com/jamsoft/JamSoft.AvaloniaUI.Dialogs/blob/master/src/img/sample-app.png?raw=true)
-
-## File Paths
-
-Now that we have this setup and registered, we can make use of the service from view models like this. First add it as a constructor parameter.
+## Resolving Services
+Now that we have this setup and registered, we can make use of the service from view models like this. First, add it as a constructor parameter.
 ```csharp
 private readonly IDialogService _dialogService;
+private readonly IMessageBoxService _messageBoxService;
 
-public MainWindowViewModel(IDialogService dialogService)
+public MainWindowViewModel(IDialogService dialogService, IMessageBoxService messageBoxService)
 {
     _dialogService = dialogService;
+    _messageBoxService = messageBoxService;
 }
 ...
 ```
+
+# Usage - Message Boxes
+![basic-message-box](https://github.com/jamsoft/JamSoft.AvaloniaUI.Dialogs/blob/master/src/img/message-box.png?raw=true)
+
+The message box implementation closely follows the .NET/Forms/WPF `MessageBox` class. It provides a simple way to show message boxes with various button configurations and icons.
+## Show Message Box
+```csharp
+var msgbResult = await _messageBoxService.Show("OK Cancel", "Do you want to carry on?", MsgBoxButton.OkCancel, MsgBoxImage.Question);
+```
+You can also pass a view model instance to the `Show` method to customise the message box using the default provided `MsgBoxViewModel` class.
+```csharp
+var viewModel = new MsgBoxViewModel("Yes No With Icon", "Do you want to carry on?", MsgBoxButton.YesNo, MsgBoxImage.Warning);
+var btnResult = await _messageBoxService.Show(viewModel);
+```
+You can also use any custom view model class by implementing the `IMessageBoxViewModel` interface.
+```csharp
+public class MyCustomMsgBoxViewModel : IMsgBoxViewModel
+{
+}
+
+var myCustomMsgBoxViewModel = new MyCustomMsgBoxViewModel();
+...
+var btnResult = await _messageBoxService.Show(myCustomMsgBoxViewModel);
+```
+### Custom Icons
+```csharp
+var viewModel = new MsgBoxViewModel("Yes No With Icon", "Do you want to carry on?", MsgBoxButton.YesNo, MsgBoxImage.Custom);
+viewModel.Icon = new Bitmap("myicon.png");
+var btnResult = await _messageBoxService.Show(viewModel);
+```
+### Changing Icon Background Color
+```xml
+<Style Selector="Ellipse#MsgBoxIconBackgroundEllipse">
+    <Setter Property="Fill" Value="Red"/>
+</Style>
+```
+
+# File Paths
 ### Open Any File
 ```csharp
 string path = await _dialogService.OpenFile("Open Any File");
@@ -161,7 +210,6 @@ string path = await _dialogService.SaveFile("Save New MyApp Project", new List<F
 });
 ```
 # Usage - Dialogs
-
 There are two base view model classes already baked in for ease of use of the library. These are provided as defaults and a starting point. Create a suitable view model and inherit from either `DialogViewModel` or `ChildWindowViewModel` as base class.
 
 ## Show Dialog
@@ -186,7 +234,7 @@ private void ShowCustomizedDialogCommandExecuted()
     _dialogService.ShowDialog(vm, DialogCallback);
 }
 ```
-### Alternate View
+### Alternate Views
 ```csharp
 private void ShowCustomizedDialogCommandExecuted()
 {
@@ -324,9 +372,8 @@ public class MyUserSettings : SettingsBase<MyUserSettings>
 ```
 `SettingsBase<T>` can be found in the JamSoft.Helpers package https://github.com/jamsoft/JamSoft.Helpers
 
-```shell
-Install-Package JamSoft.Helpers
-```
+Nuget - https://www.nuget.org/packages/JamSoft.Helpers
+
 Then in your view model you can listen for the `RequestCloseDialog` event and respond accordingly by storing the settings in the `OnRequestCloseDialog` method.
 ```csharp
 public class MyChildWindowViewModel : ChildWindowViewModel
@@ -362,14 +409,14 @@ vm.RequestedTop = MyUserSettings.Instance.Top;
 vm.RequestedHeight = MyUserSettings.Instance.Height;
 vm.RequestedWidth = MyUserSettings.Instance.Width;
 
-vm.ChildWindowTitle = "My Custom Child Window Title Auto Find";
+vm.ChildWindowTitle = "My Custom Child Window Title";
 
 _dialogService.ShowChildWindow(vm, model =>
 {
     Message = $"Child Remember Position Closed - {model.GetType()}";
 });
 ```
-See the Sample Application for a complete implementation example and guidance.
+See the Sample Application for a complete implementation example and further guidance.
 
 ## Application Styles
 You can easily target elements of the dialogs via their names and types, such as:

@@ -13,9 +13,9 @@ namespace JamSoft.AvaloniaUI.Dialogs.Views;
 /// </summary>
 public partial class ChildWindow : Window
 {
-    private bool _isClosed = false;
+    private bool _isClosed;
 
-    private IChildWindowViewModel? _vm { get; set; }
+    private IChildWindowViewModel? _vm;
 
     /// <summary>
     /// The default constructor
@@ -47,13 +47,10 @@ public partial class ChildWindow : Window
         var p = e.GetCurrentPoint(null);
         if (p.Properties.IsLeftButtonPressed)
         {
-            this.GetObservable(ClientSizeProperty).Subscribe(new AnonymousObserver<Size>((s)=>
+            this.GetObservable(ClientSizeProperty).Subscribe(new AnonymousObserver<Size>((_)=>
             {
-                //if (ReferenceEquals(size.Sender, this))
-                //{
-                    _vm.RequestedLeft = Position.X;
-                    _vm.RequestedTop = Position.Y;
-                //}
+                _vm.RequestedLeft = Position.X;
+                _vm.RequestedTop = Position.Y;
             }));
 
             BeginMoveDrag(e);

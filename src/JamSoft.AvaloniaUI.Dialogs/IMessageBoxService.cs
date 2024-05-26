@@ -16,15 +16,15 @@ public interface IMessageBoxService
     /// <param name="button">the button configuration</param>
     /// <param name="icon">the icon enum</param>
     /// <param name="noButtonText">the negative response button text value</param>
-    /// <param name="yesButtonText">the positive response button text</param>
+    /// <param name="yesButtonText">the positive response button text used for Yes/OK buttons</param>
     /// <param name="cancelButtonText">the cancel response button text</param>
-    /// <returns><see cref="MsgBoxResult"/></returns>
+    /// <returns>the <see cref="MsgBoxResult"/> response</returns>
     Task<MsgBoxResult> Show(string caption, string messageBoxText, MsgBoxButton button, MsgBoxImage icon = MsgBoxImage.None, string? noButtonText = null, string? yesButtonText = null, string? cancelButtonText = null);
     
     /// <summary>
     /// Show a message box with the specified view model
     /// </summary>
     /// <param name="viewModel">the view model instance</param>
-    /// <returns><see cref="MsgBoxResult"/></returns>
+    /// <returns>the <see cref="MsgBoxResult"/> response</returns>
     Task<MsgBoxResult> Show(IMsgBoxViewModel viewModel);
 }

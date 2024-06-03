@@ -348,11 +348,11 @@ public class MainWindowViewModel : ViewModelBase
         var resultYesNoNoIcon = await _messageBoxService.Show("Yes No Without Icon", "Do you want to carry on?", MsgBoxButton.YesNo);
         Message = $"{resultYesNoNoIcon} clicked";
         
-        var viewModel = new MsgBoxViewModel("Yes No With Icon", "Do you want to carry on?", MsgBoxButton.YesNo, MsgBoxImage.Warning);
+        var viewModel = new MsgBoxViewModel("Yes No With Icon", "Do you want to carry on?", MsgBoxButton.YesNo, MsgBoxImage.Forbidden);
         var resultVm = await _messageBoxService.Show(viewModel);
         Message = $"{resultVm} clicked";
         
-        var resultYesNoCancelCustomButtonText = await _messageBoxService.Show("German Yes No Cancel", "Möchten Sie weitermachen?", MsgBoxButton.YesNoCancel, MsgBoxImage.Question, "Nein", "Ja", "Abbrechen");
+        var resultYesNoCancelCustomButtonText = await _messageBoxService.Show("German Yes No Cancel", "Möchten Sie weitermachen?", MsgBoxButton.YesNoCancel, MsgBoxImage.Wifi, "Nein", "Ja", "Abbrechen");
         Message = $"{resultYesNoCancelCustomButtonText} clicked";
     }
 }

@@ -53,5 +53,45 @@ public enum MsgBoxImage
     /// <summary>
     /// Show a custom icon
     /// </summary>
-    Custom
+    Custom,
+    
+    /// <summary>
+    /// Show the Success icon
+    /// </summary>
+    Success,
+    
+    /// <summary>
+    /// Show the Battery icon
+    /// </summary>
+    Battery,
+    
+    /// <summary>
+    /// Show the Database icon
+    /// </summary>
+    Database,
+    
+    /// <summary>
+    /// Show the Folder icon
+    /// </summary>
+    Folder,
+    
+    /// <summary>
+    /// Show the Forbidden icon
+    /// </summary>
+    Forbidden,
+    
+    /// <summary>
+    /// Show the Plus icon
+    /// </summary>
+    Plus,
+    
+    /// <summary>
+    /// Show the Setting icon
+    /// </summary>
+    Setting,
+    
+    /// <summary>
+    /// Show the Wifi icon
+    /// </summary>
+    Wifi
 }

@@ -105,6 +105,30 @@ public class MsgBoxViewModel : IMsgBoxViewModel
             case MsgBoxImage.Question:
                 Icon = new Bitmap(AssetLoader.Open(new Uri($"avares://JamSoft.AvaloniaUI.Dialogs/Assets/interrogation.png")));
                 break;
+            case MsgBoxImage.Success:
+                Icon = new Bitmap(AssetLoader.Open(new Uri($"avares://JamSoft.AvaloniaUI.Dialogs/Assets/check-circle.png")));
+                break;
+            case MsgBoxImage.Battery:
+                Icon = new Bitmap(AssetLoader.Open(new Uri($"avares://JamSoft.AvaloniaUI.Dialogs/Assets/battery-half.png")));
+                break;
+            case MsgBoxImage.Database:
+                Icon = new Bitmap(AssetLoader.Open(new Uri($"avares://JamSoft.AvaloniaUI.Dialogs/Assets/database.png")));
+                break;
+            case MsgBoxImage.Folder:
+                Icon = new Bitmap(AssetLoader.Open(new Uri($"avares://JamSoft.AvaloniaUI.Dialogs/Assets/folder-open.png")));
+                break;
+            case MsgBoxImage.Forbidden:
+                Icon = new Bitmap(AssetLoader.Open(new Uri($"avares://JamSoft.AvaloniaUI.Dialogs/Assets/ban.png")));
+                break;
+            case MsgBoxImage.Plus:
+                Icon = new Bitmap(AssetLoader.Open(new Uri($"avares://JamSoft.AvaloniaUI.Dialogs/Assets/add.png")));
+                break;
+            case MsgBoxImage.Setting:
+                Icon = new Bitmap(AssetLoader.Open(new Uri($"avares://JamSoft.AvaloniaUI.Dialogs/Assets/customize.png")));
+                break;
+            case MsgBoxImage.Wifi:
+                Icon = new Bitmap(AssetLoader.Open(new Uri($"avares://JamSoft.AvaloniaUI.Dialogs/Assets/wifi.png")));
+                break;
             default:
                 Icon = null;
                 break;

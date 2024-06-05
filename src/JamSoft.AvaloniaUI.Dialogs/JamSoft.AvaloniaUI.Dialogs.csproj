@@ -21,11 +21,11 @@
         <SignAssembly>true</SignAssembly>
         <AssemblyOriginatorKeyFile>JamSoft.AssemblyKeyFile.snk</AssemblyOriginatorKeyFile>
         <PublicSign>true</PublicSign>
-        <Version>1.3.1</Version>
-        <AssemblyVersion>1.3.1.0</AssemblyVersion>
-        <FileVersion>1.3.1.0</FileVersion>
+        <Version>1.3.2</Version>
+        <AssemblyVersion>1.3.2.0</AssemblyVersion>
+        <FileVersion>1.3.2.0</FileVersion>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
-        <InformationalVersion>1.3.1.0-rel</InformationalVersion>
+        <InformationalVersion>1.3.2.0-rel</InformationalVersion>
         <EnablePackageValidation>true</EnablePackageValidation>
         <PackageReadmeFile>README.md</PackageReadmeFile>        
     </PropertyGroup>

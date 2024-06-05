@@ -1,32 +1,16 @@
 ﻿namespace JamSoft.AvaloniaUI.Dialogs.MsgBox;
 
-/// <summary>
-/// The message box result enum
-/// </summary>
-public enum MsgBoxResult
+public sealed class MsgBoxResult
 {
-    /// <summary>
-    /// The default value
-    /// </summary>
-    None,
+    public MsgBoxButtonResult ButtonResult { get; }
     
-    /// <summary>
-    /// The OK value
-    /// </summary>
-    Ok,
+    public bool CheckBoxResult { get; }
+
+    private MsgBoxResult(bool checkBoxResult, MsgBoxButtonResult buttonResult)
+    {
+        CheckBoxResult = checkBoxResult;
+        ButtonResult = buttonResult;
+    }
     
-    /// <summary>
-    /// The Cancel value
-    /// </summary>
-    Cancel,
-    
-    /// <summary>
-    /// The Yes value
-    /// </summary>
-    Yes,
-    
-    /// <summary>
-    /// The No value
-    /// </summary>
-    No
+    public static MsgBoxResult CreateResult(bool checkBoxChecked, MsgBoxButtonResult buttonResult) => new(checkBoxChecked, buttonResult);
 }

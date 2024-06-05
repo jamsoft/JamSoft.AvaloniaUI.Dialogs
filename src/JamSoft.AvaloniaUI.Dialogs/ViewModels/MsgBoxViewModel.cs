@@ -29,6 +29,8 @@ public class MsgBoxViewModel : IMsgBoxViewModel
     private ICommand _acceptCommand = null!;
     private Bitmap? _icon;
     private MsgBoxImage _msgBoxImage;
+    private string? _checkBoxText;
+    private bool _checkBoxResult;
 
     /// <summary>
     /// The default constructor
@@ -40,7 +42,8 @@ public class MsgBoxViewModel : IMsgBoxViewModel
     /// <param name="noButtonText"></param>
     /// <param name="yesButtonText"></param>
     /// <param name="cancelButtonText"></param>
-    public MsgBoxViewModel(string caption, string message, MsgBoxButton buttons, MsgBoxImage icon = MsgBoxImage.None, string? noButtonText = null, string? yesButtonText = null, string? cancelButtonText = null)
+    /// <param name="checkBoxText"></param>
+    public MsgBoxViewModel(string caption, string message, MsgBoxButton buttons, MsgBoxImage icon = MsgBoxImage.None, string? noButtonText = null, string? yesButtonText = null, string? cancelButtonText = null, string? checkBoxText = null)
     {
         _msgBoxTitle = caption;
         _message = message;
@@ -52,9 +55,24 @@ public class MsgBoxViewModel : IMsgBoxViewModel
         Buttons = buttons;
         MsgBoxImage = icon;
         Topmost = false;
+        CheckBoxText = checkBoxText;
         
         SetupCommands();
         SetupButtons();
+    }
+
+    public bool CheckBoxResult
+    {
+        get => _checkBoxResult;
+        set => RaiseAndSetIfChanged(ref _checkBoxResult, value);
+    }
+
+    public bool ShowCheckBox => CheckBoxText is not null;
+
+    public string? CheckBoxText
+    {
+        get => _checkBoxText;
+        set { RaiseAndSetIfChanged(ref _checkBoxText, value); }
     }
 
     /// <summary>
@@ -86,7 +104,7 @@ public class MsgBoxViewModel : IMsgBoxViewModel
     /// <summary>
     /// The dialog result
     /// </summary>
-    public MsgBoxResult Result { get; set; }
+    public MsgBoxButtonResult Result { get; set; }
     
     /// <summary>
     /// The dialog buttons
@@ -239,7 +257,7 @@ public class MsgBoxViewModel : IMsgBoxViewModel
     {
         _noCommand = new DelegateCommand(() =>
         {
-            Result = MsgBoxResult.No;
+            Result = MsgBoxButtonResult.No;
             InvokeRequestCloseDialog(new RequestCloseDialogEventArgs(false));
         }, CanNoAccept);
         
@@ -247,12 +265,12 @@ public class MsgBoxViewModel : IMsgBoxViewModel
         {
             if (Buttons == MsgBoxButton.YesNo || Buttons == MsgBoxButton.YesNoCancel)
             {
-                Result = MsgBoxResult.Yes;
+                Result = MsgBoxButtonResult.Yes;
             }
             
             if (Buttons == MsgBoxButton.Ok || Buttons == MsgBoxButton.OkCancel)
             {
-                Result = MsgBoxResult.Ok;
+                Result = MsgBoxButtonResult.Ok;
             }
 
             InvokeRequestCloseDialog(new RequestCloseDialogEventArgs(true));
@@ -260,7 +278,7 @@ public class MsgBoxViewModel : IMsgBoxViewModel
         
         _cancelCommand = new DelegateCommand(() =>
         {
-            Result = MsgBoxResult.Cancel;
+            Result = MsgBoxButtonResult.Cancel;
             InvokeRequestCloseDialog(new RequestCloseDialogEventArgs(false));
         }, CanCancel);
     }

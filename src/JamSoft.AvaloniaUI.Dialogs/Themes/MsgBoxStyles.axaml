@@ -9,4 +9,8 @@
         <Setter Property="Background" Value="Gray"/>
     </Style>
     
+    <Style Selector="Grid#ButtonGrid">
+        <Setter Property="Background" Value="#3d3d3d"/>
+    </Style>
+    
 </Styles>

@@ -10,15 +10,15 @@ namespace JamSoft.AvaloniaUI.Dialogs;
 internal class MessageBoxService : IMessageBoxService
 {
     public Task<MsgBoxResult> Show(string caption, string messageBoxText, MsgBoxButton button, MsgBoxImage icon = MsgBoxImage.None,
-        string? noButtonText = null, string? yesButtonText = null, string? cancelButtonText = null)
+        string? noButtonText = null, string? yesButtonText = null, string? cancelButtonText = null, string? checkBoxText = null)
     {
-        return Show(new MsgBoxViewModel(caption, messageBoxText, button, icon, noButtonText, yesButtonText, cancelButtonText));
+        return Show(new MsgBoxViewModel(caption, messageBoxText, button, icon, noButtonText, yesButtonText, cancelButtonText, checkBoxText));
     }
     
     public Task<MsgBoxResult> Show(IMsgBoxViewModel? viewModel)
     {
         if (viewModel == null)
-            return Task.FromResult(MsgBoxResult.None);
+            return Task.FromResult(MsgBoxResult.CreateResult(false, MsgBoxButtonResult.None));
         
         if (Application.Current != null &&
             Application.Current.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop && desktop.MainWindow != null)
@@ -49,7 +49,7 @@ internal class MessageBoxService : IMessageBoxService
         var tcs = new TaskCompletionSource<MsgBoxResult>();
         win.Closing += (_, _) =>
         {
-            tcs.TrySetResult(viewModel.Result);
+            tcs.TrySetResult(MsgBoxResult.CreateResult(viewModel.CheckBoxResult, viewModel.Result));
         };
 
         win.Show(owner);

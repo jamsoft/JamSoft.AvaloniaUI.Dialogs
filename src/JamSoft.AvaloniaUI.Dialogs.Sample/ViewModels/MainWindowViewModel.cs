@@ -331,28 +331,31 @@ public class MainWindowViewModel : ViewModelBase
     private async void ShowMessageBoxCommandExecuted()
     {
         var resultOkCancel = await _messageBoxService.Show("OK Cancel", "Do you want to carry on?", MsgBoxButton.OkCancel, MsgBoxImage.Error);
-        Message = $"{resultOkCancel} clicked";
+        Message = $"{resultOkCancel.ButtonResult} clicked";
         
         var resultOk = await _messageBoxService.Show("Ok", "Do you want to carry on?", MsgBoxButton.Ok, MsgBoxImage.Information);
-        Message = $"{resultOk} clicked";
+        Message = $"{resultOk.ButtonResult} clicked";
         
         var resultYesNo = await _messageBoxService.Show("Yes No", "Do you want to carry on?", MsgBoxButton.YesNo, MsgBoxImage.Asterisk);
-        Message = $"{resultYesNo} clicked";
+        Message = $"{resultYesNo.ButtonResult} clicked";
         
         var resultYesNoCancel = await _messageBoxService.Show("Yes No Cancel", "Do you want to carry on?", MsgBoxButton.YesNoCancel, MsgBoxImage.Question);
-        Message = $"{resultYesNoCancel} clicked";
+        Message = $"{resultYesNoCancel.ButtonResult} clicked";
         
         var resultYesNoWarning = await _messageBoxService.Show("Yes No", "Do you want to carry on?", MsgBoxButton.YesNo, MsgBoxImage.Warning);
-        Message = $"{resultYesNoWarning} clicked";
+        Message = $"{resultYesNoWarning.ButtonResult} clicked";
         
         var resultYesNoNoIcon = await _messageBoxService.Show("Yes No Without Icon", "Do you want to carry on?", MsgBoxButton.YesNo);
-        Message = $"{resultYesNoNoIcon} clicked";
+        Message = $"{resultYesNoNoIcon.ButtonResult} clicked";
         
         var viewModel = new MsgBoxViewModel("Yes No With Icon", "Do you want to carry on?", MsgBoxButton.YesNo, MsgBoxImage.Forbidden);
         var resultVm = await _messageBoxService.Show(viewModel);
-        Message = $"{resultVm} clicked";
+        Message = $"{resultVm.ButtonResult} clicked";
         
         var resultYesNoCancelCustomButtonText = await _messageBoxService.Show("German Yes No Cancel", "Möchten Sie weitermachen?", MsgBoxButton.YesNoCancel, MsgBoxImage.Wifi, "Nein", "Ja", "Abbrechen");
-        Message = $"{resultYesNoCancelCustomButtonText} clicked";
+        Message = $"{resultYesNoCancelCustomButtonText.ButtonResult} clicked";
+        
+        var msgBoxResult = await _messageBoxService.Show("OK Cancel With Checkbox", "Do you want to carry on?", MsgBoxButton.OkCancel, MsgBoxImage.Error, checkBoxText:"Don't ask me again");
+        Message = $"Button: {msgBoxResult.ButtonResult}, Checkbox: {msgBoxResult.CheckBoxResult}";
     }
 }

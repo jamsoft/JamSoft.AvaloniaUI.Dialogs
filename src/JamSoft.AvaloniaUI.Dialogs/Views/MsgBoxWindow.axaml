@@ -7,7 +7,8 @@
         Classes="Modal"
         Topmost="{Binding Topmost}"
         WindowStartupLocation="{Binding WindowStartupLocation}"
-        Padding="0" SystemDecorations="BorderOnly"
+        Padding="0" 
+        SystemDecorations="BorderOnly"
         MinHeight="100"
         MinWidth="300">
     
@@ -20,7 +21,7 @@
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
-                <RowDefinition Height="55" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
             <Border x:Name="DialogBorder" />
@@ -28,14 +29,18 @@
 
             <ContentControl x:Name="Host" Grid.Row="0" Margin="0" Padding="0" />
 		
-            <Grid Grid.Row="1" Margin="10,0,10,0">
+            <Grid x:Name="ButtonGrid" Grid.Row="1" Margin="0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition MinWidth="75" />
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition MinWidth="75" />
                 </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
               
-                <StackPanel Margin="0" Orientation="Horizontal">
+                <StackPanel Margin="10,10,0,10" Orientation="Horizontal">
                     <Button x:Name="MsgBoxCancelButton"
                             HorizontalContentAlignment="Center"
                             MinWidth="60"
@@ -51,25 +56,33 @@
                             Content="{Binding NoCommandText}" />
                 </StackPanel>
                 
-                <Button x:Name="MsgBoxOkButton"
-                        MinWidth="60"
-                        HorizontalContentAlignment="Center"
-                        IsVisible="{Binding ShowOkButton}"
-                        Command="{Binding AcceptCommand}" 
-                        Content="{Binding AcceptCommandText}"
-                        Grid.Column="2" 
-                        HorizontalAlignment="Right"/>
+                <StackPanel Grid.Row="0" Grid.Column="2" Margin="0,10,10,10" Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button x:Name="MsgBoxOkButton"
+                            MinWidth="60"
+                            HorizontalContentAlignment="Center"
+                            IsVisible="{Binding ShowOkButton}"
+                            Command="{Binding AcceptCommand}" 
+                            Content="{Binding AcceptCommandText}"
+                            HorizontalAlignment="Right"/>
+                    
+                    <Button x:Name="MsgBoxYesButton"
+                            HorizontalContentAlignment="Center"
+                            MinWidth="60"
+                            IsVisible="{Binding ShowYesButton}"
+                            Command="{Binding AcceptCommand}" 
+                            Content="{Binding AcceptCommandText}"
+                            HorizontalAlignment="Right"/>
+                </StackPanel>
                 
-                <Button x:Name="MsgBoxYesButton"
-                        HorizontalContentAlignment="Center"
-                        MinWidth="60"
-                        IsVisible="{Binding ShowYesButton}"
-                        Command="{Binding AcceptCommand}" 
-                        Content="{Binding AcceptCommandText}"
-                        Grid.Column="2" 
-                        HorizontalAlignment="Right"/>
+                <CheckBox x:Name="MsgBoxCheckBox"
+                          IsVisible="{Binding ShowCheckBox}"
+                          IsChecked="{Binding CheckBoxResult}"
+                          Margin="10,0,10,10" 
+                          Grid.Row="1" 
+                          Grid.ColumnSpan="3" 
+                          Grid.Column="0"
+                          Content="{Binding CheckBoxText}" />
             </Grid>
         </Grid>
     </Grid>
-    
 </Window>

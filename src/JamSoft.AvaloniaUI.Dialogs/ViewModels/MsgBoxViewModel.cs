@@ -61,14 +61,23 @@ public class MsgBoxViewModel : IMsgBoxViewModel
         SetupButtons();
     }
 
+    /// <summary>
+    /// The CheckBoxResult value
+    /// </summary>
     public bool CheckBoxResult
     {
         get => _checkBoxResult;
         set => RaiseAndSetIfChanged(ref _checkBoxResult, value);
     }
 
+    /// <summary>
+    /// The show check box flag
+    /// </summary>
     public bool ShowCheckBox => CheckBoxText is not null;
 
+    /// <summary>
+    /// The CheckBoxText value
+    /// </summary>
     public string? CheckBoxText
     {
         get => _checkBoxText;

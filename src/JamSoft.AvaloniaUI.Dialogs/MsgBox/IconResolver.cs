@@ -3,6 +3,9 @@ using Avalonia.Platform;
 
 namespace JamSoft.AvaloniaUI.Dialogs.MsgBox;
 
+/// <summary>
+/// Resolves the icon for the message box
+/// </summary>
 public static class IconResolver
 {
     private static Dictionary<MsgBoxImage, string> _icons = new()
@@ -26,6 +29,11 @@ public static class IconResolver
         { MsgBoxImage.Wifi, "wifi.png" }
     };
     
+    /// <summary>
+    /// Resolves the icon for the message box
+    /// </summary>
+    /// <param name="icon"></param>
+    /// <returns></returns>
     public static Bitmap? Resolve(MsgBoxImage icon)
     {
         if (_icons.TryGetValue(icon, out var iconName))

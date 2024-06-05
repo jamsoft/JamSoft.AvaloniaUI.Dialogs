@@ -16,16 +16,16 @@ https://jamsoft.github.io/JamSoft.AvaloniaUI.Dialogs/
 
 ## Installation
 ```shell
-dotnet add package JamSoft.AvaloniaUI.Dialogs --version 1.3.1
+dotnet add package JamSoft.AvaloniaUI.Dialogs --version 1.4.0
 ```
 ```shell
-Install-Package JamSoft.AvaloniaUI.Dialogs -Version 1.3.1
+Install-Package JamSoft.AvaloniaUI.Dialogs -Version 1.4.0
 ```
 ```xml
-<PackageReference Include="JamSoft.AvaloniaUI.Dialogs" Version="1.3.1" />
+<PackageReference Include="JamSoft.AvaloniaUI.Dialogs" Version="1.4.0" />
 ```
 ```shell
-paket add JamSoft.AvaloniaUI.Dialogs --version 1.3.1
+paket add JamSoft.AvaloniaUI.Dialogs --version 1.4.0
 ```
 ### Tested On
 - Windows 10 & 11 

@@ -9,7 +9,7 @@
         WindowStartupLocation="{Binding WindowStartupLocation}"
         Padding="0" SystemDecorations="BorderOnly"
         MinHeight="100"
-        MinWidth="200">
+        MinWidth="300">
     
     <Window.KeyBindings>
         <KeyBinding Gesture="Escape" Command="{Binding CancelCommand}" />
@@ -37,17 +37,23 @@
               
                 <StackPanel Margin="0" Orientation="Horizontal">
                     <Button x:Name="MsgBoxCancelButton"
+                            HorizontalContentAlignment="Center"
+                            MinWidth="60"
                             IsVisible="{Binding ShowCancelButton}"
                             Command="{Binding CancelCommand}" 
                             Content="{Binding CancelCommandText}" />
                     
                     <Button x:Name="MsgBoxNoButton"
+                            HorizontalContentAlignment="Center"
+                            MinWidth="60"
                             IsVisible="{Binding ShowNoButton}"
                             Command="{Binding NoCommand}" 
                             Content="{Binding NoCommandText}" />
                 </StackPanel>
                 
                 <Button x:Name="MsgBoxOkButton"
+                        MinWidth="60"
+                        HorizontalContentAlignment="Center"
                         IsVisible="{Binding ShowOkButton}"
                         Command="{Binding AcceptCommand}" 
                         Content="{Binding AcceptCommandText}"
@@ -55,6 +61,8 @@
                         HorizontalAlignment="Right"/>
                 
                 <Button x:Name="MsgBoxYesButton"
+                        HorizontalContentAlignment="Center"
+                        MinWidth="60"
                         IsVisible="{Binding ShowYesButton}"
                         Command="{Binding AcceptCommand}" 
                         Content="{Binding AcceptCommandText}"

@@ -16,16 +16,16 @@ https://jamsoft.github.io/JamSoft.AvaloniaUI.Dialogs/
 
 ## Installation
 ```shell
-dotnet add package JamSoft.AvaloniaUI.Dialogs --version 1.3.1
+dotnet add package JamSoft.AvaloniaUI.Dialogs --version 1.4.0
 ```
 ```shell
-Install-Package JamSoft.AvaloniaUI.Dialogs -Version 1.3.1
+Install-Package JamSoft.AvaloniaUI.Dialogs -Version 1.4.0
 ```
 ```xml
-<PackageReference Include="JamSoft.AvaloniaUI.Dialogs" Version="1.3.1" />
+<PackageReference Include="JamSoft.AvaloniaUI.Dialogs" Version="1.4.0" />
 ```
 ```shell
-paket add JamSoft.AvaloniaUI.Dialogs --version 1.3.1
+paket add JamSoft.AvaloniaUI.Dialogs --version 1.4.0
 ```
 ### Tested On
 - Windows 10 & 11 
@@ -133,6 +133,28 @@ public MainWindowViewModel(IDialogService dialogService, IMessageBoxService mess
 ![basic-message-box](https://github.com/jamsoft/JamSoft.AvaloniaUI.Dialogs/blob/master/src/img/message-box.png?raw=true)
 
 The message box implementation closely follows the .NET/Forms/WPF `MessageBox` class. It provides a simple way to show message boxes with various button configurations and icons.
+
+## Result Object
+The `Show` method returns a `MsgBoxResult` object which contains the button result that was clicked by the user. This can be used to determine the action to take in your application.
+
+If the checkbox is also used, by providing text for the `CheckBox` message in the `Show` call, the result can be checked in the returned `MsgBoxResult` object.
+
+```csharp
+public sealed class MsgBoxResult
+{
+    public MsgBoxButtonResult ButtonResult { get; }
+    
+    public bool CheckBoxResult { get; }
+
+    private MsgBoxResult(bool checkBoxResult, MsgBoxButtonResult buttonResult)
+    {
+        CheckBoxResult = checkBoxResult;
+        ButtonResult = buttonResult;
+    }
+    
+    public static MsgBoxResult CreateResult(bool checkBoxChecked, MsgBoxButtonResult buttonResult) => new(checkBoxChecked, buttonResult);
+}
+```
 ## Show Message Box
 ```csharp
 var msgbResult = await _messageBoxService.Show("OK Cancel", "Do you want to carry on?", MsgBoxButton.OkCancel, MsgBoxImage.Question);
@@ -156,7 +178,7 @@ var btnResult = await _messageBoxService.Show(myCustomMsgBoxViewModel);
 ```csharp
 var viewModel = new MsgBoxViewModel("Yes No With Icon", "Do you want to carry on?", MsgBoxButton.YesNo, MsgBoxImage.Custom);
 viewModel.Icon = new Bitmap("myicon.png");
-var btnResult = await _messageBoxService.Show(viewModel);
+var result = await _messageBoxService.Show(viewModel);
 ```
 ### Changing Icon Background Color
 ```xml
@@ -169,6 +191,13 @@ var btnResult = await _messageBoxService.Show(viewModel);
 var result = await _messageBoxService.Show("German Yes No Cancel", "Möchten Sie weitermachen?", 
     MsgBoxButton.YesNoCancel, 
     MsgBoxImage.Question, "Nein", "Ja", "Abbrechen");
+```
+### Show Message Box With Checkbox
+![basic-message-box-with-checkbox](https://github.com/jamsoft/JamSoft.AvaloniaUI.Dialogs/blob/master/src/img/message-box-checkbox.png?raw=true)
+```csharp
+var msgBoxResult = await _messageBoxService.Show("OK Cancel With Checkbox", "Do you want to carry on?", MsgBoxButton.OkCancel, MsgBoxImage.Error, checkBoxText:"Don't ask me again");
+msgBoxResult.ButtonResult;
+msgBoxResult.CheckBoxResult;
 ```
 # File Paths
 ### Open Any File

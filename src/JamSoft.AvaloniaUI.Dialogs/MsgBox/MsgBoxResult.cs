@@ -3,30 +3,29 @@
 /// <summary>
 /// The message box result enum
 /// </summary>
-public enum MsgBoxResult
+public sealed class MsgBoxResult
 {
     /// <summary>
-    /// The default value
+    /// The message box button result enum
     /// </summary>
-    None,
+    public MsgBoxButtonResult ButtonResult { get; }
     
     /// <summary>
-    /// The OK value
+    /// The message box check box result
     /// </summary>
-    Ok,
+    public bool CheckBoxResult { get; }
+
+    private MsgBoxResult(bool checkBoxResult, MsgBoxButtonResult buttonResult)
+    {
+        CheckBoxResult = checkBoxResult;
+        ButtonResult = buttonResult;
+    }
     
     /// <summary>
-    /// The Cancel value
+    /// Creates a new message box result instance
     /// </summary>
-    Cancel,
-    
-    /// <summary>
-    /// The Yes value
-    /// </summary>
-    Yes,
-    
-    /// <summary>
-    /// The No value
-    /// </summary>
-    No
+    /// <param name="checkBoxChecked"></param>
+    /// <param name="buttonResult"></param>
+    /// <returns></returns>
+    public static MsgBoxResult CreateResult(bool checkBoxChecked, MsgBoxButtonResult buttonResult) => new(checkBoxChecked, buttonResult);
 }

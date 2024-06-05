@@ -29,6 +29,8 @@ public class MsgBoxViewModel : IMsgBoxViewModel
     private ICommand _acceptCommand = null!;
     private Bitmap? _icon;
     private MsgBoxImage _msgBoxImage;
+    private string? _checkBoxText;
+    private bool _checkBoxResult;
 
     /// <summary>
     /// The default constructor
@@ -40,7 +42,8 @@ public class MsgBoxViewModel : IMsgBoxViewModel
     /// <param name="noButtonText"></param>
     /// <param name="yesButtonText"></param>
     /// <param name="cancelButtonText"></param>
-    public MsgBoxViewModel(string caption, string message, MsgBoxButton buttons, MsgBoxImage icon = MsgBoxImage.None, string? noButtonText = null, string? yesButtonText = null, string? cancelButtonText = null)
+    /// <param name="checkBoxText"></param>
+    public MsgBoxViewModel(string caption, string message, MsgBoxButton buttons, MsgBoxImage icon = MsgBoxImage.None, string? noButtonText = null, string? yesButtonText = null, string? cancelButtonText = null, string? checkBoxText = null)
     {
         _msgBoxTitle = caption;
         _message = message;
@@ -52,9 +55,33 @@ public class MsgBoxViewModel : IMsgBoxViewModel
         Buttons = buttons;
         MsgBoxImage = icon;
         Topmost = false;
+        CheckBoxText = checkBoxText;
         
         SetupCommands();
         SetupButtons();
+    }
+
+    /// <summary>
+    /// The CheckBoxResult value
+    /// </summary>
+    public bool CheckBoxResult
+    {
+        get => _checkBoxResult;
+        set => RaiseAndSetIfChanged(ref _checkBoxResult, value);
+    }
+
+    /// <summary>
+    /// The show check box flag
+    /// </summary>
+    public bool ShowCheckBox => CheckBoxText is not null;
+
+    /// <summary>
+    /// The CheckBoxText value
+    /// </summary>
+    public string? CheckBoxText
+    {
+        get => _checkBoxText;
+        set { RaiseAndSetIfChanged(ref _checkBoxText, value); }
     }
 
     /// <summary>
@@ -80,65 +107,13 @@ public class MsgBoxViewModel : IMsgBoxViewModel
     /// </summary>
     protected virtual void SetImage()
     {
-        if (MsgBoxImage == MsgBoxImage.Custom)
-        {
-            return;
-        }
-        
-        switch (MsgBoxImage)
-        {
-            case MsgBoxImage.Asterisk:
-                Icon = new Bitmap(AssetLoader.Open(new Uri($"avares://JamSoft.AvaloniaUI.Dialogs/Assets/exclamation.png")));
-                break;
-            case MsgBoxImage.Information:
-                Icon = new Bitmap(AssetLoader.Open(new Uri($"avares://JamSoft.AvaloniaUI.Dialogs/Assets/info.png")));
-                break;
-            case MsgBoxImage.Error:
-            case MsgBoxImage.Hand:
-            case MsgBoxImage.Stop:
-                Icon = new Bitmap(AssetLoader.Open(new Uri($"avares://JamSoft.AvaloniaUI.Dialogs/Assets/cross-circle.png")));
-                break;
-            case MsgBoxImage.Exclamation:
-            case MsgBoxImage.Warning:
-                Icon = new Bitmap(AssetLoader.Open(new Uri($"avares://JamSoft.AvaloniaUI.Dialogs/Assets/diamond-exclamation.png")));
-                break;
-            case MsgBoxImage.Question:
-                Icon = new Bitmap(AssetLoader.Open(new Uri($"avares://JamSoft.AvaloniaUI.Dialogs/Assets/interrogation.png")));
-                break;
-            case MsgBoxImage.Success:
-                Icon = new Bitmap(AssetLoader.Open(new Uri($"avares://JamSoft.AvaloniaUI.Dialogs/Assets/check-circle.png")));
-                break;
-            case MsgBoxImage.Battery:
-                Icon = new Bitmap(AssetLoader.Open(new Uri($"avares://JamSoft.AvaloniaUI.Dialogs/Assets/battery-half.png")));
-                break;
-            case MsgBoxImage.Database:
-                Icon = new Bitmap(AssetLoader.Open(new Uri($"avares://JamSoft.AvaloniaUI.Dialogs/Assets/database.png")));
-                break;
-            case MsgBoxImage.Folder:
-                Icon = new Bitmap(AssetLoader.Open(new Uri($"avares://JamSoft.AvaloniaUI.Dialogs/Assets/folder-open.png")));
-                break;
-            case MsgBoxImage.Forbidden:
-                Icon = new Bitmap(AssetLoader.Open(new Uri($"avares://JamSoft.AvaloniaUI.Dialogs/Assets/ban.png")));
-                break;
-            case MsgBoxImage.Plus:
-                Icon = new Bitmap(AssetLoader.Open(new Uri($"avares://JamSoft.AvaloniaUI.Dialogs/Assets/add.png")));
-                break;
-            case MsgBoxImage.Setting:
-                Icon = new Bitmap(AssetLoader.Open(new Uri($"avares://JamSoft.AvaloniaUI.Dialogs/Assets/customize.png")));
-                break;
-            case MsgBoxImage.Wifi:
-                Icon = new Bitmap(AssetLoader.Open(new Uri($"avares://JamSoft.AvaloniaUI.Dialogs/Assets/wifi.png")));
-                break;
-            default:
-                Icon = null;
-                break;
-        }
+        Icon = IconResolver.Resolve(MsgBoxImage);
     }
 
     /// <summary>
     /// The dialog result
     /// </summary>
-    public MsgBoxResult Result { get; set; }
+    public MsgBoxButtonResult Result { get; set; }
     
     /// <summary>
     /// The dialog buttons
@@ -291,7 +266,7 @@ public class MsgBoxViewModel : IMsgBoxViewModel
     {
         _noCommand = new DelegateCommand(() =>
         {
-            Result = MsgBoxResult.No;
+            Result = MsgBoxButtonResult.No;
             InvokeRequestCloseDialog(new RequestCloseDialogEventArgs(false));
         }, CanNoAccept);
         
@@ -299,12 +274,12 @@ public class MsgBoxViewModel : IMsgBoxViewModel
         {
             if (Buttons == MsgBoxButton.YesNo || Buttons == MsgBoxButton.YesNoCancel)
             {
-                Result = MsgBoxResult.Yes;
+                Result = MsgBoxButtonResult.Yes;
             }
             
             if (Buttons == MsgBoxButton.Ok || Buttons == MsgBoxButton.OkCancel)
             {
-                Result = MsgBoxResult.Ok;
+                Result = MsgBoxButtonResult.Ok;
             }
 
             InvokeRequestCloseDialog(new RequestCloseDialogEventArgs(true));
@@ -312,7 +287,7 @@ public class MsgBoxViewModel : IMsgBoxViewModel
         
         _cancelCommand = new DelegateCommand(() =>
         {
-            Result = MsgBoxResult.Cancel;
+            Result = MsgBoxButtonResult.Cancel;
             InvokeRequestCloseDialog(new RequestCloseDialogEventArgs(false));
         }, CanCancel);
     }

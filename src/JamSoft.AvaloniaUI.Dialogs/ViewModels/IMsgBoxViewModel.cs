@@ -12,6 +12,16 @@ namespace JamSoft.AvaloniaUI.Dialogs.ViewModels;
 public interface IMsgBoxViewModel : INotifyPropertyChanged, IDialogResultVmHelper
 {
     /// <summary>
+    /// The CheckBoxResult
+    /// </summary>
+    public bool CheckBoxResult { get; set; }
+
+    /// <summary>
+    /// The CheckBoxText value
+    /// </summary>
+    public string? CheckBoxText { get; set; }
+    
+    /// <summary>
     /// Determines if the dialog has an icon to show
     /// </summary>
     bool HasIcon { get; }
@@ -24,7 +34,7 @@ public interface IMsgBoxViewModel : INotifyPropertyChanged, IDialogResultVmHelpe
     /// <summary>
     /// The dialog result
     /// </summary>
-    MsgBoxResult Result { get; set; }
+    MsgBoxButtonResult Result { get; set; }
 
     /// <summary>
     /// The dialog buttons

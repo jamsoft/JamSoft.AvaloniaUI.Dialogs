@@ -63,36 +63,7 @@ internal class MessageBoxService : IMessageBoxService
     /// <returns></returns>
     public Task<MsgBoxResult> ShowPopup(ContentControl? owner)
     {
-        // DialogHostStyles style = null;
-        // if (!owner.Styles.OfType<DialogHostStyles>().Any())
-        // {
-        //     style = new DialogHostStyles();
-        //     owner.Styles.Add(style);
-        // }
-        //
-        //
-        // var parentContent = owner.Content;
-        // var dh = new DialogHost();
-        // dh.Identifier = "MsBoxIdentifier" + Guid.NewGuid();
-        // _viewModel.SetFullApi(_view);
-        // owner.Content = null;
-        // dh.Content = parentContent;
-        // dh.CloseOnClickAway = false;
-        // owner.Content = dh;
         var tcs = new TaskCompletionSource<MsgBoxResult>();
-        // _view.SetCloseAction(() =>
-        // {
-        //     tcs.TrySetResult(_view.GetButtonResult());
-        //     DialogHost.Close(dh.Identifier);
-        //     owner.Content = null;
-        //     dh.Content = null;
-        //     owner.Content = parentContent;
-        //     if (style != null)
-        //     {
-        //         owner.Styles.Remove(style);
-        //     }
-        // });
-        // DialogHost.Show(_view, dh.Identifier);
         return tcs.Task;
     }
 }

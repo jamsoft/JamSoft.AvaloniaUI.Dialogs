@@ -158,7 +158,7 @@ public static class CommonFilters
     public static FilePickerFileType ExeFilter = BuildFilter(
         "Windows Executable", 
         new[] { "*.exe" }, 
-        new []{"com.microsoft.windows-executable"}, 
+        new []{"com.microsoft.windows-executable", "application/vnd.microsoft.portable-executable" }, 
         new []{"application/x-msdownload"});
     
     /// <summary>

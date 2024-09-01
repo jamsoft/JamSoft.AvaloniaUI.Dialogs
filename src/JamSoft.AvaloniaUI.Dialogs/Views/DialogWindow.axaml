@@ -31,6 +31,7 @@
                 </Grid.ColumnDefinitions>
                 
                 <Button x:Name="DialogCancelButton"
+                        IsVisible="{Binding !HideCancelButton}"
                         Command="{Binding CancelCommand}" 
                         Content="{Binding CancelCommandText}" 
                         Grid.Column="0" />

@@ -60,4 +60,6 @@ public class CustomBaseChildWindowViewModel : IChildWindowViewModel
     {
         return true;
     }
+
+    public bool HideCancelButton { get; set; }
 }

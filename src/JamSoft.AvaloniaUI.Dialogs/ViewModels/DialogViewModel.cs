@@ -100,7 +100,18 @@ public class DialogViewModel : IDialogViewModel
     {
         return true;
     }
-    
+
+    private bool _hideCancelButton;
+
+    /// <summary>
+    /// Optionally hides the cancel button
+    /// </summary>
+    public bool HideCancelButton
+    {
+        get => _hideCancelButton;
+        set => RaiseAndSetIfChanged(ref _hideCancelButton, value);
+    }
+
     /// <summary>
     /// Sets the property value only if the provided value is different from the stored value.<para />
     /// If set to a new value, then the <seealso cref="System.ComponentModel.INotifyPropertyChanged" /> event will be fired

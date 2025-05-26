@@ -11,7 +11,7 @@
         <Product>JamSoft AvaloniaUI Dialog Library</Product>        
         <Authors>James Green</Authors>
         <Description>A standardised service for managing dialogs and child windows in Avalonia UI.</Description>
-        <Copyright>JamSoft Solutions Ltd 2024</Copyright>
+        <Copyright>JamSoft Solutions Ltd 2025</Copyright>
         <PackageProjectUrl>https://github.com/jamsoft/JamSoft.AvaloniaUI.Dialogs</PackageProjectUrl>
         <RepositoryUrl>https://github.com/jamsoft/JamSoft.AvaloniaUI.Dialogs</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
@@ -21,11 +21,11 @@
         <SignAssembly>true</SignAssembly>
         <AssemblyOriginatorKeyFile>JamSoft.AssemblyKeyFile.snk</AssemblyOriginatorKeyFile>
         <PublicSign>true</PublicSign>
-        <Version>1.4.0</Version>
-        <AssemblyVersion>1.4.0.0</AssemblyVersion>
-        <FileVersion>1.4.0.0</FileVersion>
+        <Version>1.4.1</Version>
+        <AssemblyVersion>1.4.1.0</AssemblyVersion>
+        <FileVersion>1.4.1.0</FileVersion>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
-        <InformationalVersion>1.4.0.0-rel</InformationalVersion>
+        <InformationalVersion>1.4.1.0-rel</InformationalVersion>
         <EnablePackageValidation>true</EnablePackageValidation>
         <PackageReadmeFile>README.md</PackageReadmeFile>        
     </PropertyGroup>

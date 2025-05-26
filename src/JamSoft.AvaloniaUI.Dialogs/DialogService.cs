@@ -177,7 +177,7 @@ internal class DialogService : IDialogService
     public async Task<string?> OpenFolder(string? title, string? startDirectory = null)
     {
         var storageProvider = GetStorageProvider();
-        var folder = await storageProvider.TryGetFolderFromPathAsync((startDirectory ?? _lastDirectorySelected)!);    
+        var folder = await storageProvider.TryGetFolderFromPathAsync((startDirectory ?? _lastDirectorySelected)!);
         var path = await storageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions
         {
             SuggestedStartLocation = folder,

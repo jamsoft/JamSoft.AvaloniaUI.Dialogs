@@ -28,4 +28,9 @@ public interface IDialogViewModel : INotifyPropertyChanged, IDialogResultVmHelpe
     /// </summary>
     /// <returns></returns>
     bool CanCancel();
+    
+    /// <summary>
+    /// If true, the cancel button will not be shown
+    /// </summary>
+    bool HideCancelButton { get; set; }
 }

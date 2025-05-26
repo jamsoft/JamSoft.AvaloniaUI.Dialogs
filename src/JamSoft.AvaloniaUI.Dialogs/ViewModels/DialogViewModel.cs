@@ -103,6 +103,9 @@ public class DialogViewModel : IDialogViewModel
 
     private bool _hideCancelButton;
 
+    /// <summary>
+    /// Optionally hides the cancel button
+    /// </summary>
     public bool HideCancelButton
     {
         get => _hideCancelButton;

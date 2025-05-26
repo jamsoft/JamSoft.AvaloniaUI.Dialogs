@@ -32,7 +32,11 @@
         <!-- </Style> -->
         <!-- -->
         <!-- <Style Selector="TextBlock#MsgBoxTitle"> -->
-        <!--     <Setter Property="FontSize" Value="25"/> -->
+        <!--     <Setter Property="Foreground" Value="DarkRed" /> -->
+        <!-- </Style> -->
+        <!-- -->
+        <!-- <Style Selector="Button#MsgBoxTitle"> -->
+        <!--     <Setter Property="Foreground" Value="DarkRed" /> -->
         <!-- </Style> -->
         
     </Application.Styles>

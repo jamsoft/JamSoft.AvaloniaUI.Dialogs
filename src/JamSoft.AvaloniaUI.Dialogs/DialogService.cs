@@ -191,15 +191,16 @@ internal class DialogService : IDialogService
 
         return _lastDirectorySelected;
     }
-    
+
     /// <summary>
     /// Gets a path for a new file
     /// </summary>
     /// <param name="title">The dialog title</param>
     /// <param name="filters">The file extension filters</param>
     /// <param name="defaultExtension">The default file extension</param>
+    /// <param name="suggestedFileName">The name used to pre-populate the save dialog</param>
     /// <returns>the selected file path or null if the dialog was cancelled</returns>
-    public async Task<string?> SaveFile(string title, IEnumerable<FilePickerFileType>? filters = null, string? defaultExtension = null)
+    public async Task<string?> SaveFile(string title, IEnumerable<FilePickerFileType>? filters = null, string? defaultExtension = null, string? suggestedFileName = null)
     {
         var storageProvider = GetStorageProvider();
         var folder = await storageProvider.TryGetFolderFromPathAsync(_lastDirectorySelected!);
@@ -208,7 +209,8 @@ internal class DialogService : IDialogService
             Title = CreateTitle(title),
             FileTypeChoices = filters?.ToList(),
             SuggestedStartLocation = folder,
-            DefaultExtension = defaultExtension
+            DefaultExtension = defaultExtension,
+            SuggestedFileName = suggestedFileName
         });
 
         return fd?.Path.LocalPath;

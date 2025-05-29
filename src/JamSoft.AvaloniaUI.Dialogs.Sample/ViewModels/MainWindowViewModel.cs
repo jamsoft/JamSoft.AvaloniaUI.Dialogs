@@ -22,6 +22,7 @@ public class MainWindowViewModel : ViewModelBase
     private ICommand? _openFolderCommand;
     private ICommand? _openWordFileCommand;
     private ICommand? _saveFileCommand;
+    private ICommand? _saveFileWithNameCommand;
     private ICommand? _saveWordFileCommand;
     private ICommand? _openFilesCommand;
     private ICommand? _showDialogCommand;
@@ -48,6 +49,7 @@ public class MainWindowViewModel : ViewModelBase
         OpenWordFileCommand = new DelegateCommand(OpenWordFileCommandExecuted, () => true);
         OpenFilesCommand = new DelegateCommand(OpenFilesCommandExecuted, () => true);
         SaveFileCommand = new DelegateCommand(SaveFileCommandExecuted, () => true);
+        SaveFileWithNameCommand = new DelegateCommand(SaveFileWithNameCommandExecuted, () => true);
         SaveWordFileCommand = new DelegateCommand(SaveWordFileCommandExecuted, () => true);
         ShowDialogCommand = new DelegateCommand(ShowDialogCommandExecuted, () => true);
         ShowDialogAutoFindViewCommand = new DelegateCommand(ShowDialogAutoFindViewCommandExecuted, () => true);
@@ -139,6 +141,12 @@ public class MainWindowViewModel : ViewModelBase
         set => this.RaiseAndSetIfChanged(ref _saveFileCommand, value);
     }
     
+    public ICommand? SaveFileWithNameCommand
+    {
+        get => _saveFileWithNameCommand;
+        set => this.RaiseAndSetIfChanged(ref _saveFileWithNameCommand, value);
+    }
+    
     public ICommand? SaveWordFileCommand
     {
         get => _saveWordFileCommand;
@@ -189,6 +197,11 @@ public class MainWindowViewModel : ViewModelBase
     private async void SaveFileCommandExecuted()
     {
         Message = await _dialogService.SaveFile("Save Any File");
+    }
+    
+    private async void SaveFileWithNameCommandExecuted()
+    {
+        Message = await _dialogService.SaveFile("Save Any File", suggestedFileName:"Suggested Name");
     }
     
     private async void SaveWordFileCommandExecuted()

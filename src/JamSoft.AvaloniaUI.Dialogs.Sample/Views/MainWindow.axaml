@@ -30,6 +30,8 @@
             <Button Command="{Binding OpenFolderCommand}" Classes="horizontalCenter">Open Folder</Button>
             
             <Button Command="{Binding SaveFileCommand}" Classes="horizontalCenter">Save File</Button>
+            
+            <Button Command="{Binding SaveFileWithNameCommand}" Classes="horizontalCenter">Save File With Name</Button>
         
             <Button Command="{Binding SaveWordFileCommand}" Classes="horizontalCenter">Save Word File</Button>
         

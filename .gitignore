@@ -13,6 +13,7 @@ nupkg/
 *.user
 *.userosscache
 *.sln.docstates
+*.snk
 
 # Build results
 [Dd]ebug/
@@ -31,3 +32,4 @@ msbuild.err
 msbuild.wrn
 
 src/.idea/
+.vs
